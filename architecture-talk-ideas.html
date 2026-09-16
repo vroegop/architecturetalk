@@ -1,0 +1,911 @@
+<title>Architecture Run Sheets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #EEF1F4;
+    --surface: #FFFFFF;
+    --surface-2: #F6F8FA;
+    --ink: #15202B;
+    --muted: #5D6C7B;
+    --line: #D3DAE1;
+    --line-strong: #AEB9C4;
+    --accent: #C43D22;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #F8E6E0;
+    --teal: #157A7E;
+    --teal-soft: #DDEFEF;
+    --card: #FBF6EA;
+    --card-line: #E4D9BE;
+    --card-rule: #D8C9A3;
+    --focus: #157A7E;
+    --shadow: 0 1px 2px rgba(21,32,43,.06), 0 8px 24px rgba(21,32,43,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0F161D;
+      --surface: #171F28;
+      --surface-2: #1D2731;
+      --ink: #E6EBEF;
+      --muted: #97A5B2;
+      --line: #2A3641;
+      --line-strong: #3B4955;
+      --accent: #F0684B;
+      --accent-ink: #15202B;
+      --accent-soft: #3A2320;
+      --teal: #4CBFC1;
+      --teal-soft: #163235;
+      --card: #24201A;
+      --card-line: #3D362A;
+      --card-rule: #4A4130;
+      --focus: #4CBFC1;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0F161D;
+    --surface: #171F28;
+    --surface-2: #1D2731;
+    --ink: #E6EBEF;
+    --muted: #97A5B2;
+    --line: #2A3641;
+    --line-strong: #3B4955;
+    --accent: #F0684B;
+    --accent-ink: #15202B;
+    --accent-soft: #3A2320;
+    --teal: #4CBFC1;
+    --teal-soft: #163235;
+    --card: #24201A;
+    --card-line: #3D362A;
+    --card-rule: #4A4130;
+    --focus: #4CBFC1;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); }
+  h1, h2, h3, h4 {
+    font-family: "Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
+    text-wrap: balance;
+    margin: 0;
+    line-height: 1.1;
+  }
+  p { margin: 0; }
+  a { color: var(--teal); }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; }
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+  /* ---------- header ---------- */
+  header.top { padding-block: clamp(28px, 5vw, 56px) 20px; }
+  .top-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px 48px; align-items: end; }
+  @media (max-width: 820px) { .top-grid { grid-template-columns: 1fr; } }
+  h1 { font-size: clamp(38px, 6vw, 68px); font-weight: 700; letter-spacing: -.02em; font-variation-settings: "opsz" 96; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lede { font-size: 18px; color: var(--muted); max-width: 60ch; margin-top: 14px; }
+  .beats { border-top: 2px solid var(--ink); padding-top: 12px; }
+  .beats .eyebrow { color: var(--ink); }
+  .beats ol { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+  .beats li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; font-size: 14.5px; align-items: baseline; }
+  .beat-key { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; font-weight: 500; color: var(--accent-ink); background: var(--accent); }
+
+  /* ---------- tabs ---------- */
+  .tabbar-wrap {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+    background: var(--ground);
+    border-bottom: 1px solid var(--line);
+  }
+  .tabbar { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-block: 8px; }
+  .tabbar::-webkit-scrollbar { display: none; }
+  .tab {
+    appearance: none; border: 1px solid transparent; background: transparent; color: var(--muted);
+    font: inherit; font-size: 14px; font-weight: 500; padding: 8px 12px; border-radius: 8px; cursor: pointer;
+    white-space: nowrap; display: inline-flex; gap: 8px; align-items: center;
+  }
+  .tab .n { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--muted); }
+  .tab:hover { color: var(--ink); background: var(--surface); }
+  .tab[aria-selected="true"] { color: var(--ink); background: var(--surface); border-color: var(--line); box-shadow: var(--shadow); }
+  .tab[aria-selected="true"] .n { color: var(--accent); }
+  .tab.util { margin-left: auto; }
+  .tab.util + .tab.util { margin-left: 0; }
+
+  /* ---------- panel ---------- */
+  .panel { padding-block: 32px 72px; }
+  .panel[hidden] { display: none; }
+  .talk-head { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr); gap: 24px 48px; align-items: start; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+  @media (max-width: 820px) { .talk-head { grid-template-columns: 1fr; } }
+  .talk-head h2 { font-size: clamp(30px, 4.5vw, 46px); font-weight: 700; letter-spacing: -.02em; margin-top: 8px; }
+  .talk-head .sub { font-size: 18px; color: var(--muted); margin-top: 10px; max-width: 58ch; }
+  .facts { display: grid; gap: 10px; font-size: 14.5px; }
+  .fact { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+  .fact:first-child { border-top: 0; padding-top: 0; }
+  .fact .k { color: var(--muted); font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; font-family: "IBM Plex Mono", monospace; padding-top: 3px; }
+  .coverage { display: flex; gap: 6px; flex-wrap: wrap; }
+  .cov { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; padding: 3px 8px 3px 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+  .cov .beat-key { width: 18px; height: 18px; font-size: 10px; }
+  .cov.strong .beat-key { background: var(--accent); }
+  .cov.mid .beat-key { background: var(--teal); }
+  .cov.light .beat-key { background: var(--line-strong); color: var(--ink); }
+
+  .body-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); gap: 40px 48px; padding-top: 32px; align-items: start; }
+  @media (max-width: 900px) { .body-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- run sheet ---------- */
+  .runsheet { display: grid; }
+  .seg {
+    display: grid; grid-template-columns: 92px 1fr; gap: 0 20px;
+    padding-block: 22px; border-top: 1px solid var(--line);
+  }
+  .seg:first-child { border-top: 0; padding-top: 0; }
+  @media (max-width: 560px) { .seg { grid-template-columns: 1fr; gap: 6px; } }
+  .tc { display: grid; gap: 4px; align-content: start; }
+  .tc .t { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--accent); font-weight: 500; }
+  .tc .dur { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--muted); }
+  .seg h3 { font-size: 21px; font-weight: 600; letter-spacing: -.01em; }
+  .seg .pts { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 6px; font-size: 15px; }
+  .seg .pts li::marker { color: var(--muted); }
+  .seg .pts strong { font-weight: 600; }
+
+  .story {
+    margin-top: 14px; background: var(--card); border: 1px solid var(--card-line); border-radius: 4px;
+    padding: 12px 14px 14px; position: relative;
+    background-image: linear-gradient(var(--card-rule), var(--card-rule));
+    background-size: 100% 1px; background-repeat: no-repeat; background-position: 0 38px;
+  }
+  .story .who { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; padding-bottom: 8px; margin-bottom: 8px; }
+  .story .who .name { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 15px; }
+  .story .who .tag { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); white-space: nowrap; }
+  .story p { font-size: 14.5px; }
+  .story .src { margin-top: 8px; font-size: 12.5px; color: var(--muted); }
+  .story .use { margin-top: 8px; font-size: 13.5px; }
+  .story .use b { color: var(--teal); font-weight: 600; }
+
+  .cue { margin-top: 12px; display: flex; gap: 10px; align-items: flex-start; font-size: 14px; padding: 8px 12px; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 6px 6px 0; }
+  .cue .lbl { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); padding-top: 3px; white-space: nowrap; }
+
+  /* ---------- rail ---------- */
+  .rail { display: grid; gap: 22px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 64px); }
+  @media (max-width: 900px) { .rail { position: static; } }
+  .rail-box { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .rail-box h4 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; font-family: "IBM Plex Mono", monospace; font-weight: 500; color: var(--muted); margin-bottom: 10px; }
+  .rail-box ul { margin: 0; padding-left: 16px; display: grid; gap: 7px; font-size: 14.5px; }
+  .rail-box.steal h4 { color: var(--teal); }
+  .rail-box.warn h4 { color: var(--accent); }
+  .curve { display: flex; align-items: flex-end; gap: 3px; height: 54px; margin-top: 6px; }
+  .curve span { flex: 1; background: var(--teal); border-radius: 2px 2px 0 0; opacity: .85; min-width: 4px; }
+  .curve-lbl { display: flex; justify-content: space-between; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted); margin-top: 4px; }
+
+  /* ---------- story bank ---------- */
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; margin: 20px 0 24px; }
+  .chip { appearance: none; font: inherit; font-size: 13.5px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+  .bank { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .bank .story { margin-top: 0; }
+  .bank .story[hidden] { display: none; }
+  .bank .story .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 10px; }
+  .bank .story .tags span { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: var(--teal-soft); color: var(--teal); }
+
+  /* ---------- mix ---------- */
+  .intro { font-size: 17px; color: var(--muted); max-width: 62ch; margin-top: 10px; }
+  .matrix-wrap { overflow-x: auto; margin-top: 24px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  table.matrix { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 14.5px; }
+  .matrix th, .matrix td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .matrix thead th { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--surface-2); }
+  .matrix tbody tr:last-child td { border-bottom: 0; }
+  .matrix td.c { text-align: center; font-family: "IBM Plex Mono", monospace; letter-spacing: .1em; }
+  .dots { color: var(--accent); }
+  .matrix .tname { font-weight: 600; }
+  .matrix .tstyle { color: var(--muted); font-size: 13px; }
+
+  .combo { margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .combo .rail-box { position: static; }
+  .combo ol { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 14.5px; }
+  .combo ol li b { font-weight: 600; }
+  .rules { margin-top: 36px; }
+  .rules h3 { font-size: 24px; margin-bottom: 12px; }
+  .rules ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 15px; max-width: 70ch; }
+
+  footer { padding-block: 24px 48px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); }
+  @media (prefers-reduced-motion: no-preference) {
+    .panel { animation: rise .25s ease-out; }
+    @keyframes rise { from { opacity: .6; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+
+<header class="top">
+  <div class="wrap top-grid">
+    <div>
+      <p class="eyebrow">Five run sheets · 30 minutes each · same brief, different stage</p>
+      <h1>Architecture <em>Run Sheets</em></h1>
+      <p class="lede">Five ways to spend the thirty minutes before your kata workshop. Each one is a full minute-by-minute run sheet with attributed war stories, audience cues and a hand-off into the hands-on part. Steal across tabs freely; the Mix &amp; Match tab shows where each one is strongest.</p>
+    </div>
+    <div class="beats">
+      <p class="eyebrow">The five beats every talk must hit</p>
+      <ol>
+        <li><span class="beat-key">A</span><span><strong>Companies.</strong> How architecture actually happens in different kinds of organisations.</span></li>
+        <li><span class="beat-key">B</span><span><strong>Roles.</strong> What it looks like from dev, senior, PO, SM and management chairs.</span></li>
+        <li><span class="beat-key">C</span><span><strong>Hard.</strong> Why it is genuinely difficult, not just under-practised.</span></li>
+        <li><span class="beat-key">D</span><span><strong>Easier.</strong> Concrete habits that make it lighter and more natural.</span></li>
+        <li><span class="beat-key">E</span><span><strong>Everyone.</strong> Why juniors and non-devs belong in the room, and how to get them talking.</span></li>
+      </ol>
+    </div>
+  </div>
+</header>
+
+<div class="tabbar-wrap">
+  <div class="wrap">
+    <div class="tabbar" role="tablist" aria-label="Presentations" id="tablist"></div>
+  </div>
+</div>
+
+<main class="wrap" id="panels"></main>
+
+<footer class="wrap">
+  Stories are summarised from public sources (books, published talks, incident reports, blog posts) and attributed on each card so you can verify wording before you quote it on stage. Money figures are the commonly reported ones.
+</footer>
+
+<script>
+const BEATS = { A: 'Companies', B: 'Roles', C: 'Hard', D: 'Easier', E: 'Everyone' };
+
+// ---------- STORY BANK (shared) ----------
+const S = {
+  moth: { name: 'Grace Hopper and the moth', tag: '1947', tags: ['everyone','hard'],
+    p: 'The Harvard Mark II team found a moth jammed in a relay and taped it into the logbook with the note “first actual case of bug being found.” It was found by a team looking together, not by the most senior person alone.',
+    src: 'Harvard Mark II operations log, 9 Sept 1947 (Smithsonian).',
+    use: 'Every engineer has a moth story. This talk is about the decisions that let the moths in.' },
+  nanosecond: { name: 'Hopper’s nanosecond wire', tag: 'make it tangible', tags: ['easier','everyone'],
+    p: 'Asked by admirals why satellite communication was slow, Hopper handed out 11.8-inch (30 cm) pieces of wire: the distance light travels in a nanosecond. An abstraction became something you could hold.',
+    src: 'Grace Hopper lectures, widely recorded (e.g. 1985 “Letterman” appearance).',
+    use: 'Architecture gets easier the moment you make the invisible thing holdable. Diagrams, index cards, katas.' },
+  clock: { name: 'Hopper’s backwards clock', tag: 'change', tags: ['hard','everyone'],
+    p: 'Hopper kept a clock in her office that ran counter-clockwise. When people said “but we’ve always done it this way,” she pointed at it. It told the time perfectly well.',
+    src: 'Grace Hopper, multiple interviews; often quoted alongside “humans are allergic to change.”',
+    use: 'The most dangerous architecture is the one nobody remembers choosing.' },
+  brooks: { name: 'Fred Brooks and OS/360', tag: '1975', tags: ['hard','companies'],
+    p: 'Managing IBM’s OS/360, Brooks learned that adding people to a late project makes it later, and that a system’s most important property is conceptual integrity, one coherent idea. He advised: plan to throw one away, you will anyhow.',
+    src: 'The Mythical Man-Month (1975).',
+    use: 'Architecture is a single idea held by many heads. Most companies lose it by adding heads.' },
+  conway: { name: 'Conway’s rejected paper', tag: '1967', tags: ['companies','roles','hard'],
+    p: 'Mel Conway submitted “How Do Committees Invent?” to Harvard Business Review. They rejected it for not proving its thesis. Datamation printed it in 1968, Brooks named it Conway’s Law, and every microservice diagram since has been an org chart in disguise.',
+    src: 'Conway, Datamation, April 1968; Brooks, The Mythical Man-Month.',
+    use: 'The PO’s backlog and the SM’s team boundaries are architecture decisions, whether or not anyone calls them that.' },
+  hamiltonP01: { name: 'Margaret Hamilton and program P01', tag: 'Apollo 8', tags: ['everyone','hard','roles'],
+    p: 'Hamilton’s young daughter Lauren, playing with the Apollo simulator, selected pre-launch program P01 mid-flight and crashed it. Hamilton wanted to add a guard. NASA said astronauts are trained never to make mistakes. On Apollo 8, Jim Lovell selected P01 mid-flight and wiped the navigation data. Nine hours later the ground had re-uploaded it, and Hamilton got to add her guard.',
+    src: 'Hamilton interviews; NASA history; Wired (2015) “Her Code Got Humans on the Moon.”',
+    use: 'The least experienced person in the room found the failure the experts were trained to ignore.' },
+  hamilton1202: { name: 'The 1202 alarm', tag: 'Apollo 11', tags: ['hard','roles'],
+    p: 'During the lunar descent, a radar switch flooded the guidance computer with work. Years earlier the team had built an asynchronous executive that dropped low-priority tasks under load. The computer shed work, kept steering, and Armstrong landed. Nobody had clapped for that design decision when it was made.',
+    src: 'NASA Apollo 11 mission reports; Hamilton, Datamation 1971.',
+    use: 'The feedback on an architecture decision can arrive years later, on live television.' },
+  parnas: { name: 'Parnas on decomposing systems', tag: '1972', tags: ['easier','hard'],
+    p: 'David Parnas showed that the same program, split two different ways, has wildly different costs of change. His rule: hide the decisions most likely to change behind a module boundary. Decompose by what will change, not by what the flowchart says.',
+    src: 'Parnas, “On the Criteria To Be Used in Decomposing Systems into Modules,” CACM 1972.',
+    use: 'Architecture is a bet on what will change. A junior can ask “what changes most here?” as well as anyone.' },
+  cunningham: { name: 'Ward Cunningham invents technical debt', tag: '1992', tags: ['roles','easier','companies'],
+    p: 'Working on the WyCash portfolio system, Cunningham needed to explain to non-technical bosses why shipping now and cleaning up later was a legitimate loan, not sloppiness. He borrowed the language of finance. The metaphor was born as a translation device for a business conversation.',
+    src: 'Cunningham, OOPSLA 1992 experience report; his 2009 video explaining the origin.',
+    use: 'The best architects invent vocabulary that lets the PO and the developer talk about the same thing.' },
+  bezosMandate: { name: 'The Bezos API mandate', tag: '2002', tags: ['companies','roles'],
+    p: 'Around 2002 Bezos sent a memo: all teams expose data and functionality through service interfaces, no other inter-process communication allowed, every interface designed to be externalisable. As Steve Yegge retold it: “Anyone who doesn’t do this will be fired. Thank you; have a nice day!” That memo is why AWS exists.',
+    src: 'Steve Yegge, accidentally public Google+ post, Oct 2011.',
+    use: 'The most consequential architecture decision in Amazon’s history was written by the CEO, not an architect.' },
+  twoPizza: { name: 'Two-pizza teams and “you build it, you run it”', tag: 'Amazon', tags: ['companies','roles','easier'],
+    p: 'Amazon capped teams at what two pizzas can feed and, per CTO Werner Vogels in 2006, made each team run what it built in production. Both are organisational moves that produce an architecture, deliberately using Conway’s Law instead of suffering it.',
+    src: 'Vogels interview with Jim Gray, ACM Queue, 2006.',
+    use: 'Scrum Masters shape architecture every time they shape a team.' },
+  doors: { name: 'One-way doors and two-way doors', tag: 'Bezos 2015', tags: ['easier','roles'],
+    p: 'Bezos distinguished Type 1 decisions (one-way doors, irreversible, deserve slow deliberation) from Type 2 (two-way doors, reversible, should be made quickly by small groups). Treating every decision as Type 1 makes an organisation slow and timid.',
+    src: 'Amazon 2015 shareholder letter.',
+    use: 'Most architecture fear is one-way-door fear applied to two-way doors. Name which door you are at.' },
+  netflix2008: { name: 'Netflix, August 2008', tag: 'the outage that worked', tags: ['companies','hard','easier'],
+    p: 'A database corruption stopped Netflix shipping DVDs for three days. Instead of hardening the data centre, they concluded that single points of failure were the architecture, and began the move to AWS. Chaos Monkey followed: deliberately killing servers in production so the architecture would be forced to survive it.',
+    src: 'Netflix Tech Blog, Yury Izrailevsky, 2010; Chaos Monkey announced 2011.',
+    use: 'Companies that treat failure as data end up with better architecture than companies that treat it as blame.' },
+  knight: { name: 'Knight Capital, 1 August 2012', tag: '$440M in 45 minutes', tags: ['hard','roles','companies'],
+    p: 'Knight deployed new trading code to seven of eight servers. The eighth still had a dead feature called Power Peg, and the new release reused its old flag. When markets opened, the eighth server bought high and sold low at machine speed. Roughly $440 million was lost in about 45 minutes; the firm was acquired within the year.',
+    src: 'SEC order against Knight Capital, Oct 2013.',
+    use: 'Deployment is architecture. A flag is architecture. Nobody in the boardroom knew the flag existed.' },
+  ariane: { name: 'Ariane 5, flight 501', tag: '1996', tags: ['hard','companies'],
+    p: 'Europe’s new rocket reused inertial-reference software from Ariane 4. A horizontal-velocity value larger than Ariane 4 could ever produce overflowed a 16-bit conversion. The routine that failed was not even needed after lift-off. Forty seconds in, the rocket self-destructed with roughly $370 million of satellites aboard.',
+    src: 'Ariane 501 Inquiry Board report, ESA/CNES, July 1996.',
+    use: 'Architecture is the set of assumptions you inherit without anyone writing them down.' },
+  mco: { name: 'Mars Climate Orbiter', tag: '1999', tags: ['hard','roles'],
+    p: 'One team’s software produced thruster data in pound-force seconds; the receiving team’s software expected newton seconds. Nobody owned the boundary. The orbiter came in too low and was lost in the Martian atmosphere.',
+    src: 'NASA Mishap Investigation Board, Phase I report, Nov 1999.',
+    use: 'Conway’s Law with a crater. Bounded contexts and ubiquitous language exist because of interfaces like this.' },
+  fowler: { name: 'Fowler: “Who Needs an Architect?”', tag: '2003', tags: ['roles','easier'],
+    p: 'Fowler quotes Ralph Johnson: architecture is “the important stuff, whatever that is,” and “the shared understanding the expert developers have of the system design.” He contrasts Architectus Reloadus, who decides and hands down, with Architectus Oryzus, who pairs, mentors, and works to make themselves less necessary.',
+    src: 'Martin Fowler, IEEE Software, July/Aug 2003.',
+    use: 'If architecture is shared understanding, a diagram nobody understands is not architecture.' },
+  booch: { name: 'Booch on significance', tag: 'cost of change', tags: ['roles','hard'],
+    p: '“Architecture represents the significant design decisions that shape a system, where significant is measured by cost of change.” Not by how big the meeting was.',
+    src: 'Grady Booch, widely quoted, e.g. his “On Architecture” columns in IEEE Software.',
+    use: 'Give a PO this definition and they immediately see which backlog items are architecture.' },
+  hohpe: { name: 'The architect elevator', tag: 'Gregor Hohpe', tags: ['roles','companies','hard'],
+    p: 'Hohpe describes the penthouse (where the business strategy is set) and the engine room (where code runs) as floors of the same building that have stopped talking. The architect’s job is to ride the elevator between them, translating in both directions. He also notes that architects “live in the first derivative”: what matters is the rate of change, not the current state.',
+    src: 'Hohpe, The Software Architect Elevator (O’Reilly, 2020); 37 Things One Architect Knows (2016).',
+    use: 'Roles are floors. Nobody sees the whole building from one floor.' },
+  fordLaws: { name: 'The two laws of software architecture', tag: 'Ford & Richards', tags: ['hard','everyone'],
+    p: 'First law: everything in software architecture is a trade-off. Second law: why is more important than how. If you think you found something that is not a trade-off, you have not found the trade-off yet.',
+    src: 'Richards & Ford, Fundamentals of Software Architecture (O’Reilly, 2020).',
+    use: 'There is no answer, only trade-offs. Seniors know more trade-offs; juniors can always ask why.' },
+  neward: { name: 'Ted Neward invents architecture katas', tag: 'c. 2007', tags: ['easier','everyone'],
+    p: 'Borrowing Dave Thomas’s code kata idea, Neward asked how architects are supposed to get good when they only get a handful of real architectures per career. Surgeons and pilots practise in simulators. His answer: small groups, a one-page fictional brief, a fixed time box, present, take questions from peers, repeat. Neal Ford later curated the brief collection at architecturalkatas.com.',
+    src: 'Ted Neward, “Architectural Katas” (2007 onward); Neal Ford, architecturalkatas.com.',
+    use: 'You get about one real architecture a year. Ten reps in a decade is not practice. Katas are the simulator.' },
+  nygard: { name: 'Michael Nygard’s ADRs', tag: '2011', tags: ['easier','roles'],
+    p: 'Nygard proposed Architecture Decision Records: a short file per decision with context, decision and consequences, versioned with the code. A decision without a record becomes a rumour within a year and a mystery within two.',
+    src: 'Nygard, “Documenting Architecture Decisions,” Cognitect blog, Nov 2011.',
+    use: 'ADRs let juniors read the reasoning, not just the result. They also let a PO see cost of change in writing.' },
+  naur: { name: 'Naur: programming as theory building', tag: '1985', tags: ['hard','everyone','companies'],
+    p: 'Peter Naur argued a program is not the code but the theory the team holds about how the code relates to the world. The theory cannot be fully written down; it is transferred by working alongside someone who has it. Which is why the consultants leave and the system quietly dies.',
+    src: 'Naur, “Programming as Theory Building,” Microprocessing and Microprogramming, 1985.',
+    use: 'You cannot onboard someone into an architecture with a document. You do it by deciding things together.' },
+  hickey: { name: 'Simple made easy', tag: 'Rich Hickey 2011', tags: ['hard'],
+    p: 'Hickey separated simple (one fold, one concern) from easy (near at hand, familiar). We choose easy because it is fast now, and pay in complexity later. Simplicity is a design act, not a default.',
+    src: 'Hickey, Strange Loop 2011 keynote.',
+    use: 'Architecture is hard partly because the easy option and the simple option are usually different options.' },
+  hoare: { name: 'Hoare’s two ways to design', tag: '1980', tags: ['hard','everyone'],
+    p: '“There are two ways of constructing a software design: one way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies.” The same man later called his own null reference “my billion-dollar mistake.”',
+    src: 'Hoare, Turing Award lecture 1980; QCon London 2009.',
+    use: 'Even the Turing Award winner’s architecture had a billion-dollar hole. Seniors are not oracles.' },
+  ebay: { name: 'eBay’s 3.4-million-line DLL', tag: 'Randy Shoup', tags: ['companies','hard'],
+    p: 'eBay’s second architecture was a single C++ ISAPI DLL that grew to about 3.4 million lines and hit compiler limits on methods per class. Shoup’s later verdict on early decisions: “If you don’t end up regretting your early technology decisions, you probably over-engineered.”',
+    src: 'Randy Shoup, “From the Monolith to Microservices: Lessons from Google and eBay” (QCon, 2014–2016).',
+    use: 'Startups are supposed to regret their architecture. The question is whether they can afford to change it.' },
+  spotify: { name: 'The Spotify model that Spotify does not use', tag: '2012 → 2020', tags: ['companies','roles'],
+    p: 'Henrik Kniberg’s 2012 whitepaper described Spotify’s squads, tribes, chapters and guilds as a snapshot of an experiment. Companies worldwide adopted it as a template. Kniberg and former Spotify staff have since said it was aspirational, and Spotify itself moved on.',
+    src: 'Kniberg & Ivarsson, “Scaling Agile @ Spotify” (2012); Jeremiah Lee, “Spotify’s Failed #SquadGoals” (2020).',
+    use: 'Copying another company’s architecture, organisational or technical, is planting coral in a forest.' },
+  monolith: { name: 'The monolith strikes back', tag: '2018–2023', tags: ['companies','hard'],
+    p: 'Segment wrote “Goodbye Microservices” in 2018 after consolidating 140+ services. Amazon Prime Video reported a 90% infrastructure cost cut in 2023 after merging a distributed pipeline into one process. Kelsey Hightower in 2020: monoliths are the future because the problem microservices solve does not match most people’s reality. Meanwhile Stack Overflow served the world from about nine web servers.',
+    src: 'Segment blog (Noonan, 2018); Prime Video Tech blog (2023); Hightower tweet (2020); Nick Craver, stackexchange architecture posts.',
+    use: 'A shape is not an architecture. The trade-off reasoning is.' },
+  falco: { name: 'Strong-style pairing and mob programming', tag: 'Falco / Zuill', tags: ['everyone','easier'],
+    p: 'Llewellyn Falco’s rule: “For an idea to go from your head into the computer, it must go through someone else’s hands.” Woody Zuill’s team at Hunter Industries took it to the whole team in 2011, mob programming all day. Seniors reported learning from juniors daily because the juniors kept asking why.',
+    src: 'Falco, “Llewellyn’s strong-style pairing” (2014); Zuill, Mob Programming: A Whole Team Approach (2016).',
+    use: 'In a kata, put the marker in the junior’s hand and make the senior explain through it.' },
+  weinberg: { name: 'Egoless programming', tag: 'Weinberg 1971', tags: ['everyone'],
+    p: 'Jerry Weinberg argued that code review only works when the code is not the coder, and that teams who separate ego from work find far more defects. He also joked that if builders built buildings the way programmers write programs, the first woodpecker would end civilisation.',
+    src: 'Weinberg, The Psychology of Computer Programming (1971).',
+    use: 'Blameless is not softness. It is the mechanism that lets the quiet person speak.' },
+  brandolini: { name: 'Brandolini and event storming', tag: 'DDD', tags: ['roles','easier','everyone'],
+    p: 'Alberto Brandolini’s observation: it is not the domain expert’s knowledge that goes to production, it is the developer’s assumptions about it. His answer was event storming: a wall, orange stickies, and everyone in the room at once, no laptops.',
+    src: 'Brandolini, Introducing EventStorming (Leanpub); Eric Evans, Domain-Driven Design (2003) for ubiquitous language.',
+    use: 'The PO is not a stakeholder of the architecture. The PO is a source of it.' },
+  tla: { name: 'Amazon and TLA+', tag: '2014', tags: ['companies','easier'],
+    p: 'AWS engineers used Leslie Lamport’s TLA+ to model DynamoDB and S3 and found a bug that required 35 steps to trigger, invisible to any review or test. Lamport’s own line: “If you’re thinking without writing, you only think you’re thinking.”',
+    src: 'Newcombe et al., “How Amazon Web Services Uses Formal Methods,” CACM 2015.',
+    use: 'Writing the decision down is not bureaucracy. It is how you find out you were wrong before production does.' },
+  beck3x: { name: 'Kent Beck’s 3X', tag: 'explore, expand, extract', tags: ['companies','easier'],
+    p: 'Beck describes three phases of a product: Explore (many cheap experiments), Expand (growth breaks everything), Extract (optimise what works). The architecture that is right in Extract will kill you in Explore. He also gave the smallest possible architecture advice: “make the change easy (warning: this may be hard), then make the easy change.”',
+    src: 'Kent Beck, 3X talks (2016 onward); tweet, 2012.',
+    use: 'Different companies do architecture differently because they are in different phases, not because one is wrong.' },
+  premortem: { name: 'The pre-mortem', tag: 'Gary Klein 2007', tags: ['easier','everyone'],
+    p: 'Before a project starts, Klein has the team imagine it is a year later and the project failed, then write down why. People raise risks in a pre-mortem that they would never raise as objections, because failure is now the premise, not an accusation.',
+    src: 'Klein, “Performing a Project Premortem,” Harvard Business Review, 2007.',
+    use: 'A kata on a fictional system is a pre-mortem nobody can be blamed for. That is why the junior talks.' },
+  kay: { name: 'Alan Kay on perspective', tag: 'Xerox PARC', tags: ['everyone'],
+    p: '“A change in perspective is worth 80 IQ points.” Kay’s point at PARC was that the smartest person in the room is beaten by the room that has the most viewpoints in it.',
+    src: 'Alan Kay, widely quoted from PARC-era talks.',
+    use: 'The junior’s ignorance of the codebase is a perspective the senior cannot buy.' },
+  etsy: { name: 'Etsy’s blameless post-mortem', tag: '2012', tags: ['companies','easier','everyone'],
+    p: 'John Allspaw, after co-presenting Flickr’s “10+ deploys a day” in 2009, wrote up Etsy’s blameless post-mortems: engineers describe what they did and what they expected without fear of punishment, because the alternative is that they stop telling you. The practice spread through the industry.',
+    src: 'Allspaw & Hammond, Velocity 2009; Allspaw, “Blameless PostMortems and a Just Culture,” Etsy Code as Craft, 2012.',
+    use: 'Blameless is the same rule for a postmortem and for an architecture session with juniors in it.' },
+  teamtopo: { name: 'The inverse Conway manoeuvre', tag: 'Team Topologies', tags: ['roles','easier','companies'],
+    p: 'Skelton and Pais: if the org chart becomes the architecture anyway, design the org chart to produce the architecture you want. Stream-aligned teams, platform teams, enabling teams, and cognitive load as the limiting factor.',
+    src: 'Skelton & Pais, Team Topologies (IT Revolution, 2019); term coined by Jonny LeRoy & Jeff Bay, 2010.',
+    use: 'This is the Scrum Master’s architecture tool. They just did not know it had a name.' },
+};
+
+// ---------- TALKS ----------
+const TALKS = [
+{
+  id: 'story', n: '01', tab: 'The Storyteller',
+  title: 'Sixty Years in Thirty Minutes',
+  sub: 'A chronological saga. Each era is one person, one decision, one lesson. Builds like a campfire story and ends where it started.',
+  style: 'Narrative history. Repeated device: “The year is…”. Warm, slow start, accelerating.',
+  bestFor: 'Audiences that like stories more than frameworks. Works well as an evening talk.',
+  energy: [3,4,5,6,7,6,7,8,9,8],
+  coverage: { A: 'mid', B: 'mid', C: 'strong', D: 'mid', E: 'strong' },
+  segs: [
+    { t: '00:00', d: '2 min', h: 'Cold open: the year is 1947', pts: [
+        'Dim the room. “The year is 1947. In a lab at Harvard, a moth.”',
+        'Land the point fast: found by a team, taped in by a team. Nobody was too junior to notice.',
+        '<strong>Thesis:</strong> this is not a talk about bugs. It is about the decisions that let the moths in, and who gets to be in the room when those decisions are made.' ],
+      story: S.moth,
+      cue: 'Hands up: who has shipped something they regretted architecturally within a year? Keep your own hand up.' },
+    { t: '02:00', d: '4 min', h: 'The 1960s: one idea, too many heads', pts: [
+        'Brooks on OS/360: conceptual integrity, the second-system effect, “plan to throw one away.”',
+        'Cross-cut to Conway, the paper rejected for lack of proof. Brooks names it in the same book.',
+        '<strong>Beat A + B:</strong> from here on, architecture has two authors: the people writing code and the people drawing the org chart. Look at the POs and SMs when you say it.' ],
+      story: S.conway },
+    { t: '06:00', d: '4 min', h: 'The 1960s, part two: a child breaks the moon landing', pts: [
+        'Hamilton, Lauren, P01, “astronauts don’t make mistakes,” Lovell on Apollo 8.',
+        'Then the 1202 alarm: the priority executive nobody clapped for saves the landing years later.',
+        '<strong>Beat C:</strong> the feedback loop on an architecture decision is measured in years. That is the real reason it is hard. <strong>Beat E:</strong> the least experienced person found the flaw.' ],
+      story: S.hamiltonP01,
+      cue: 'Pause after “nine hours.” Let it sit. This is the emotional centre of the talk.' },
+    { t: '10:00', d: '4 min', h: '1972 to 1992: architecture becomes a language problem', pts: [
+        'Parnas: decompose by what will change. The junior question “what changes most here?” is a Parnas question.',
+        'Cunningham invents technical debt at WyCash as a translation device for a business conversation, not as a dev complaint.',
+        '<strong>Beat D:</strong> the architects we remember invented vocabulary that let two roles see the same thing.' ],
+      story: S.cunningham,
+      cue: 'Ask the POs directly: what is your word for “this will be expensive later”? Take two answers.' },
+    { t: '14:00', d: '5 min', h: '2002 to 2011: three companies, three architectures', pts: [
+        'Amazon encodes architecture in <strong>rules</strong>: the API mandate, two-pizza teams, “you build it, you run it.”',
+        'Netflix encodes it in <strong>culture</strong>: the 2008 outage becomes the cloud migration and Chaos Monkey.',
+        'eBay gets it by <strong>accident</strong>: a 3.4-million-line DLL that hits compiler limits.',
+        '<strong>Beat A:</strong> every company has an architecture. The only question is whether it was chosen.' ],
+      story: S.bezosMandate,
+      cue: 'Read the Yegge punchline in full deadpan. “Thank you; have a nice day!” Wait for the laugh.' },
+    { t: '19:00', d: '4 min', h: '2003 to 2011: what an architect even is', pts: [
+        'Fowler and Ralph Johnson: “the important stuff, whatever that is,” and “shared understanding of the expert developers.”',
+        'Architectus Reloadus vs Oryzus. Hohpe’s elevator: penthouse, engine room, translation.',
+        'Nygard’s ADRs: a decision without a record is a rumour.',
+        '<strong>Beat B + D:</strong> the role is the elevator, not the penthouse. The tool is a one-page record anyone can read.' ],
+      story: S.fowler },
+    { t: '23:00', d: '4 min', h: '2007 to today: architecture becomes something you practise', pts: [
+        'Neward borrows the kata from Dave Thomas. Surgeons and pilots get simulators; architects got one project a year.',
+        'Ford and Richards: everything is a trade-off, why beats how.',
+        'Zuill’s mob, Falco’s strong style: the idea must pass through someone else’s hands.',
+        '<strong>Beat E:</strong> the format itself is what lets a junior and a senior learn in the same hour.' ],
+      story: S.neward },
+    { t: '27:00', d: '3 min', h: 'Close: the clock that runs backwards', pts: [
+        'Hopper’s counter-clockwise clock. “We have always done it this way.”',
+        'Bookend: the moth was found by a team looking together. That is the whole talk.',
+        '<strong>Hand-off:</strong> “In a moment we are going to practise the way surgeons do, on a patient that cannot die. Get into groups of four.”' ],
+      story: S.clock }
+  ],
+  steal: [
+    'The “The year is…” device. It gives every segment a hard reset and lets you compress decades.',
+    'Hamilton’s P01 story as the emotional core. It hits beats C and E at once.',
+    'Moth open, clock close. Bookends make a 30-minute talk feel designed.',
+    'The three-company contrast (rules, culture, accident) covers beat A in five minutes without a list.' ],
+  warn: [
+    'History talks sag in the middle. One person per era, four minutes max, or you lose the room around minute 12.',
+    'Dates without stakes are trivia. Every date needs a consequence in the next sentence.',
+    'Beat D (easier) is thinner here. Borrow the “four habits” close from the Field Guide if you feel it is missing.' ]
+},
+{
+  id: 'wild', n: '02', tab: 'The Field Guide',
+  title: 'Architecture in the Wild',
+  sub: 'A nature documentary. Five habitats, one behaviour. Architecture is not a species, it is something every organisation does, differently, for good reasons.',
+  style: 'Playful narrator voice for the opening, then drop it. Habitat metaphor carries the structure.',
+  bestFor: 'Mixed audiences from different companies. Strongest coverage of beat A.',
+  energy: [8,7,6,7,6,7,6,7,8,9],
+  coverage: { A: 'strong', B: 'mid', C: 'mid', D: 'strong', E: 'mid' },
+  segs: [
+    { t: '00:00', d: '2.5 min', h: 'Cold open: a rare creature', pts: [
+        'Hushed narrator voice: “Here, in the open-plan office, a rare creature: the software architect. It has not been seen at its own desk since 2019.”',
+        'Drop the voice. <strong>Thesis:</strong> architecture is a behaviour, not a species. Every habitat does it. The mistake is thinking one habitat’s behaviour is “correct.”',
+        'Name the five habitats on one slide: startup, scale-up, enterprise, agency, the commons.' ],
+      cue: 'Hands per habitat: “which one do you live in?” Note the split out loud. You will call back to it.' },
+    { t: '02:30', d: '4.5 min', h: 'Habitat 1: the startup (savannah)', pts: [
+        'Fast, few, exposed. Beck’s 3X: the architecture that is right in Extract kills you in Explore.',
+        'eBay’s DLL and Shoup’s line about regret. Facebook moving from “break things” to “stable infra” in 2014.',
+        '<strong>Hard here:</strong> no time, no second chances. <strong>Easier:</strong> Bezos’s two-way doors, decide fast and label it reversible.',
+        '<strong>Role:</strong> the PO is the de facto architect. Whoever orders the backlog orders the system.' ],
+      story: S.ebay },
+    { t: '07:00', d: '4.5 min', h: 'Habitat 2: the scale-up (coral reef)', pts: [
+        'Building on your own skeleton while alive. Netflix 2008, Twitter’s fail whale and JVM rewrite, Uber’s 2,200 microservices and then the domain-oriented regrouping.',
+        'Segment’s “Goodbye Microservices”: the reef can grow back the wrong way.',
+        '<strong>Hard here:</strong> Conway bites. Every new team is a new seam. <strong>Easier:</strong> the inverse Conway manoeuvre, design the teams to get the architecture.',
+        '<strong>Role:</strong> here the Scrum Master is the architect and does not know it.' ],
+      story: S.teamtopo,
+      cue: 'Look at the SMs: “When you last re-formed a team, did anyone show you the architecture diagram? They should have.”' },
+    { t: '11:30', d: '4.5 min', h: 'Habitat 3: the enterprise (old-growth forest)', pts: [
+        'Slow, layered, political, and alive for a long time. Hohpe’s penthouse and engine room.',
+        'The Bezos mandate as an enterprise move: a <em>rule</em> from the top with a punchline.',
+        'The Spotify model as the cautionary tale: planting coral in a forest.',
+        '<strong>Hard here:</strong> decisions are made far from the code. <strong>Easier:</strong> ADRs so the engine room can read the penthouse’s reasons; Amazon’s six-pagers so the penthouse has to write them.' ],
+      story: S.spotify },
+    { t: '16:00', d: '4 min', h: 'Habitat 4: the agency (migratory birds)', pts: [
+        'Arrive, build, leave. Fowler’s Architectus Oryzus: pair, mentor, become unnecessary. Simon Brown’s C4 and “just enough up-front design.”',
+        'Cunningham’s debt metaphor was invented for a <em>client</em> conversation.',
+        '<strong>Hard here:</strong> Naur. The theory leaves with the consultants. <strong>Easier:</strong> grow the theory in the client team’s heads, by deciding together, not by handing over a document.' ],
+      story: S.naur },
+    { t: '20:00', d: '4 min', h: 'Habitat 5: the commons (the ocean)', pts: [
+        'Open source and platforms: nobody owns it, everything depends on everything. Torvalds on data structures, Raymond’s bazaar.',
+        'Hyrum’s Law: with enough users, every observable behaviour is depended on. Amazon’s TLA+ finding a 35-step bug no review could catch.',
+        '<strong>Hard here:</strong> you cannot change anything anyone has observed. <strong>Easier:</strong> make the interface the product. Amazon learned this from the commons and then wrote it into the mandate.' ],
+      story: S.tla },
+    { t: '24:00', d: '3.5 min', h: 'Convergent evolution: what all five habitats invented independently', pts: [
+        '1. Name the decision (ADRs). 2. Draw the thing (C4, a wall of stickies). 3. Shorten the feedback loop (chaos, fitness functions). 4. Let the person closest to the change decide (two-pizza, two-way doors). 5. Practise in safety (katas).',
+        'Ford’s first law: everything is a trade-off, and the trade-off differs per habitat. The senior knows the trade-offs; the junior has not yet learned which ones to ignore. <strong>Beat E:</strong> that is exactly why you need both.' ],
+      story: S.fordLaws },
+    { t: '27:30', d: '2.5 min', h: 'Close: a sixth habitat', pts: [
+        'Call back to the hands from minute one. “Five habitats in this room. Same animal.”',
+        'The kata is a zoo enclosure: the one place a startup dev and an enterprise architect can watch the same behaviour side by side.',
+        '<strong>Hand-off:</strong> “Next thirty minutes we build a sixth habitat, right here, and see what evolves.”' ] }
+  ],
+  steal: [
+    'The habitat framing. It covers “different companies” without a bulleted comparison, and nobody feels their company was ranked.',
+    'PO-as-architect in startups and SM-as-architect in scale-ups. The non-devs in the audience get named roles in the story.',
+    'The Spotify caution. Everyone knows the model; few know Spotify dropped it.',
+    'The five-habit “convergent evolution” list is a clean beat D summary you can drop into any other talk.' ],
+  warn: [
+    'The narrator voice is a garnish. Use it for the first minute, then never again, or it gets tiring fast.',
+    'Five habitats at 4.5 minutes each leaves little air. If you run long, merge agency and commons.',
+    'Beat C (hard) is spread thin across habitats. Make sure you say the phrase “this is what makes it hard” out loud in each one.' ]
+},
+{
+  id: 'elevator', n: '03', tab: 'The Elevator',
+  title: 'The Architect’s Elevator',
+  sub: 'A building tour, floor by floor. Each floor is a role. The architect is not a floor, it is the elevator. Built for a room with POs and Scrum Masters in it.',
+  style: 'Structured, role-addressed, direct eye contact per floor. Hohpe’s metaphor as the skeleton.',
+  bestFor: 'Mixed-role audiences. Strongest coverage of beat B. The POs and SMs will feel this talk was for them.',
+  energy: [8,6,6,7,7,7,6,7,8,9],
+  coverage: { A: 'mid', B: 'strong', C: 'strong', D: 'mid', E: 'mid' },
+  segs: [
+    { t: '00:00', d: '2 min', h: 'Cold open: a memo from the top floor', pts: [
+        'Read the Bezos mandate as Yegge retold it. All of it. End on “Thank you; have a nice day!”',
+        '“That memo was written in the penthouse. It rebuilt the engine room. Today we ride between them.”',
+        'One slide: the building. Basement (ops), engine room (devs), floor 3 (seniors), floor 7 (product), floor 12 (agile and org), penthouse.' ],
+      story: S.bezosMandate,
+      cue: '“Which floor do you work on?” Hands. Say the numbers back so people feel counted.' },
+    { t: '02:00', d: '4 min', h: 'Engine room: developers', pts: [
+        'Fowler and Johnson: “the important stuff, whatever that is” and “shared understanding.” Booch: significant means cost of change.',
+        'Hamilton’s 1202 alarm: an engine-room decision from years earlier, on live television.',
+        '<strong>Hard here:</strong> architecture hides inside pull requests and nobody tells you it was architecture. <strong>Easier:</strong> Beck, “make the change easy, then make the easy change.” Every refactor is architecture in miniature.' ],
+      story: S.hamilton1202 },
+    { t: '06:00', d: '4 min', h: 'Floor 3: seniors and “the architect”', pts: [
+        'Fowler’s Reloadus vs Oryzus. Hoare’s two ways to design, and his billion-dollar null.',
+        '<strong>Hard here:</strong> seniority breeds silence in the room. When the senior speaks first, the meeting is over.',
+        'Weinberg’s egoless programming and Zuill’s mob: seniors report learning from juniors daily because juniors ask why.',
+        '<strong>Easier:</strong> the senior’s job becomes making decisions visible, not making them alone.' ],
+      story: S.hoare },
+    { t: '10:00', d: '4 min', h: 'Floor 7: the Product Owner', pts: [
+        'Conway from the PO’s chair: your backlog ordering is an architecture decision. The rejected paper, Brooks naming it.',
+        'Cunningham invented technical debt for <em>this floor</em>: to explain a legitimate loan to a boss.',
+        'Bezos’s doors: a PO who can tell a one-way door from a two-way door is doing architecture.',
+        '<strong>Easier:</strong> one question per refinement: “what does this make expensive later?”' ],
+      story: S.cunningham,
+      cue: 'Address the POs by role: “You already do this. You just do it in a language nobody in the engine room speaks.”' },
+    { t: '14:00', d: '4 min', h: 'Floor 12: the Scrum Master and the org', pts: [
+        'Team Topologies and the inverse Conway manoeuvre: design the teams to get the architecture.',
+        'Two-pizza teams and “you build it, you run it” as organisational architecture, on purpose.',
+        'Spotify model as the caution: a snapshot became a template. Spotify moved on.',
+        '<strong>Hard here:</strong> SMs hear “architecture” and think “not my meeting.” <strong>Easier:</strong> the kata is a ceremony you can own and facilitate.' ],
+      story: S.twoPizza,
+      cue: 'To the SMs: “You will facilitate one of these in the next half hour. Watch what I do.”' },
+    { t: '18:00', d: '4 min', h: 'Penthouse: management', pts: [
+        'Hohpe: the penthouse speaks in options and risk, the engine room in latency and coupling. The elevator translates both ways.',
+        'Netflix 2008: a penthouse-level bet on AWS that the engine room then earned with Chaos Monkey.',
+        'Knight Capital: $440M in 45 minutes because one of eight servers missed a deploy and a dead flag was reused. The penthouse never knew a flag existed.',
+        '<strong>Hard here:</strong> penthouse decisions have no feedback loop. <strong>Easier:</strong> ADRs as the elevator’s logbook.' ],
+      story: S.knight },
+    { t: '22:00', d: '4 min', h: 'Why the elevator is hard to ride', pts: [
+        'Hohpe: architects live in the first derivative. Ford and Richards: everything is a trade-off; why beats how.',
+        'Naur: the theory cannot be written down, only grown in people. So the theory has to live on every floor, and nobody can ride alone.',
+        'Brandolini: it is the developer’s assumptions that go to production, not the domain expert’s knowledge. Put the expert in the room.' ],
+      story: S.brandolini },
+    { t: '26:00', d: '2.5 min', h: 'Everyone rides', pts: [
+        'Hamilton’s daughter, age four, found the bug the astronauts would go on to make.',
+        'Alan Kay: a change in perspective is worth 80 IQ points.',
+        '<strong>Kata rules preview:</strong> rotate the marker, junior speaks first, seniors ask questions only for the first ten minutes.' ],
+      story: S.hamiltonP01 },
+    { t: '28:30', d: '1.5 min', h: 'Close: press the button', pts: [
+        '“Every floor in this room is going to the same place for the next half hour.”',
+        '<strong>Hand-off:</strong> form groups with at least two floors represented in each. Enforce it.' ] }
+  ],
+  steal: [
+    'Floor-by-floor addressing. POs and SMs get named, looked at, and given a tool each. Nothing else in the set does this as directly.',
+    'Knight Capital as the penthouse story. It makes “deployment is architecture” land with non-devs.',
+    'Cunningham as a PO story rather than a dev story. Most people have never heard the origin.',
+    'The “form groups across floors” hand-off. It makes the workshop’s mixing rule feel earned.' ],
+  warn: [
+    'Do not make the architect the hero. The metaphor’s point is the elevator, not the person in it.',
+    'Floors 7 and 12 should be your longest segments. That is the under-served audience. Cut the engine room before you cut those.',
+    'Six floors plus a why plus a close is a lot of structure. Keep the building slide visible throughout so people never lose the floor.' ]
+},
+{
+  id: 'myths', n: '04', tab: 'The Myth-Buster',
+  title: 'Seven Myths About Architecture',
+  sub: 'Claim, vote, bust. Each myth is something most of the room believes, and each one dies to a war story. Highest-energy format in the set.',
+  style: 'Contrarian, interactive, fast. Audience votes true or false before every bust. Running tally on screen.',
+  bestFor: 'Conference rooms and after-lunch slots. Keeps everyone, including non-devs, physically participating.',
+  energy: [9,8,8,8,8,8,8,8,8,9],
+  coverage: { A: 'mid', B: 'mid', C: 'strong', D: 'strong', E: 'strong' },
+  segs: [
+    { t: '00:00', d: '2 min', h: 'Cold open: 45 minutes', pts: [
+        '“$440 million. 45 minutes. One server out of eight.” Tell Knight Capital in ninety seconds.',
+        '“Everything about that story is architecture, and there was no architect in the room. So let us find out what else we have wrong.”',
+        'Rules: I state a myth, you vote, I bust it. Red and green cards, or hands.' ],
+      story: S.knight,
+      cue: 'Hand out red/green cards at the door, or use hands. Show the tally slide. Make the voting physical.' },
+    { t: '02:00', d: '3.5 min', h: 'Myth 1: architecture happens before the code', pts: [
+        'Gall’s Law: a complex system that works evolved from a simple system that worked. Brooks: plan to throw one away.',
+        'Netflix’s microservices were not planned. They were the answer to a three-day DVD outage.',
+        '<strong>Bust:</strong> Booch says architecture is the significant decisions. Those happen every sprint. Architecture is continuous or it is fiction.' ],
+      story: S.netflix2008 },
+    { t: '05:30', d: '3.5 min', h: 'Myth 2: architecture is the architect’s job', pts: [
+        'Conway: the org chart is drawing the diagram. The PO’s backlog is drawing it. The SM’s team split is drawing it.',
+        'Bezos wrote the mandate. Cunningham invented technical debt to talk to a boss.',
+        '<strong>Bust:</strong> Ralph Johnson, via Fowler: architecture is the shared understanding of the people building it. Shared is the operative word.' ],
+      story: S.conway,
+      cue: 'Ask the POs and SMs to keep their cards up on this one. Count them. “That many architects in the room already.”' },
+    { t: '09:00', d: '3.5 min', h: 'Myth 3: seniors know the answer', pts: [
+        'Hamilton’s daughter and the P01 guard NASA refused. Hoare’s billion-dollar null.',
+        '<strong>Bust:</strong> Ford’s first law. There is no answer, only trade-offs. Seniors know more trade-offs. That is a different thing from knowing the answer, and it is exactly why juniors have to be in the room: they have not yet learned which trade-offs to stop asking about.' ],
+      story: S.hamiltonP01 },
+    { t: '12:30', d: '3.5 min', h: 'Myth 4: microservices (or any shape) is architecture', pts: [
+        'eBay’s 3.4-million-line DLL. Stack Overflow on nine web servers. Segment going back. Prime Video cutting 90% by merging. Hightower: monoliths are the future.',
+        '<strong>Bust:</strong> a shape is not an architecture. The trade-off reasoning is. Two teams can ship the same diagram, one with reasons and one with a cargo cult.' ],
+      story: S.monolith },
+    { t: '16:00', d: '3.5 min', h: 'Myth 5: the diagram is the architecture', pts: [
+        'Naur: the program is a theory in heads. Brooks: show me your tables and I will not need your flowcharts.',
+        'Hopper’s nanosecond wire: a diagram you can hold, and the point was never the wire.',
+        '<strong>Bust:</strong> diagrams are how we check that our theories match. They are a conversation tool, which means the conversation is the architecture.' ],
+      story: S.nanosecond },
+    { t: '19:30', d: '3.5 min', h: 'Myth 6: big decisions need big meetings', pts: [
+        'Nygard’s ADR: one page, one pull request. Amazon banned PowerPoint in 2004 and made people write six pages instead, then read in silence.',
+        'Bezos’s doors: most decisions are two-way and do not deserve the meeting. Cunningham’s CRC cards were index cards on purpose, cheap enough that anyone would pick one up.',
+        '<strong>Bust:</strong> the size of the meeting is inversely related to the number of people who understood the decision afterwards.' ],
+      story: S.nygard },
+    { t: '23:00', d: '3.5 min', h: 'Myth 7: you learn architecture by doing it for ten years', pts: [
+        'Neward: surgeons and pilots practise in simulators. An architect gets roughly one real architecture per year. Ten reps in a decade is not practice.',
+        'Falco’s strong style, Zuill’s mob: the idea must go through someone else’s hands.',
+        '<strong>Bust:</strong> you learn architecture by making many small decisions with other people watching and asking why. That is a kata. It takes an hour, not a decade.' ],
+      story: S.neward },
+    { t: '26:30', d: '3.5 min', h: 'Close: the one truth', pts: [
+        'Show the tally. Be gracious: “I believed five of these. Here is when I stopped.”',
+        'Ford’s second law: why is more important than how. And why is the one question a junior can always ask, a PO can always ask, an SM can always ask.',
+        '<strong>Hand-off:</strong> “For the next thirty minutes there is one rule: nobody says how until somebody has said why. Groups of four.”' ],
+      story: S.fordLaws }
+  ],
+  steal: [
+    'The vote. It gets POs and SMs physically participating within two minutes and keeps them in for thirty.',
+    'Myth 3 (seniors know the answer) is the cleanest possible framing of beat E. It reframes juniors from learners to necessary.',
+    'The “nobody says how until somebody says why” rule doubles as a kata ground rule.',
+    'The Knight Capital cold open is reusable on any of the other talks.' ],
+  warn: [
+    'Seven is a lot. If you are running long at minute 16, cut myths 4 and 6 first. Say “two more” and the room will forgive you.',
+    'Never make the people who voted “true” feel stupid. Own having believed each myth yourself.',
+    'The energy is flat-high, which can tire a room. Use the Hamilton story (myth 3) as the one deliberate slow moment.' ]
+},
+{
+  id: 'postmortem', n: '05', tab: 'The Postmortem',
+  title: 'Blameless Postmortem',
+  sub: 'Four famous failures, run as a blameless incident review. Then flip it: the organisations that learned, and the pre-mortem as the bridge into the kata.',
+  style: 'Opens dark and tight, one incident per three minutes, then lifts. Uses a real postmortem template on screen.',
+  bestFor: 'Rooms that respond to stakes and tension. Also the most natural hand-off into a kata in the set.',
+  energy: [7,8,8,8,7,6,6,7,8,9],
+  coverage: { A: 'mid', B: 'mid', C: 'strong', D: 'strong', E: 'strong' },
+  segs: [
+    { t: '00:00', d: '1.5 min', h: 'Open: the template', pts: [
+        'Put a postmortem template on screen: timeline, contributing factors, what we learned.',
+        '“Four postmortems in twelve minutes. One rule, from Etsy’s John Allspaw: blameless. Nobody was stupid. Everybody was doing their job.”' ],
+      story: S.etsy },
+    { t: '01:30', d: '3 min', h: 'Incident 1: Ariane 5, flight 501', pts: [
+        'Reused Ariane 4 software. Overflow in a routine not needed after lift-off. Forty seconds. $370M.',
+        '<strong>Contributing factor:</strong> an assumption nobody wrote down: “the trajectory is like Ariane 4’s.”',
+        '<strong>Learned:</strong> architecture is the set of assumptions you inherit silently.' ],
+      story: S.ariane },
+    { t: '04:30', d: '3 min', h: 'Incident 2: Mars Climate Orbiter', pts: [
+        'Pound-force seconds on one side of an interface, newton seconds on the other. Two teams, one boundary, no owner.',
+        '<strong>Contributing factor:</strong> no shared language across a team seam. Conway with a crater.',
+        '<strong>Learned:</strong> this is why Evans wrote about ubiquitous language and why Brandolini put everyone at one wall.' ],
+      story: S.mco },
+    { t: '07:30', d: '3 min', h: 'Incident 3: Knight Capital', pts: [
+        'Eight servers, seven deployed. Dead Power Peg code, repurposed flag. $440M in 45 minutes.',
+        '<strong>Contributing factor:</strong> nobody knew that flag was architecture. Deployment was not in the architecture conversation.',
+        '<strong>Learned:</strong> Vogels: everything fails, all the time. Ops is architecture.' ],
+      story: S.knight },
+    { t: '10:30', d: '3 min', h: 'Incident 4: Netflix, the one that worked', pts: [
+        'Database corruption, three days of no DVDs.',
+        '<strong>Contributing factor:</strong> single points of failure in a system growing faster than its design.',
+        '<strong>Learned:</strong> the postmortem itself became the architecture. AWS migration, Chaos Monkey, a culture that breaks things on purpose. <em>This is where the mood lifts.</em>' ],
+      story: S.netflix2008,
+      cue: 'Change the slide colour here. The room should feel the turn.' },
+    { t: '13:30', d: '3.5 min', h: 'The pattern: none of these were bad code', pts: [
+        'All four were decisions made far from the people affected, unrecorded, and untested against change.',
+        'Hohpe: first derivative. Naur: theory in heads. <strong>Beat C:</strong> the feedback loop is measured in years and rockets.',
+        '<strong>Beat A:</strong> ESA and NASA had thousand-page reviews. Knight had speed. Netflix had culture. Different companies fail differently and learn differently.' ],
+      story: S.hohpe,
+      cue: '“Who has a Knight Capital flag in production right now?” Wait for the nervous laugh. Do not let anyone off the hook.' },
+    { t: '17:00', d: '4 min', h: 'Organisations that learned', pts: [
+        'Etsy’s blameless postmortems and Flickr’s ten deploys a day. Amazon’s mandate and two-pizza teams as a postmortem of the monolith.',
+        'Amazon’s TLA+ finding a 35-step bug before it shipped. Hamilton finally adding the P01 guard after Apollo 8 proved her right.',
+        '<strong>Beat B:</strong> look at who is in a postmortem room: dev, ops, PO, SM, all equal, all talking. That is the template for the architecture room.' ],
+      story: S.tla },
+    { t: '21:00', d: '4 min', h: 'Making it easier: the pre-mortem', pts: [
+        'Klein: it is a year from now and the project failed. Why? People name risks in a pre-mortem that they would never raise as objections.',
+        'ADRs as the postmortem you write before the incident. Fitness functions (Ford, Parsons, Kua) as automated postmortem checks. Bezos’s doors to decide how much ceremony a decision deserves.',
+        '<strong>Beat D:</strong> every tool that makes architecture easier is a way of moving the postmortem earlier.' ],
+      story: S.premortem },
+    { t: '25:00', d: '3 min', h: 'Everyone in the room', pts: [
+        'Blameless is the participation mechanism. Weinberg: separate the ego from the work and the quiet people speak.',
+        'Hamilton’s daughter. The junior sees the fresh assumption; the senior sees the pattern. You need both, and you need neither to be afraid.',
+        'A kata on a fictional system is a pre-mortem nobody can be blamed for.' ],
+      story: S.weinberg },
+    { t: '28:00', d: '2 min', h: 'Close: the conversation that did not happen', pts: [
+        '“Four postmortems. Zero stupid people. Every one preventable by a conversation that did not happen.”',
+        '<strong>Hand-off:</strong> “For the next thirty minutes we have that conversation, on a system where nothing can explode. Same rule as the postmortem: blameless. Groups of four.”' ] }
+  ],
+  steal: [
+    'The cold open with real incidents. Nothing grabs a mixed room faster than a rocket and a dollar figure.',
+    'The pre-mortem bridge. It makes the kata feel like the logical next step rather than a workshop bolted on.',
+    'The blameless rule doubles as the workshop ground rule, so the room already knows how to behave when you switch.',
+    '“Who has a Knight Capital flag in production right now?” is the best single audience line in the set.' ],
+  warn: [
+    'Three minutes per incident is a hard cap. Dark openings need pace or they turn into a lecture on disasters.',
+    'Netflix must be fourth. It is the mood flip. Do not reorder it.',
+    'Do not linger on money figures. Say them once, move on. The point is the decision, not the loss.' ]
+}
+];
+
+// ---------- RENDER ----------
+const tablist = document.getElementById('tablist');
+const panels = document.getElementById('panels');
+
+function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+
+function storyCard(s, withTags) {
+  const c = el('article', 'story');
+  c.innerHTML = `<div class="who"><span class="name">${s.name}</span><span class="tag">${s.tag}</span></div>
+    <p>${s.p}</p>
+    <p class="src">${s.src}</p>
+    <p class="use"><b>Use it to say:</b> ${s.use}</p>`;
+  if (withTags) {
+    const t = el('div', 'tags');
+    s.tags.forEach(x => t.appendChild(el('span', null, x)));
+    c.appendChild(t);
+    c.dataset.tags = s.tags.join(' ');
+  }
+  return c;
+}
+
+function talkPanel(t) {
+  const p = el('section', 'panel'); p.id = 'panel-' + t.id; p.setAttribute('role', 'tabpanel'); p.setAttribute('aria-labelledby', 'tab-' + t.id);
+  const head = el('div', 'talk-head');
+  const cov = Object.entries(t.coverage).map(([k, v]) => `<span class="cov ${v}"><span class="beat-key">${k}</span>${BEATS[k]}</span>`).join('');
+  head.innerHTML = `<div><p class="eyebrow">Run sheet ${t.n} · ${t.tab}</p><h2>${t.title}</h2><p class="sub">${t.sub}</p></div>
+    <div class="facts">
+      <div class="fact"><span class="k">Style</span><span>${t.style}</span></div>
+      <div class="fact"><span class="k">Best for</span><span>${t.bestFor}</span></div>
+      <div class="fact"><span class="k">Covers</span><span class="coverage">${cov}</span></div>
+    </div>`;
+  p.appendChild(head);
+
+  const grid = el('div', 'body-grid');
+  const rs = el('div', 'runsheet');
+  t.segs.forEach(sg => {
+    const s = el('div', 'seg');
+    const tc = el('div', 'tc', `<span class="t">${sg.t}</span><span class="dur">${sg.d}</span>`);
+    const body = el('div');
+    body.appendChild(el('h3', null, sg.h));
+    const ul = el('ul', 'pts'); sg.pts.forEach(x => ul.appendChild(el('li', null, x))); body.appendChild(ul);
+    if (sg.story) body.appendChild(storyCard(sg.story, false));
+    if (sg.cue) body.appendChild(el('div', 'cue', `<span class="lbl">Audience</span><span>${sg.cue}</span>`));
+    s.append(tc, body); rs.appendChild(s);
+  });
+
+  const rail = el('aside', 'rail');
+  const en = el('div', 'rail-box');
+  en.innerHTML = `<h4>Energy curve</h4><div class="curve">${t.energy.map(v => `<span style="height:${v * 10}%"></span>`).join('')}</div><div class="curve-lbl"><span>00:00</span><span>15:00</span><span>30:00</span></div>`;
+  const steal = el('div', 'rail-box steal', `<h4>Steal this</h4><ul>${t.steal.map(x => `<li>${x}</li>`).join('')}</ul>`);
+  const warn = el('div', 'rail-box warn', `<h4>Watch out</h4><ul>${t.warn.map(x => `<li>${x}</li>`).join('')}</ul>`);
+  rail.append(en, steal, warn);
+  grid.append(rs, rail); p.appendChild(grid);
+  return p;
+}
+
+function bankPanel() {
+  const p = el('section', 'panel'); p.id = 'panel-bank'; p.setAttribute('role', 'tabpanel'); p.setAttribute('aria-labelledby', 'tab-bank');
+  p.innerHTML = `<p class="eyebrow">Shared across all five talks</p><h2 style="font-size:clamp(30px,4.5vw,46px);margin-top:8px">Story Bank</h2>
+    <p class="intro">Every war story used above, on one index card each, with the source you should check before quoting and the point it is best at making. Filter by the beat you need to strengthen.</p>`;
+  const f = el('div', 'filters');
+  const all = el('button', 'chip', 'All'); all.setAttribute('aria-pressed', 'true'); all.dataset.f = 'all'; f.appendChild(all);
+  [['companies','A · Companies'],['roles','B · Roles'],['hard','C · Hard'],['easier','D · Easier'],['everyone','E · Everyone']].forEach(([k, l]) => {
+    const b = el('button', 'chip', l); b.setAttribute('aria-pressed', 'false'); b.dataset.f = k; f.appendChild(b);
+  });
+  p.appendChild(f);
+  const grid = el('div', 'bank');
+  Object.values(S).forEach(s => grid.appendChild(storyCard(s, true)));
+  p.appendChild(grid);
+  f.addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    f.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
+    const k = b.dataset.f;
+    grid.querySelectorAll('.story').forEach(c => { c.hidden = !(k === 'all' || c.dataset.tags.split(' ').includes(k)); });
+  });
+  return p;
+}
+
+function mixPanel() {
+  const p = el('section', 'panel'); p.id = 'panel-mix'; p.setAttribute('role', 'tabpanel'); p.setAttribute('aria-labelledby', 'tab-mix');
+  const dots = v => v === 'strong' ? '●●●' : v === 'mid' ? '●●○' : '●○○';
+  const rows = TALKS.map(t => `<tr><td><div class="tname">${t.title}</div><div class="tstyle">${t.tab}</div></td>${Object.keys(BEATS).map(k => `<td class="c dots">${dots(t.coverage[k])}</td>`).join('')}</tr>`).join('');
+  p.innerHTML = `<p class="eyebrow">Where each run sheet is strongest</p><h2 style="font-size:clamp(30px,4.5vw,46px);margin-top:8px">Mix &amp; Match</h2>
+    <p class="intro">No single sheet is best at all five beats. Use the matrix to see which tab to raid for which beat, then follow the suggested assembly or build your own.</p>
+    <div class="matrix-wrap"><table class="matrix"><thead><tr><th>Run sheet</th>${Object.entries(BEATS).map(([k, v]) => `<th style="text-align:center">${k} · ${v}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="combo">
+      <div class="rail-box"><h4>Suggested assembly (30 min)</h4><ol>
+        <li><b>00:00</b> Knight Capital cold open from the Postmortem. Ninety seconds, one dollar figure, “no architect in the room.”</li>
+        <li><b>02:00</b> Three habitats from the Field Guide, compressed: startup, scale-up, enterprise. Eight minutes. Name the PO and SM as architects in the first two.</li>
+        <li><b>10:00</b> Floors 7 and 12 from the Elevator, in full. Eight minutes. This is the part the non-devs will remember.</li>
+        <li><b>18:00</b> Myth 3 and Myth 7 from the Myth-Buster, with the vote. Seven minutes. Hamilton’s daughter is the slow moment.</li>
+        <li><b>25:00</b> The pre-mortem bridge from the Postmortem. Three minutes.</li>
+        <li><b>28:00</b> Hopper’s backwards clock from the Storyteller as the close, then “groups of four, at least two floors per group.”</li>
+      </ol></div>
+      <div class="rail-box"><h4>Alternative: story-led</h4><ol>
+        <li><b>Open</b> with the moth (Storyteller).</li>
+        <li><b>Body</b> is the Storyteller chronology, but swap its 2002 to 2011 segment for the Field Guide’s startup and enterprise habitats.</li>
+        <li><b>Insert</b> the Elevator’s floor 7 (PO) after Cunningham, since that is where the metaphor was invented.</li>
+        <li><b>Close</b> with the Myth-Buster’s “nobody says how until somebody says why” rule as the workshop ground rule.</li>
+      </ol></div>
+      <div class="rail-box"><h4>Alternative: high energy</h4><ol>
+        <li><b>Run</b> the Myth-Buster as the skeleton, five myths only (drop 4 and 6).</li>
+        <li><b>Replace</b> Myth 1’s Netflix story with the Postmortem’s Ariane 5 for a bigger opening.</li>
+        <li><b>Add</b> the Elevator’s floor 12 (SM) as a sixth “myth”: “Scrum Masters don’t do architecture.”</li>
+        <li><b>Close</b> with the Field Guide’s five convergent habits, one slide, as the take-home list.</li>
+      </ol></div>
+    </div>
+    <div class="rules">
+      <h3>Rules that hold for all five</h3>
+      <ul>
+        <li><b>Name the beat out loud.</b> When you reach beat C, say “this is what makes it hard.” Mixed audiences need the signpost; devs will not mind it.</li>
+        <li><b>One story per segment.</b> Two stories in four minutes means neither lands. Cut the second one into the story bank for Q&amp;A.</li>
+        <li><b>Give the PO and SM a tool each, by name.</b> Two-way doors for the PO. Inverse Conway for the SM. They should leave with a phrase they can use on Monday.</li>
+        <li><b>Plant the kata rules early.</b> Whatever ground rule you will use in the workshop (blameless, why-before-how, rotate the marker), say it once in the talk so it feels like a callback, not a new instruction.</li>
+        <li><b>Put the slow moment at minute 9 to 12.</b> Hamilton’s daughter is the natural candidate. Every sheet above has it roughly there for a reason.</li>
+        <li><b>End on the hand-off, not on a summary.</b> The last sentence of the talk should be a physical instruction: stand up, groups of four, two floors per group.</li>
+      </ul>
+    </div>`;
+  return p;
+}
+
+const TABS = [
+  ...TALKS.map(t => ({ id: t.id, n: t.n, label: t.tab, build: () => talkPanel(t) })),
+  { id: 'bank', n: '', label: 'Story Bank', util: true, build: bankPanel },
+  { id: 'mix', n: '', label: 'Mix & Match', util: true, build: mixPanel },
+];
+
+TABS.forEach((t, i) => {
+  const b = el('button', 'tab' + (t.util ? ' util' : ''));
+  b.id = 'tab-' + t.id; b.setAttribute('role', 'tab'); b.setAttribute('aria-controls', 'panel-' + t.id); b.dataset.id = t.id;
+  b.innerHTML = (t.n ? `<span class="n">${t.n}</span>` : '') + t.label;
+  tablist.appendChild(b);
+  const panel = t.build(); panel.hidden = true; panels.appendChild(panel);
+});
+
+function select(id, push) {
+  if (!TABS.some(t => t.id === id)) id = TABS[0].id;
+  tablist.querySelectorAll('.tab').forEach(b => {
+    const on = b.dataset.id === id;
+    b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1;
+    document.getElementById('panel-' + b.dataset.id).hidden = !on;
+  });
+  try { localStorage.setItem('arch-runsheet-tab', id); } catch (e) {}
+  if (push) { try { history.replaceState(null, '', '#' + id); } catch (e) {} }
+}
+tablist.addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) { select(b.dataset.id, true); window.scrollTo({ top: Math.min(window.scrollY, tablist.getBoundingClientRect().top + window.scrollY - 8), behavior: 'auto' }); } });
+tablist.addEventListener('keydown', e => {
+  if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+  const tabs = [...tablist.querySelectorAll('.tab')]; let i = tabs.findIndex(b => b.getAttribute('aria-selected') === 'true');
+  if (e.key === 'ArrowLeft') i = (i - 1 + tabs.length) % tabs.length;
+  if (e.key === 'ArrowRight') i = (i + 1) % tabs.length;
+  if (e.key === 'Home') i = 0; if (e.key === 'End') i = tabs.length - 1;
+  tabs[i].focus(); select(tabs[i].dataset.id, true); e.preventDefault();
+});
+let initial = location.hash.replace('#', '');
+if (!initial) { try { initial = localStorage.getItem('arch-runsheet-tab') || ''; } catch (e) {} }
+select(initial || TABS[0].id, false);
+</script>

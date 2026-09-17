@@ -278,6 +278,10 @@
   @media (prefers-reduced-motion: reduce) { .bld .car { transition: none; } }
 
   /* ---------- main view chrome ---------- */
+  .boot { position: fixed; inset: 0; display: grid; place-content: center; gap: 10px; text-align: center; padding: 24px; background: var(--bg); }
+  .boot-t { margin: 0; font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 28px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+  .boot-s { margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 14px; color: var(--muted); max-width: 40ch; line-height: 1.5; }
+  .boot-err .boot-s { color: var(--accent); }
   .main { position: fixed; inset: 0; background: var(--bg); }
   .main .frame { position: absolute; inset: 0; }
   .progress { position: fixed; left: 0; right: 0; bottom: 0; height: 4px; background: var(--line); z-index: 5; }
@@ -366,11 +370,44 @@
   .sheet .row { display: flex; gap: 10px; justify-content: flex-end; }
 </style>
 
-<div id="root"></div>
+<div id="root"><div class="boot" id="boot">
+  <p class="boot-t">Six Floors, One Architect</p>
+  <p class="boot-s" id="boot-s">Loading the deck…</p>
+</div></div>
+<script>
+(function () {
+  var el = function (id) { return document.getElementById(id); };
+  var say = function (msg) {
+    var b = el('boot'), s = el('boot-s');
+    if (!b || !s) return;
+    b.classList.add('boot-err');
+    s.textContent = msg;
+  };
+  window.DECK_BOOT_OK = false;
+  window.addEventListener('error', function (e) {
+    if (window.DECK_BOOT_OK) return;
+    var src = (e.target && e.target.src) ? e.target.src.split('/').pop() : '';
+    say(src ? ('Could not load ' + src + '. Check your connection, then reload.')
+            : ('Error: ' + (e.message || 'unknown') + '. Reload to try again.'));
+  }, true);
+  window.addEventListener('unhandledrejection', function (e) {
+    if (!window.DECK_BOOT_OK) say('Error: ' + ((e.reason && e.reason.message) || e.reason) + '. Reload to try again.');
+  });
+  setTimeout(function () {
+    if (window.DECK_BOOT_OK) return;
+    var missing = [];
+    if (!window.React) missing.push('React');
+    if (!window.ReactDOM) missing.push('ReactDOM');
+    if (!window.Babel) missing.push('Babel');
+    say(missing.length ? ('Still loading: ' + missing.join(', ') + ' did not arrive. Check your connection, then reload.')
+                       : 'The deck script did not start. Reload to try again.');
+  }, 12000);
+})();
+</script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.4/babel.min.js"></script>
+<script src="vendor/react.js"></script>
+<script src="vendor/react-dom.js"></script>
+<script src="vendor/babel.js"></script>
 <script src="audio/manifest.js"></script>
 
 <script type="text/babel" data-presets="react">
@@ -1574,7 +1611,7 @@ const CH = 'elevator-deck-v1';
 const ME = Math.random().toString(36).slice(2);
 const bc = ('BroadcastChannel' in window) ? new BroadcastChannel(CH) : null;
 const DEFAULT = { index: 0, theme: 'system', blackout: false, timer: { running: false, startedAt: null, acc: 0 }, ns: 20, script: true, step: 0, lang: 'en' };
-function loadState() { try { const raw = localStorage.getItem(CH); if (raw) { const m = JSON.parse(raw); return { ...DEFAULT, ...m.state }; } } catch (e) {} return DEFAULT; }
+function loadState() { try { const raw = localStorage.getItem(CH); if (raw) { const m = JSON.parse(raw); return { ...DEFAULT, ...m.state, blackout: false }; } } catch (e) {} return DEFAULT; }
 function broadcast(state) { const msg = { src: ME, state }; try { bc && bc.postMessage(msg); } catch (e) {} try { localStorage.setItem(CH, JSON.stringify(msg)); } catch (e) {} }
 
 function useSharedState() {
@@ -2198,6 +2235,7 @@ function App() {
   return isSpeaker ? <SpeakerView state={state} set={set} dark={dark} openOther={openOther} /> : <MainView state={state} set={set} dark={dark} openOther={openOther} />;
 }
 
+window.DECK_BOOT_OK = true;
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 </html>

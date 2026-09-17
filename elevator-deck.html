@@ -1,4 +1,7 @@
+<!doctype html>
+<html lang="en">
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Six Floors, One Architect</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -192,15 +195,91 @@
   .bubble::after { content: ""; position: absolute; left: 34px; bottom: -14px; width: 24px; height: 24px; background: inherit; border-right: 2px solid; border-bottom: 2px solid; border-color: inherit; transform: rotate(45deg); border-radius: 0 0 4px 0; }
   .bubble .q { font-size: 26px; font-weight: 500; }
   .bubble.dim .q { font-weight: 400; }
-  /* doors */
-  .doors { position: absolute; inset: 0; display: grid; grid-template-rows: auto 1fr; gap: 26px; }
-  .doors .qpill { justify-self: center; font-size: 26px; font-weight: 500; padding: 12px 28px; border-radius: 999px; background: var(--surface); border: 2px solid var(--line-strong); }
-  .doors .two { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
-  .door { display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: center; }
-  .door h3 { font-size: 40px; } .door .k { font-family: "IBM Plex Mono", monospace; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; display: block; }
-  .door ul { gap: 10px; margin-top: 14px; } .door li { font-size: 24px; padding-left: 30px; } .door li::before { width: 9px; height: 9px; top: .5em; }
-  .door.acc h3, .door.acc .k { color: var(--accent); } .door.acc li::before { background: var(--accent); }
-  .door.teal h3, .door.teal .k { color: var(--teal); } .door.teal li::before { background: var(--teal); }
+  .l-compare { grid-template-rows: auto 1fr; gap: 40px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-content: start; }
+  .col { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 36px 40px; display: grid; gap: 20px; align-content: start; transition: border-color .4s ease, box-shadow .4s ease; }
+  .col.hi { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-soft); }
+  .col h3 { font-size: 40px; }
+  .col .k { font-family: "IBM Plex Mono", monospace; font-size: 18px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .col.hi .k { color: var(--teal); }
+  .col ul { gap: 14px; } .col li { font-size: 27px; transition: opacity .45s ease; }
+  .col li.held { opacity: 0; } .col li.shown { opacity: 1; }
+
+  .l-tool { align-content: center; gap: 40px; }
+  .toolcard { background: var(--surface); border: 1px solid var(--line); border-left: 12px solid var(--accent); border-radius: 12px; padding: 48px 56px; box-shadow: var(--shadow); display: grid; gap: 18px; max-width: 1200px; }
+  .toolcard .k { font-family: "IBM Plex Mono", monospace; font-size: 20px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .toolcard .phrase { font-size: 56px; font-weight: 600; line-height: 1.12; }
+  .toolcard .how { font-size: 28px; color: var(--muted); line-height: 1.4; }
+
+  .l-rules { grid-template-rows: auto 1fr; gap: 44px; }
+  .rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; align-content: start; }
+  .rule-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 36px; display: grid; gap: 14px; align-content: start; }
+  .rule-card .n { font-family: "Bricolage Grotesque", sans-serif; font-size: 72px; font-weight: 800; color: var(--accent); line-height: 1; }
+  .rule-card h3 { font-size: 36px; }
+  .rule-card p { font-size: 25px; color: var(--muted); line-height: 1.4; }
+
+  .l-adr { grid-template-rows: auto 1fr; gap: 36px; }
+  .adr { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-content: start; }
+  .adr .box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 34px 36px; display: grid; gap: 12px; align-content: start; }
+  .adr .box .k { font-family: "IBM Plex Mono", monospace; font-size: 18px; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+  .adr .box h3 { font-size: 36px; }
+  .adr .box p { font-size: 25px; color: var(--muted); line-height: 1.4; }
+  .adr-file { font-family: "IBM Plex Mono", monospace; font-size: 22px; color: var(--muted); }
+
+  .l-vocab { grid-template-rows: auto 1fr; gap: 40px; }
+  .vocab { display: grid; grid-template-columns: 1fr 200px 1fr; gap: 28px; align-items: center; }
+  .vocab .side { display: grid; gap: 16px; }
+  .vocab .side .k { font-family: "IBM Plex Mono", monospace; font-size: 18px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .vocab .word { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px 28px; font-size: 32px; font-weight: 500; }
+  .vocab .mid { display: grid; place-items: center; }
+
+  .l-bubbles { grid-template-rows: auto 1fr; gap: 20px; }
+  .bubbles { position: relative; }
+  .bub { position: absolute; border-radius: 50%; display: grid; place-items: center; text-align: center; padding: 20px; font-weight: 500; line-height: 1.2; }
+  .bub.big { background: var(--accent); color: var(--accent-ink); }
+  .bub.mid { background: var(--teal); color: #fff; }
+  .bub.small { background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line); }
+
+  .l-deriv { grid-template-columns: 1fr 420px; gap: 72px; align-items: center; }
+  .l-deriv .txt { display: grid; gap: 28px; }
+
+  .l-c4 { grid-template-rows: auto 1fr; gap: 18px; }
+  .c4grid { display: grid; grid-template-columns: 860px 1fr; gap: 44px; align-items: start; }
+  .c4dg { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 0; overflow: hidden; }
+  .c4txt { display: grid; gap: 16px; align-content: start; }
+  .c4txt .lead { font-size: 26px; line-height: 1.35; color: var(--ink); }
+  .c4txt .lead b { color: var(--teal); }
+  .c4txt ul { gap: 10px; } .c4txt li { font-size: 21px; padding-left: 30px; line-height: 1.35; } .c4txt li::before { width: 9px; height: 9px; top: .5em; }
+  .c4txt .do { border-left: 6px solid var(--accent); padding: 12px 16px; background: var(--accent-soft); border-radius: 0 10px 10px 0; font-size: 20px; line-height: 1.35; display: grid; gap: 4px; }
+  .c4txt .do .k { font-family: "IBM Plex Mono", monospace; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .c4txt .ref { font-family: "IBM Plex Mono", monospace; font-size: 14px; color: var(--muted); line-height: 1.45; }
+
+  .l-handoff { align-content: center; justify-items: start; gap: 36px; }
+  .l-handoff .big { font-size: 96px; font-weight: 700; line-height: 1; }
+  .l-handoff .big em { font-style: normal; color: var(--accent); }
+  .l-handoff .sub { font-size: 36px; color: var(--muted); }
+
+  /* image panel */
+  .img { position: relative; border-radius: 14px; overflow: hidden; background: var(--surface-2); border: 1px solid var(--line); aspect-ratio: 4 / 3; max-width: 100%; box-shadow: var(--shadow); }
+  .img.r169 { aspect-ratio: 16 / 9; width: 100%; }
+  .img.r23 { aspect-ratio: 2 / 3; height: 690px; width: auto; justify-self: center; }
+  .img.r916 { aspect-ratio: 9 / 16; height: 710px; width: auto; justify-self: center; }
+  .l-title-grid .img.r23 { height: 690px; }
+  .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .img .ph { position: absolute; inset: 0; display: grid; align-content: end; padding: 28px; gap: 8px; background-image: linear-gradient(to top, var(--surface) 0%, transparent 55%), repeating-linear-gradient(45deg, transparent 0 22px, var(--line) 22px 23px); }
+  .img .ph .k { font-family: "IBM Plex Mono", monospace; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .img .ph .t { font-size: 24px; color: var(--muted); line-height: 1.3; }
+
+  /* building svg */
+  .bld .car { transition: transform .9s cubic-bezier(.65,.05,.36,1); }
+  .bld .floor-lbl { font-family: "IBM Plex Mono", monospace; font-size: 22px; fill: var(--muted); letter-spacing: .06em; }
+  .bld .floor-lbl.on { fill: var(--ink); font-weight: 600; }
+  .bld .role-lbl { font-family: "IBM Plex Sans", sans-serif; font-size: 20px; fill: var(--muted); }
+  .bld .role-lbl.on { fill: var(--accent); font-weight: 600; }
+  .bld .win { fill: var(--window-off); transition: fill .6s ease; }
+  .bld .win.on { fill: var(--window-on); }
+  @media (prefers-reduced-motion: reduce) { .bld .car { transition: none; } }
+
   /* ---------- main view chrome ---------- */
   .main { position: fixed; inset: 0; background: var(--bg); }
   .main .frame { position: absolute; inset: 0; }
@@ -510,17 +589,8 @@ So, POs: whoever [[orders the backlog]] and whoever [[splits the teams]] is draw
 
 The most-used phrase in our field was invented [[as a translation device for the PO's floor]]. The best architects invent vocabulary that lets two floors see the same thing.` },
 
-{ id: 'doors', section: 'Floor 7', plan: 740, layout: 'diagram',
-  title: 'One-way doors and two-way doors',
-  cap: 'Jeff Bezos, 2015 shareholder letter. Most architecture fear is one-way-door fear applied to two-way doors.',
-  diagram: 'doors',
-  notes: `Bezos again, [[2015 letter]]. [[Type 1]] decisions are [[one-way doors]]: irreversible, deserve slow deliberation. [[Type 2]] are [[two-way doors]]: reversible, should be made fast by small groups.
 
-The failure mode of most organisations: treating every decision as Type 1. Slow and timid.
-
-For a PO: a Product Owner who can tell [[which door they are standing at]] is doing architecture. Which database: one-way. Which button colour: two-way. Which team owns Payments: one-way, and it looks like a two-way.` },
-
-{ id: 'po-tool', section: 'Floor 7', plan: 790, layout: 'tool',
+{ id: 'po-tool', section: 'Floor 7', plan: 740, layout: 'tool',
   k: 'Take this home · Floor 7',
   phrase: '“What does this make expensive later?”',
   how: 'One question, once per refinement. It turns cost of change into a backlog conversation without a single diagram. Booch would approve.',
@@ -616,7 +686,7 @@ A penthouse decision, translated down, executed up. The elevator working.` },
   boxes: [
     { k: 'Context', h: 'Why now', p: 'What forces are in play: business, team, technical. Written so the penthouse recognises it.' },
     { k: 'Decision', h: 'What we chose', p: 'One paragraph. Active voice. “We will…” Written so the engine room can act on it.' },
-    { k: 'Consequences', h: 'What it costs', p: 'What becomes easier, what becomes harder, what we are now committed to. The one-way-door check.' },
+    { k: 'Consequences', h: 'What it costs', p: 'What becomes easier, what becomes harder, what we are now committed to.' },
   ],
   attr: 'Architecture Decision Records. Michael Nygard, 2011.',
   notes: `Hard for the penthouse: [[no feedback loop]]. Decisions go down; consequences rarely come back up in a form anyone recognises.
@@ -896,11 +966,6 @@ debt: `Everyone in this room uses the phrase "technical debt". Most people think
 
 The most-used phrase in software architecture was invented as a translation device for the PO's floor. That is what the best architects do. They invent words that let two floors see the same thing.`,
 
-doors: `Bezos again, this time the 2015 shareholder letter. He describes two kinds of decision. Type one, one-way doors: you walk through and you cannot come back. Slow down, deliberate, bring everyone. Type two, two-way doors: you can walk back if you do not like what you see. Decide fast, small group, try it.
-
-The failure mode of most organisations is treating every door as one-way. Slow, timid, endless meetings.
-
-So, Product Owners. Which database: one-way. Button colour: two-way. Which team owns payments: one-way, and it looks exactly like a two-way. A Product Owner who can tell which door they are standing at is doing architecture.`,
 
 'po-tool': `The tool for floor seven is one sentence. What does this make expensive later?
 
@@ -1256,17 +1321,6 @@ De meest gebruikte term in ons vak is uitgevonden [[als vertaalmiddel voor de ve
 
 De meest gebruikte term in softwarearchitectuur is uitgevonden als vertaalmiddel voor de verdieping van de PO. Dat is wat de beste architecten doen. Ze verzinnen woorden waarmee twee verdiepingen hetzelfde zien.` },
 
-doors: {
-  notes: `Bezos opnieuw, [[brief van 2015]]. [[Type 1]]-beslissingen zijn [[eenrichtingsdeuren]]: onomkeerbaar, verdienen trage afweging. [[Type 2]] zijn [[tweerichtingsdeuren]]: omkeerbaar, snel nemen met een kleine groep.
-
-De fout van de meeste organisaties: elke beslissing behandelen als Type 1. Traag en angstig.
-
-Voor een PO: een Product Owner die weet [[voor welke deur hij staat]], doet architectuur. Welke database: eenrichting. Welke knopkleur: tweerichting. Welk team is eigenaar van betalingen: eenrichting, en het lijkt op tweerichting.`,
-  script: `Bezos opnieuw, dit keer de aandeelhoudersbrief van 2015. Hij beschrijft twee soorten beslissingen. Type één, eenrichtingsdeuren: je loopt erdoor en je kunt niet terug. Vertraag, weeg af, haal iedereen erbij. Type twee, tweerichtingsdeuren: je kunt terug als je niet bevalt wat je ziet. Beslis snel, kleine groep, probeer het.
-
-De fout van de meeste organisaties is elke deur behandelen als eenrichting. Traag, angstig, eindeloze vergaderingen.
-
-Dus, Product Owners. Welke database: eenrichting. Knopkleur: tweerichting. Welk team is eigenaar van betalingen: eenrichting, en het lijkt precies op tweerichting. Een Product Owner die weet voor welke deur hij staat, doet architectuur.` },
 
 'po-tool': {
   notes: `De tool van de PO. [[Eén vraag]], één keer per refinement: [[wat maakt dit later duur?]]
@@ -1689,32 +1743,6 @@ function DgConway() {
     </div>);
 }
 
-function DoorArt({ two }) {
-  const c = two ? 'var(--teal)' : 'var(--accent)';
-  return (
-    <svg viewBox="0 0 220 300" width="220" height="300" aria-hidden="true">
-      <rect x="20" y="10" width="180" height="280" rx="6" fill="var(--surface-2)" stroke="var(--line-strong)" strokeWidth="3" />
-      <rect x="34" y="24" width="152" height="266" fill={two ? 'var(--teal-soft)' : 'var(--accent-soft)'} />
-      {two
-        ? <g><polygon points="34,24 110,50 110,290 34,290" fill="var(--surface)" stroke={c} strokeWidth="3" strokeLinejoin="round" opacity=".95" /><polygon points="186,24 110,50 110,290 186,290" fill="var(--surface)" stroke={c} strokeWidth="3" strokeLinejoin="round" opacity=".55" /></g>
-        : <g><rect x="34" y="24" width="152" height="266" fill="var(--ink)" opacity=".85" /><polygon points="34,24 150,60 150,290 34,290" fill="var(--surface)" stroke={c} strokeWidth="3" strokeLinejoin="round" /><circle cx="136" cy="176" r="5" fill={c} /></g>}
-      <g stroke={c} strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none">
-        {two ? <g><line x1="60" y1="160" x2="160" y2="160" /><polyline points="80,140 60,160 80,180" /><polyline points="140,140 160,160 140,180" /></g>
-             : <g><line x1="50" y1="160" x2="122" y2="160" /><polyline points="100,138 122,160 100,182" /></g>}
-      </g>
-    </svg>);
-}
-function DgDoors() {
-  return (
-    <div className="dg"><div className="doors">
-      <div className="qpill">Can we walk back through this door cheaply?</div>
-      <div className="two">
-        <div className="door acc"><DoorArt /><div><span className="k">No · Type 1</span><h3 className="display">One-way door</h3><ul><li>Slow down and deliberate</li><li>Write the decision down</li><li>Bring every floor into the room</li></ul></div></div>
-        <div className="door teal"><DoorArt two /><div><span className="k">Yes · Type 2</span><h3 className="display">Two-way door</h3><ul><li>Decide fast, small group</li><li>Try it this sprint</li><li>Learn, then revisit</li></ul></div></div>
-      </div>
-    </div></div>);
-}
-
 function DgInverse() {
   return (
     <div className="dg"><div className="drows">
@@ -1736,7 +1764,7 @@ function DgInverse() {
     </div></div>);
 }
 
-const DIAGRAMS = { apollo: DgApollo, speaking: DgSpeaking, conway: DgConway, doors: DgDoors, inverse: DgInverse };
+const DIAGRAMS = { apollo: DgApollo, speaking: DgSpeaking, conway: DgConway, inverse: DgInverse };
 
 
 /* ================= C4 diagrams (one example system, three zoom levels) ================= */
@@ -2208,3 +2236,4 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
+</html>

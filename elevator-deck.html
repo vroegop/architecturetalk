@@ -289,6 +289,16 @@
   .blackout { position: fixed; inset: 0; background: #000; z-index: 50; }
   .main.with-bar .frame { bottom: 64px; }
   .hint.up { bottom: 74px; }
+  .touchnav { display: none; position: fixed; left: 12px; bottom: 12px; z-index: 6; gap: 8px; }
+  .touchnav.up { bottom: 74px; }
+  .touchnav .btn { font-size: 26px; line-height: 1; padding: 6px 16px; }
+  @media (pointer: coarse) { .touchnav { display: flex; } .hint { display: none; } }
+  @media (max-width: 700px) {
+    .listen { flex-wrap: wrap; gap: 8px 10px; padding: 8px 12px; }
+    .listen .cap { flex-basis: 100%; order: 10; font-size: 15px; max-height: 4.1em; }
+    .listen .chk { font-size: 12px; } .listen .lt { font-size: 12px; }
+    .main.with-bar .frame { bottom: 132px; } .touchnav.up { bottom: 142px; }
+  }
   .listen[hidden] { display: none; }
   .listen .fold { margin-left: 4px; }
   .listen-pill { position: fixed; left: 14px; bottom: 14px; z-index: 6; }
@@ -2034,7 +2044,7 @@ function Help({ onClose }) {
     <div className="overlay" onClick={onClose}><div className="sheet" onClick={e => e.stopPropagation()}>
       <h2>Controls</h2>
       <div className="keys">
-        <div><kbd>→</kbd><kbd>Space</kbd>Next slide</div><div><kbd>←</kbd>Previous slide</div>
+        <div><kbd>→</kbd><kbd>Space</kbd>Next slide (or tap, or swipe left)</div><div><kbd>←</kbd>Previous slide (or tap the left quarter, or swipe right)</div>
         <div><kbd>Home</kbd><kbd>End</kbd>First / last</div><div><kbd>S</kbd>Open speaker view (or slides, from speaker view)</div>
         <div><kbd>T</kbd>Toggle light / dark</div><div><kbd>F</kbd>Fullscreen</div>
         <div><kbd>B</kbd>Blackout</div><div><kbd>K</kbd>Start / pause timer</div>
@@ -2062,6 +2072,7 @@ function Help({ onClose }) {
 /* ================= main (audience) view ================= */
 function MainView({ state, set, dark, openOther }) {
   const [help, setHelp] = useState(false);
+  const touchRef = useRef(null); const swipedRef = useRef(false);
   const slide = SLIDES[state.index];
   /* ---- listen mode: narration audio + captions + auto-advance ---- */
   const track = AUDIO[slide.id];
@@ -2108,9 +2119,18 @@ function MainView({ state, set, dark, openOther }) {
   }), [next, prev, set, openOther, toggleListen]);
   useKeys(keys);
   return (
-    <div className={'main' + (track && !ls.collapsed ? ' with-bar' : '')} onClick={e => { if (e.detail === 1 && !help) next(); }}>
+    <div className={'main' + (track && !ls.collapsed ? ' with-bar' : '')}
+      onClick={e => { if (help || e.detail !== 1) return; if (e.clientX < window.innerWidth * 0.25) prev(); else next(); }}
+      onTouchStart={e => { touchRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() }; }}
+      onTouchEnd={e => { const t0 = touchRef.current; if (!t0) return; const dx = e.changedTouches[0].clientX - t0.x, dy = e.changedTouches[0].clientY - t0.y; touchRef.current = null;
+        if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && Date.now() - t0.t < 800) { swipedRef.current = true; setTimeout(() => { swipedRef.current = false; }, 400); dx < 0 ? next() : prev(); } }}
+      onClickCapture={e => { if (swipedRef.current) { e.stopPropagation(); e.preventDefault(); } }}>
       <Frame><Slide slide={slide} i={state.index} total={SLIDES.length} dark={dark} step={state.step || 0} /></Frame>
       <div className="progress"><i style={{ width: `${(state.index / (SLIDES.length - 1)) * 100}%` }} /></div>
+      <div className={'touchnav' + (track && !ls.collapsed ? ' up' : '')} onClick={e => e.stopPropagation()}>
+        <button className="btn" aria-label="Previous slide" onClick={prev}>‹</button>
+        <button className="btn" aria-label="Next slide" onClick={next}>›</button>
+      </div>
       <div className={'hint' + (track && !ls.collapsed ? ' up' : '')}>{pad(state.index + 1)}/{SLIDES.length} · S speaker window · V speaker here{track ? ' · L listen' : ''} · ? help</div>
       {track && ls.collapsed && <button className="btn listen-pill" onClick={e => { e.stopPropagation(); setCollapsed(false); }} title="Show narration controls">{ls.playing ? '❚❚' : '▶'} Listen <kbd>L</kbd></button>}
       {track && <div className="listen" hidden={ls.collapsed} onClick={e => e.stopPropagation()}>

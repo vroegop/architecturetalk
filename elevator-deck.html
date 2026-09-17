@@ -384,9 +384,9 @@ const AUDIO = window.AUDIO_MANIFEST || {};
 const FLOORS = [
   { key: 'B',  label: 'Basement',    role: 'Ops & infrastructure' },
   { key: '1',  label: 'Engine room', role: 'Developers' },
-  { key: '3',  label: 'Floor 3',     role: 'Seniors & architects' },
-  { key: '7',  label: 'Floor 7',     role: 'Product Owners' },
-  { key: '12', label: 'Floor 12',    role: 'Scrum Masters & org' },
+  { key: '2',  label: 'Floor 2',     role: 'Seniors & architects' },
+  { key: '3',  label: 'Floor 3',     role: 'Product Owners' },
+  { key: '4',  label: 'Floor 4',    role: 'Scrum Masters & org' },
   { key: 'P',  label: 'Penthouse',   role: 'Management' },
 ];
 
@@ -426,7 +426,7 @@ Most consequential architecture decision in Amazon's history. [[No architect wro
   body: 'Every role in this room lives on one of them. The architect is not a floor. The architect is the <b>elevator</b>.',
   credit: 'Gregor Hohpe’s metaphor has two floors, the penthouse and the engine room. The four in between are mine.',
   cue: '“Which floor do you work on?” Hands per floor. Say the counts back so people feel counted.',
-  notes: `Point at the building. Name the floors from the bottom: [[Basement: ops]]. [[Engine room: developers]]. [[Floor 3: seniors]] and whoever has "architect" in their title. [[Floor 7: Product Owners]]. [[Floor 12: Scrum Masters]] and everyone who shapes teams. [[Penthouse: management]].
+  notes: `Point at the building. Name the floors from the bottom: [[Basement: ops]]. [[Engine room: developers]]. [[Floor two: seniors]] and whoever has "architect" in their title. [[Floor three: Product Owners]]. [[Floor four: Scrum Masters]] and everyone who shapes teams. [[Penthouse: management]].
 
 Ask for hands per floor. Count out loud. This matters later: you will ask them to [[form groups across floors]] at the end.
 
@@ -459,7 +459,7 @@ If it is shared understanding, then a diagram nobody understands is [[not archit
 
 Not the size of the meeting. Not who was in the room. Cost of change. The big circles are the ones you [[cannot undo next sprint]]. The small ones you can.
 
-Notice: most of the big ones are about [[boundaries between teams]]. Hold that thought for floors 7 and 12.` },
+Notice: most of the big ones are about [[boundaries between teams]]. Hold that thought for floors three and four.` },
 
 { id: 'alarm', section: 'Engine room', plan: 210, layout: 'story',
   when: 'Apollo 11 · 20 July 1969', title: 'The 1202 alarm',
@@ -491,8 +491,8 @@ Easier: [[Kent Beck's]] line. First make the change easy (warning: this may be h
 Every floor gets a tool to take home. This is the engine room's.` },
 
 /* ---------------- FLOOR 3 ---------------- */
-{ id: 'f3', section: 'Floor 3', plan: 360, layout: 'floor', active: '3',
-  num: 'Floor 3 · Seniors', title: 'Seniors and “the architect”',
+{ id: 'f3', section: 'Floor 2', plan: 360, layout: 'floor', active: '2',
+  num: 'Floor 2 · Seniors', title: 'Seniors and “the architect”',
   def: 'You <b>know the most</b>. Spend it on getting everyone to <b>ask the right questions</b>. Then explain the trade-off.',
   notes: `Up one floor. The seniors. The people with "lead" or "architect" somewhere in their title.
 
@@ -500,7 +500,7 @@ The why for this floor: an answer fixes [[today's decision]]. A question the tea
 
 The how is one habit: [[speak last]]. If you speak first, the questions never get asked. Everything on this floor builds to that.` },
 
-{ id: 'fowler', section: 'Floor 3', plan: 390, layout: 'compare',
+{ id: 'fowler', section: 'Floor 2', plan: 390, layout: 'compare',
   title: 'Two kinds of architect', steps: 1,
   attr: 'Martin Fowler, 2003',
   cols: [
@@ -513,7 +513,7 @@ The first two bullets per column are visible, neutral. Ask the room: [[which one
 
 The Oryzus architect's real job: [[make decisions visible]], not make them alone.`,
   cue: 'One reveal. Ask both questions before you press next.' },
-{ id: 'silence', section: 'Floor 3', plan: 440, layout: 'diagram',
+{ id: 'silence', section: 'Floor 2', plan: 440, layout: 'diagram',
   title: 'When the senior speaks first, the meeting is over', steps: 1,
   cap: 'Weinberg (1971) called it egoless programming. Zuill’s mob programming team (2011) rediscovered it: seniors learn from juniors because juniors keep asking why.',
   cue: 'Top row only on entry. Ask what they would change, then press next for the junior-first row.',
@@ -526,14 +526,14 @@ Bottom row appears: flip the order. Junior asks [[why not Y]]. Senior has to [[s
 
 Bridge: "But surely the senior's answer is usually right?" Next slide: [[Tony Hoare]].` },
 
-{ id: 'hoare', section: 'Floor 3', plan: 485, layout: 'statement',
+{ id: 'hoare', section: 'Floor 2', plan: 485, layout: 'statement',
   quote: '“There are two ways of constructing a software design: one way is to make it <em>so simple that there are obviously no deficiencies</em>, and the other way is to make it so complicated that there are no obvious deficiencies.”',
   attr: '<b>Tony Hoare</b>, Turing Award lecture, 1980',
   notes: `Read it twice. The second reading is where the room hears the difference between [[obviously no deficiencies]] and [[no obvious deficiencies]].
 
 Then the twist on the next slide.` },
 
-{ id: 'null', section: 'Floor 3', plan: 515, layout: 'story',
+{ id: 'null', section: 'Floor 2', plan: 515, layout: 'story',
   when: 'QCon London · 2009', title: 'The billion-dollar mistake',
   points: ['The same Tony Hoare invented the null reference in 1965 because it was <b>easy to implement</b>.', 'Forty-four years later he called it “my billion-dollar mistake.”', 'The Turing Award winner’s architecture had a billion-dollar hole. <b>Seniors are not oracles.</b>'],
   image: { short: 'A cathedral wall with one missing stone, light pouring through' },
@@ -542,43 +542,34 @@ Then the twist on the next slide.` },
 
 [[2009]], QCon London, he stands on stage and calls it his [[billion-dollar mistake]].
 
-The point for floor 3: the most senior person in the history of our field shipped a billion-dollar architectural hole because it was easy. [[Seniors are not oracles]]. They are people who know more trade-offs.
+The point for floor two: the most senior person in the history of our field shipped a billion-dollar architectural hole because it was easy. [[Seniors are not oracles]]. They are people who know more trade-offs.
 
 Which is exactly why the tool on the next slide works.` },
 
 
-{ id: 'senior-tool', section: 'Floor 3', plan: 565, layout: 'tool',
-  k: 'Take this home · Floor 3',
+{ id: 'senior-tool', section: 'Floor 2', plan: 565, layout: 'tool',
+  k: 'Take this home · Floor 2',
   phrase: 'Speak last. Ask first.',
   how: 'Open every design discussion with a question, not an answer. Let the room reason. Then explain the trade-off behind what you would have said. The decision gets examined twice, and the team learns how you think.',
-  notes: `The tool for floor 3, two habits in four words. [[Ask first]]: open with a question, the ones from the intro, what changes most here, what does this make expensive later, why not the other option. [[Speak last]]: let the room reason before you do.
+  notes: `The tool for floor two, two habits in four words. [[Ask first]]: open with a question, the ones from the intro, what changes most here, what does this make expensive later, why not the other option. [[Speak last]]: let the room reason before you do.
 
 Then [[explain the trade-off]], not just the conclusion. That is how a decision gets examined twice and how the team learns to make the next one without you.
 
 Callback to Hoare: if the best of us can ship a billion-dollar hole, the second pair of eyes is not a courtesy. It is the [[architecture]].` },
 
 /* ---------------- FLOOR 7 ---------------- */
-{ id: 'f7', section: 'Floor 7', plan: 600, layout: 'floor', active: '7',
-  num: 'Floor 7 · Product', title: 'Product Owners',
-  def: 'You already do architecture. You do it in a language <b>nobody in the engine room speaks</b>.',
-  cue: 'Look at the POs. Address them by role. This and the next floor are the longest for a reason.',
-  notes: `Now the floor most architecture talks skip. [[Product Owners]].
+{ id: 'f7', section: 'Floor 3', plan: 600, layout: 'floor', active: '3',
+  num: 'Floor 3 · Product', title: 'Product Owners',
+  def: 'You decide <b>what gets built first</b>. The first things built become the skeleton everything after it has to fit. That is architecture, in the language of <b>time</b>.',
+  cue: 'Look at the POs. Address them by role. Keep this floor short: two slides and the question.',
+  notes: `The floor most architecture talks skip. [[Product Owners]].
 
-Look at them. Say it directly: [[you already do architecture]]. Every time you order the backlog, you make a decision about what the system will find cheap or expensive next year. You just do it in a [[different language]], and nobody translates.
+Say it directly: [[you already do architecture]]. You decide the [[order]]. The first things built become the [[skeleton]] everything after it has to fit, and "later" is a loan with interest. That is architecture in the language of [[time]]. Nobody in the engine room translates it.
 
-Let me prove it with a rejected paper.` },
+Proof: the most famous phrase in our field was invented [[for this floor]].` },
 
-{ id: 'conway', section: 'Floor 7', plan: 640, layout: 'diagram',
-  title: 'Conway’s Law: the org chart is drawing the diagram',
-  cap: 'Mel Conway, 1967. Harvard Business Review rejected the paper for lack of proof. Fred Brooks named it a law anyway.',
-  diagram: 'conway',
-  notes: `[[Mel Conway, 1967]]. Paper called "How Do Committees Invent?" Submitted to Harvard Business Review. [[Rejected]]: he had not proven his thesis. Datamation printed it in 1968. [[Fred Brooks]] called it Conway's Law in The Mythical Man-Month and it has been proven every year since.
 
-Left: the org chart in January. Right: the system in December. [[Same shape]]. Always.
-
-So, POs: whoever [[orders the backlog]] and whoever [[splits the teams]] is drawing the architecture diagram. Whether or not anybody calls it that.` },
-
-{ id: 'debt', section: 'Floor 7', plan: 690, layout: 'story',
+{ id: 'debt', section: 'Floor 3', plan: 640, layout: 'story',
   when: 'WyCash · 1992', title: 'Ward Cunningham invents “technical debt”',
   points: ['Cunningham needed to explain to <b>non-technical bosses</b> why shipping now and cleaning up later was a legitimate loan, not sloppiness.', 'He borrowed the language of finance. Interest, principal, repayment.', 'The most famous phrase in architecture was invented <b>for this floor</b>, as a translation device.'],
   image: { short: 'A 1990s trading desk with a leather ledger open to a loan page' },
@@ -590,8 +581,8 @@ So, POs: whoever [[orders the backlog]] and whoever [[splits the teams]] is draw
 The most-used phrase in our field was invented [[as a translation device for the PO's floor]]. The best architects invent vocabulary that lets two floors see the same thing.` },
 
 
-{ id: 'po-tool', section: 'Floor 7', plan: 740, layout: 'tool',
-  k: 'Take this home · Floor 7',
+{ id: 'po-tool', section: 'Floor 3', plan: 700, layout: 'tool',
+  k: 'Take this home · Floor 3',
   phrase: '“What does this make expensive later?”',
   how: 'One question, once per refinement. It turns cost of change into a backlog conversation without a single diagram. Booch would approve.',
   cue: '“You can ask this on Monday. You do not need permission and you do not need to know what a service mesh is.”',
@@ -600,14 +591,25 @@ The most-used phrase in our field was invented [[as a translation device for the
 It is Booch's definition turned into a sentence a PO can say on Monday without knowing what a service mesh is. It does not need permission. It does not need a diagram. And every time a developer answers it, the [[theory]] of the system moves from one head into another.` },
 
 /* ---------------- FLOOR 12 ---------------- */
-{ id: 'f12', section: 'Floor 12', plan: 840, layout: 'floor', active: '12',
-  num: 'Floor 12 · Agile & org', title: 'Scrum Masters and the org',
-  def: 'You hear “architecture” and think <b>“not my meeting.”</b> It is the most architectural meeting you are not in.',
-  notes: `Floor 12. [[Scrum Masters]], agile coaches, anyone who shapes teams.
+{ id: 'f12', section: 'Floor 4', plan: 750, layout: 'floor', active: '4',
+  num: 'Floor 4 · Agile & org', title: 'Scrum Masters and the org',
+  def: 'The PO decides <b>when</b>. You decide <b>who builds it together</b>. That is architecture in the language of <b>space</b>: team boundaries become system boundaries.',
+  notes: `Floor four. [[Scrum Masters]], agile coaches, anyone who shapes teams.
 
-Say it to them: you hear the word architecture and think [[not my meeting]]. I want to convince you it is the most architectural meeting you are [[not in]]. Because of a manoeuvre with a silly name.` },
+The one sentence for this floor: the PO decides [[when]], you decide [[who builds it together]]. That is architecture in the language of [[space]]. Team boundaries become [[system boundaries]], and there is a fifty-year-old law about it.
 
-{ id: 'inverse', section: 'Floor 12', plan: 880, layout: 'diagram',
+Lead in: a [[rejected paper]].` },
+{ id: 'conway', section: 'Floor 4', plan: 790, layout: 'diagram',
+  title: 'Conway’s Law: the org chart is drawing the diagram',
+  cap: 'Mel Conway, 1967. Harvard Business Review rejected the paper for lack of proof. Fred Brooks named it a law anyway.',
+  diagram: 'conway',
+  notes: `[[Mel Conway, 1967]]. Paper called "How Do Committees Invent?" Submitted to Harvard Business Review. [[Rejected]]: he had not proven his thesis. Datamation printed it in 1968. [[Fred Brooks]] called it Conway's Law in The Mythical Man-Month and it has been proven every year since.
+
+Left: the org chart in January. Right: the system in December. [[Same shape]]. Always.
+
+So, Scrum Masters: whoever [[splits the teams]] is drawing the architecture diagram, whether or not anybody calls it that. Next slide: how to do it [[on purpose]].` },
+
+{ id: 'inverse', section: 'Floor 4', plan: 840, layout: 'diagram',
   title: 'The inverse Conway manoeuvre',
   cap: 'If the org chart becomes the architecture anyway, design the org chart to produce the architecture you want. Skelton & Pais, Team Topologies, 2019.',
   diagram: 'inverse',
@@ -617,7 +619,7 @@ Bottom: the [[inverse Conway manoeuvre]]. Start from the system you want. Design
 
 This is [[the Scrum Master's architecture tool]]. When you last re-formed a team, did anyone show you the architecture diagram? They should have. You were editing it.` },
 
-{ id: 'pizza', section: 'Floor 12', plan: 925, layout: 'story',
+{ id: 'pizza', section: 'Floor 4', plan: 885, layout: 'story',
   when: 'Amazon · 2002 to 2006', title: 'Two pizzas, and “you build it, you run it”',
   points: ['Teams capped at what two pizzas can feed.', 'Werner Vogels, 2006: every team runs in production what it builds. No throwing over the wall.', 'Both are <b>organisational</b> moves that produce an architecture, on purpose. Conway, used instead of suffered.'],
   image: { short: 'Two pizza boxes on top of a humming server rack' },
@@ -626,9 +628,9 @@ This is [[the Scrum Master's architecture tool]]. When you last re-formed a team
 
 Neither is a technical decision. Both are [[org decisions]]. Both produced the architecture Amazon wanted: small services, clear ownership, no wall to throw over.
 
-That is Conway [[used]] instead of [[suffered]]. And it was a floor 12 move.` },
+That is Conway [[used]] instead of [[suffered]]. And it was a floor four move.` },
 
-{ id: 'spotify', section: 'Floor 12', plan: 970, layout: 'story',
+{ id: 'spotify', section: 'Floor 4', plan: 930, layout: 'story',
   when: 'Caution · 2012 to 2020', title: 'The Spotify model that Spotify does not use',
   points: ['Kniberg’s 2012 whitepaper was a <b>snapshot of an experiment</b>. Squads, tribes, chapters, guilds.', 'Companies worldwide adopted it as a template.', 'Former Spotify staff have since said it was aspirational, and Spotify itself moved on. Copying another company’s architecture is <b>planting coral in a forest</b>.'],
   image: { short: 'A branch of orange coral planted in a pine forest floor' },
@@ -639,8 +641,8 @@ That is Conway [[used]] instead of [[suffered]]. And it was a floor 12 move.` },
 
 Organisational architecture copied from another habitat is [[coral planted in a forest]]. Design your own teams for your own system.` },
 
-{ id: 'sm-tool', section: 'Floor 12', plan: 1010, layout: 'tool',
-  k: 'Take this home · Floor 12',
+{ id: 'sm-tool', section: 'Floor 4', plan: 975, layout: 'tool',
+  k: 'Take this home · Floor 4',
   phrase: 'The kata is a ceremony you can own.',
   how: 'An architecture kata is a time-boxed, facilitated session with a fictional brief. It needs a facilitator more than it needs an architect. In a few minutes you will help run one. Watch what I do.',
   cue: '“In a few minutes you will help run one of these. Watch what I do.”',
@@ -777,7 +779,7 @@ These rules are how you get every floor talking in the same room.` },
   body: 'For the next exercise, the elevator stops at all of them. Press the button.',
   notes: `Back to the building. The elevator sweeps every floor while you talk.
 
-Recap in one breath, floor by floor: the engine room makes changes easy; floor 3 speaks last; floor 7 asks what gets expensive; floor 12 designs the teams; the penthouse keeps the logbook. [[Every floor]], same building, same place.
+Recap in one breath, floor by floor: the engine room makes changes easy; floor two speaks last; floor three asks what gets expensive; floor four designs the teams; the penthouse keeps the logbook. [[Every floor]], same building, same place.
 
 Then the physical instruction.` },
 
@@ -813,7 +815,7 @@ Test for done: can the [[PO in your group]] read the whole thing aloud without h
 
 Level two, [[containers]]: open the system box and show the [[separately deployable]] pieces, each with its [[technology]]. Web app in React, API in Spring, PostgreSQL, a queue. Not Docker containers, anything that runs or stores on its own.
 
-Callback to [[floor twelve]]: this is the level where team boundaries become visible. One team, one container is the two-pizza rule drawn.
+Callback to [[floor 4]]: this is the level where team boundaries become visible. One team, one container is the two-pizza rule drawn.
 
 Suggest the [[second kata]] at work: same brief, same groups, one week later.` },
 
@@ -838,7 +840,7 @@ Then the reading slide, and thank them.` },
     { who: 'Simon Brown', what: 'The C4 model · c4model.com · Software Architecture for Developers (Leanpub)', why: 'The diagrams you just drew, and the two levels below them.' },
     { who: 'Martin Fowler', what: '“Who Needs an Architect?” IEEE Software, 2003', why: 'Reloadus, Oryzus, and Ralph Johnson’s definition.' },
     { who: 'Michael Nygard', what: '“Documenting Architecture Decisions,” 2011', why: 'The one-page ADR. The elevator’s logbook.' },
-    { who: 'Skelton & Pais', what: 'Team Topologies (IT Revolution, 2019)', why: 'The inverse Conway manoeuvre, for floor 12.' },
+    { who: 'Skelton & Pais', what: 'Team Topologies (IT Revolution, 2019)', why: 'The inverse Conway manoeuvre, for floor 4.' },
     { who: 'Richards & Ford', what: 'Fundamentals of Software Architecture (O’Reilly, 2020)', why: 'The two laws. Also architecturalkatas.com for the workshop briefs.' },
     { who: 'Peter Naur', what: '“Programming as Theory Building,” 1985', why: 'Why nobody can ride the elevator alone.' },
   ],
@@ -868,7 +870,7 @@ We know this memo because Steve Yegge, who worked at Amazon and later at Google,
 
 That memo was written on the top floor of the building. It rebuilt the bottom floor. Every internal system became a service with an interface, and a few years later Amazon noticed it could sell those interfaces to the rest of us. That is where AWS came from. The most consequential architecture decision in Amazon's history, and no architect wrote it. Hold that thought.`,
 
-building: `Here is the building, from the bottom. The basement: ops and infrastructure, the people who keep the lights on. The engine room: developers, where the code is written. Floor three: seniors, leads, anyone with "architect" in their title. Floor seven: Product Owners. Floor twelve: Scrum Masters, agile coaches, anyone who shapes teams. And the penthouse: management.
+building: `Here is the building, from the bottom. The basement: ops and infrastructure, the people who keep the lights on. The engine room: developers, where the code is written. Floor two: seniors, leads, anyone with "architect" in their title. Floor three: Product Owners. Floor four: Scrum Masters, agile coaches, anyone who shapes teams. And the penthouse: management.
 
 Gregor Hohpe's version has two floors, the penthouse and the engine room, and he says the architect's job is to ride the elevator between them. The four floors in between are mine.
 
@@ -884,7 +886,7 @@ booch: `Grady Booch sharpens the word "important". Architecture is the significa
 
 Look at the circles. Which database, and who owns the schema: big. Sync or async between two teams: big. Tabs or spaces: tiny, however long the argument lasted.
 
-Now look at the big ones again. Nearly every one is about the boundary between one team and another. Hold that. It comes back on floors seven and twelve.`,
+Now look at the big ones again. Nearly every one is about the boundary between one team and another. Hold that. It comes back on floors three and four.`,
 
 alarm: `The engine room's war story. July 20th, 1969. Eagle is descending to the moon. A switch for the rendezvous radar is in the wrong position, and it starts flooding the guidance computer with work it does not need. The computer is at capacity. On the display: 1202. Program alarm. Nobody in Mission Control has seen it in a real flight.
 
@@ -926,7 +928,7 @@ null: `Same Tony Hoare. 1965, he is designing the language ALGOL W, and he adds 
 
 2009, QCon London. He stands on a stage and calls it his billion-dollar mistake, counting the crashes and vulnerabilities across forty years of software.
 
-This is the point for floor three. The most decorated engineer in the history of our field shipped a billion-dollar architectural hole because it was the easy option that afternoon. Seniors are not oracles. Seniors are people who know more trade-offs than others. That is valuable. It is not the same as knowing the answer.`,
+This is the point for floor two. The most decorated engineer in the history of our field shipped a billion-dollar architectural hole because it was the easy option that afternoon. Seniors are not oracles. Seniors are people who know more trade-offs than others. That is valuable. It is not the same as knowing the answer.`,
 
 silence: `A meeting you have all been in. The senior says, we will use X. The room nods, because who is going to argue. Decision made, unexamined. Nobody learned anything, including the senior.
 
@@ -938,7 +940,7 @@ Jerry Weinberg described this in 1971 and called it egoless programming. Woody Z
 
 Now, I can hear the objection. Surely the senior's answer is usually right? Let me introduce you to the most decorated engineer in the history of our field.`,
 
-'senior-tool': `The tool for floor three. Four words, two habits.
+'senior-tool': `The tool for floor two. Four words, two habits.
 
 Ask first. Open every design discussion with a question instead of an answer. The questions from a few minutes ago will do: what changes most here? What does this make expensive later? Why not the other option?
 
@@ -948,17 +950,12 @@ And then, when you do speak, explain the trade-off behind your answer, not just 
 
 If Tony Hoare can ship a billion-dollar hole because it was easy that afternoon, the second pair of eyes is not a courtesy. It is the architecture.`,
 
-f7: `Floor seven. Product Owners. This is the floor most architecture talks skip, and I think that is the biggest mistake in our field.
+f7: `Floor three. Product Owners. The floor most architecture talks skip, and I think that is the biggest mistake in our field.
 
-[Look at them.] You already do architecture. Every time you order the backlog, you decide what the system will find cheap or expensive next year. You just do it in a language nobody in the engine room speaks, and nobody translates.
+[Look at them.] You already do architecture. You decide the order. The first three things that get built become the skeleton everything after them has to fit, and every "later" on your backlog is a loan with interest. That is architecture in the language of time, and nobody in the engine room translates it.
 
-Let me prove it with a rejected paper.`,
+Proof: the most famous phrase in our field was invented for your floor.`,
 
-conway: `1967. Mel Conway writes a paper called "How Do Committees Invent?" The thesis: any organisation that designs a system will produce a design whose structure is a copy of the organisation's communication structure. He sends it to Harvard Business Review. They reject it: he has not proven it. Datamation publishes it in 1968. Fred Brooks names it Conway's Law in The Mythical Man-Month, and it has been proven every single year since.
-
-Left: the org chart in January. Three teams. Right: the system in December. Three services. Same shape. It is always the same shape.
-
-So, Product Owners, Scrum Masters: whoever orders the backlog and whoever splits the teams is drawing the architecture diagram. Whether or not anyone calls it that.`,
 
 debt: `Everyone in this room uses the phrase "technical debt". Most people think it is a developer's complaint. It is the opposite.
 
@@ -967,17 +964,22 @@ debt: `Everyone in this room uses the phrase "technical debt". Most people think
 The most-used phrase in software architecture was invented as a translation device for the PO's floor. That is what the best architects do. They invent words that let two floors see the same thing.`,
 
 
-'po-tool': `The tool for floor seven is one sentence. What does this make expensive later?
+'po-tool': `The tool for floor three is one sentence, and it is a question about time. What does this make expensive later?
 
 Ask it once per refinement, about whatever is at the top of the backlog. You do not need a diagram. You do not need to know what a service mesh is. You do not need permission. It is Booch's definition turned into a question a PO can ask on Monday morning.
 
 And every time a developer answers it, a piece of the theory of the system moves from their head into yours.`,
 
-f12: `Floor twelve. Scrum Masters, agile coaches, anyone who shapes teams.
+f12: `Floor four. Scrum Masters, agile coaches, anyone who shapes teams.
 
-I am going to guess your reaction to the word architecture: not my meeting. I want to convince you it is the most architectural meeting you are not in. It comes down to a manoeuvre with a slightly silly name.`,
+One sentence for this floor. The Product Owner decides when. You decide who builds it together. That is architecture in the language of space: team boundaries become system boundaries. And there is a fifty-year-old law that says so. It started as a rejected paper.`,
+conway: `1967. Mel Conway writes a paper called "How Do Committees Invent?" The thesis: any organisation that designs a system will produce a design whose structure is a copy of the organisation's communication structure. He sends it to Harvard Business Review. They reject it: he has not proven it. Datamation publishes it in 1968. Fred Brooks names it Conway's Law in The Mythical Man-Month, and it has been proven every single year since.
 
-inverse: `Top row, Conway's Law: team structure becomes system structure, whether you like it or not.
+Left: the org chart in January. Three teams. Right: the system in December. Three services. Same shape. It is always the same shape.
+
+So, Scrum Masters: whoever splits the teams is drawing the architecture diagram, whether or not anyone calls it that. Which raises the obvious question: if it happens anyway, can you do it on purpose?`,
+
+inverse: `Yes. Top row, Conway's Law: team structure becomes system structure, whether you like it or not.
 
 Bottom row, the inverse Conway manoeuvre. Start from the system you want. Design the teams so that Conway's Law produces it. Matthew Skelton and Manuel Pais made this rigorous in Team Topologies in 2019: stream-aligned teams, platform teams, and cognitive load as the limit on what one team can own.
 
@@ -987,7 +989,7 @@ pizza: `Two Amazon rules. The two-pizza team: a team is as big as two pizzas can
 
 Neither of those is a technical decision. Both are organisational. And both produced exactly the architecture Amazon wanted: small services, clear ownership, nothing thrown over a wall.
 
-That is Conway used on purpose instead of suffered by accident. And it was a floor-twelve move.`,
+That is Conway used on purpose instead of suffered by accident. And it was a floor-four move.`,
 
 spotify: `A caution for this floor. 2012, Henrik Kniberg publishes a whitepaper describing how Spotify organises: squads, tribes, chapters, guilds. He calls it a snapshot of an experiment. The world reads it as a template. Consultancies sell it. Companies reorganise around it.
 
@@ -995,7 +997,7 @@ spotify: `A caution for this floor. 2012, Henrik Kniberg publishes a whitepaper 
 
 Copying another company's organisation is planting coral in a forest. It was beautiful where it grew. Design your own teams for your own system.`,
 
-'sm-tool': `The tool for floor twelve. In a few minutes we do an architecture kata: small groups, a one-page fictional brief, a time box, then present to each other and take questions.
+'sm-tool': `The tool for floor four. In a few minutes we do an architecture kata: small groups, a one-page fictional brief, a time box, then present to each other and take questions.
 
 Here is what I want you to notice while we do it: a kata needs a facilitator far more than it needs an architect. Time-boxing. Making sure the quiet person speaks. Rotating who holds the marker. That is your craft already.
 
@@ -1054,7 +1056,7 @@ rules: `Three rules for the next fifteen minutes. One: rotate the marker. Whoeve
 
 close: `[Let the elevator sweep while you speak.]
 
-Engine room: make the change easy. Floor three: speak last. Floor seven: ask what gets expensive. Floor twelve: design the teams. Penthouse: keep the logbook.
+Engine room: make the change easy. Floor two: speak last. Floor three: ask what gets expensive. Floor four: design the teams. Penthouse: keep the logbook.
 
 Six floors. One building. And for the next fifteen minutes, the elevator stops at all of them.`,
 
@@ -1078,7 +1080,7 @@ You drew level one. Here is what the next round looks like. Level two, container
 
 Container here does not mean Docker. It means anything that runs or stores on its own.
 
-And notice: this is the level where floor twelve becomes visible. One team, one container is the two-pizza rule, drawn. If you want the second kata at work: same brief, same groups, one week later, draw this.`,
+And notice: this is the level where floor four becomes visible. One team, one container is the two-pizza rule, drawn. If you want the second kata at work: same brief, same groups, one week later, draw this.`,
 
 c3: `Level three, components: open one container, the API in this example, and show its major building blocks. Controllers, services, repositories, a facade in front of the payment provider. Use the words your codebase already uses.
 
@@ -1130,13 +1132,13 @@ We kennen deze memo omdat Steve Yegge, die bij Amazon werkte en later bij Google
 Die memo is op de bovenste verdieping van het gebouw geschreven. Hij heeft de onderste verdieping verbouwd. Elk intern systeem werd een service met een interface, en een paar jaar later merkte Amazon dat het die interfaces aan de rest van ons kon verkopen. Daar komt AWS vandaan. De belangrijkste architectuurbeslissing in de geschiedenis van Amazon, en geen architect heeft hem geschreven. Hou die gedachte vast.` },
 
 building: {
-  notes: `Wijs naar het gebouw. Noem de verdiepingen van onder naar boven: [[Kelder: ops]]. [[Machinekamer: developers]]. [[Derde: seniors]] en iedereen met "architect" in de functietitel. [[Zevende: Product Owners]]. [[Twaalfde: Scrum Masters]] en iedereen die teams vormt. [[Penthouse: management]].
+  notes: `Wijs naar het gebouw. Noem de verdiepingen van onder naar boven: [[Kelder: ops]]. [[Machinekamer: developers]]. [[Tweede: seniors]] en iedereen met "architect" in de functietitel. [[Derde: Product Owners]]. [[Vierde: Scrum Masters]] en iedereen die teams vormt. [[Penthouse: management]].
 
 Vraag handen per verdieping. Tel hardop. Dat komt terug: aan het eind vraag je ze [[groepen over verdiepingen heen]] te vormen.
 
 Credit nog een keer, kort: [[Hohpe]] beschrijft het penthouse en de machinekamer. De vier verdiepingen ertussen zijn [[mijn toevoeging]], en daar mogen jullie het mee oneens zijn.`,
   cue: '"Op welke verdieping werk jij?" Handen per verdieping. Zeg de aantallen terug zodat mensen zich geteld voelen.',
-  script: `Hier is het gebouw, van onderaf. De kelder: ops en infrastructuur, de mensen die het licht aan houden. De machinekamer: developers, waar de code geschreven wordt. De derde verdieping: seniors, leads, iedereen met "architect" in de titel. De zevende: Product Owners. De twaalfde: Scrum Masters, agile coaches, iedereen die teams vormt. En het penthouse: management.
+  script: `Hier is het gebouw, van onderaf. De kelder: ops en infrastructuur, de mensen die het licht aan houden. De machinekamer: developers, waar de code geschreven wordt. De tweede verdieping: seniors, leads, iedereen met "architect" in de titel. De derde: Product Owners. De vierde: Scrum Masters, agile coaches, iedereen die teams vormt. En het penthouse: management.
 
 Gregor Hohpe's versie heeft twee verdiepingen, het penthouse en de machinekamer, en hij zegt dat het de taak van de architect is om met de lift tussen die twee te rijden. De vier verdiepingen ertussen zijn van mij.
 
@@ -1159,12 +1161,12 @@ booch: {
 
 Niet de grootte van de vergadering. Niet wie erbij was. Kosten van verandering. De grote cirkels zijn de beslissingen die je [[volgende sprint niet terugdraait]]. De kleine wel.
 
-Let op: bijna alle grote gaan over [[grenzen tussen teams]]. Hou dat vast voor de zevende en twaalfde verdieping.`,
+Let op: bijna alle grote gaan over [[grenzen tussen teams]]. Hou dat vast voor de derde en vierde verdieping.`,
   script: `Grady Booch scherpt het woord "belangrijk" aan. Architectuur is de verzameling significante beslissingen, waarbij significant gemeten wordt in de kosten van verandering. Niet in hoe lang de vergadering duurde. Niet in wie erbij was. Kosten van verandering.
 
 Kijk naar de cirkels. Welke database, en wie is eigenaar van het schema: groot. Synchroon of asynchroon tussen twee teams: groot. Tabs of spaties: klein, hoe lang de discussie ook duurde.
 
-Kijk nu nog eens naar de grote. Bijna elke gaat over de grens tussen het ene team en het andere. Hou dat vast. Het komt terug op de zevende en de twaalfde verdieping.` },
+Kijk nu nog eens naar de grote. Bijna elke gaat over de grens tussen het ene team en het andere. Hou dat vast. Het komt terug op de derde en de vierde verdieping.` },
 
 alarm: {
   notes: `Het oorlogsverhaal van deze verdieping. Het team van [[Margaret Hamilton]] bij MIT bouwde een [[asynchrone executive]] met [[prioriteitsplanning]]: bij overbelasting het onbelangrijke werk laten vallen, het belangrijke behouden.
@@ -1259,22 +1261,22 @@ null: {
 
 [[2009]], QCon Londen, hij staat op het podium en noemt het zijn [[miljardenfout]].
 
-Het punt voor de derde verdieping: de meest senior persoon in de geschiedenis van ons vak leverde een architectuurgat van een miljard op omdat het makkelijk was. [[Seniors zijn geen orakels]]. Het zijn mensen die meer trade-offs kennen.
+Het punt voor de tweede verdieping: de meest senior persoon in de geschiedenis van ons vak leverde een architectuurgat van een miljard op omdat het makkelijk was. [[Seniors zijn geen orakels]]. Het zijn mensen die meer trade-offs kennen.
 
 En precies daarom werkt de tool op de volgende slide.`,
   script: `Dezelfde Tony Hoare. 1965, hij ontwerpt de taal ALGOL W, en hij voegt de null-referentie toe. Waarom? In zijn eigen woorden: omdat het zo makkelijk te implementeren was. Niet omdat het goed was. Omdat het makkelijk was.
 
 2009, QCon Londen. Hij staat op een podium en noemt het zijn miljardenfout, als je de crashes en kwetsbaarheden van veertig jaar software optelt.
 
-Dit is het punt voor de derde verdieping. De meest gelauwerde ingenieur in de geschiedenis van ons vak leverde een architectuurgat van een miljard op, omdat het die middag de makkelijke optie was. Seniors zijn geen orakels. Seniors zijn mensen die meer trade-offs kennen dan anderen. Dat is waardevol. Het is niet hetzelfde als het antwoord weten.` },
+Dit is het punt voor de tweede verdieping. De meest gelauwerde ingenieur in de geschiedenis van ons vak leverde een architectuurgat van een miljard op, omdat het die middag de makkelijke optie was. Seniors zijn geen orakels. Seniors zijn mensen die meer trade-offs kennen dan anderen. Dat is waardevol. Het is niet hetzelfde als het antwoord weten.` },
 
 'senior-tool': {
-  notes: `De tool voor de derde verdieping, twee gewoontes in vier woorden. [[Eerst vragen]]: open met een vraag, die uit de intro: wat verandert hier het meest, wat maakt dit later duur, waarom niet de andere optie. [[Als laatste spreken]]: laat de zaal eerst redeneren.
+  notes: `De tool voor de tweede verdieping, twee gewoontes in vier woorden. [[Eerst vragen]]: open met een vraag, die uit de intro: wat verandert hier het meest, wat maakt dit later duur, waarom niet de andere optie. [[Als laatste spreken]]: laat de zaal eerst redeneren.
 
 Dan [[de trade-off uitleggen]], niet alleen de conclusie. Zo wordt een beslissing twee keer bekeken en leert het team de volgende zonder jou te nemen.
 
 Terugverwijzing naar Hoare: als de beste van ons een gat van een miljard kan opleveren, is het tweede paar ogen geen beleefdheid. Het is de [[architectuur]].`,
-  script: `De tool voor de derde verdieping. Vier woorden, twee gewoontes.
+  script: `De tool voor de tweede verdieping. Vier woorden, twee gewoontes.
 
 Eerst vragen. Open elke ontwerpdiscussie met een vraag in plaats van een antwoord. De vragen van een paar minuten geleden volstaan: wat verandert hier het meest? Wat maakt dit later duur? Waarom niet de andere optie?
 
@@ -1285,29 +1287,18 @@ En dan, als je spreekt, leg de trade-off achter je antwoord uit, niet alleen de 
 Als Tony Hoare een gat van een miljard kan opleveren omdat het die middag makkelijk was, dan is het tweede paar ogen geen beleefdheid. Het is de architectuur.` },
 
 f7: {
-  notes: `Nu de verdieping die de meeste architectuurtalks overslaan. [[Product Owners]].
+  notes: `De verdieping die de meeste architectuurtalks overslaan. [[Product Owners]].
 
-Kijk ze aan. Zeg het direct: [[jullie doen al architectuur]]. Elke keer dat je de backlog ordent, neem je een beslissing over wat het systeem volgend jaar goedkoop of duur gaat vinden. Je doet het alleen in een [[andere taal]], en niemand vertaalt.
+Zeg het direct: [[jullie doen al architectuur]]. Jullie bepalen de [[volgorde]]. Wat het eerst gebouwd wordt, wordt het [[skelet]] waar alles daarna in moet passen, en "later" is een lening met rente. Dat is architectuur in de taal van [[tijd]]. Niemand in de machinekamer vertaalt het.
 
-Laat me dat bewijzen met een afgewezen paper.`,
-  cue: 'Kijk naar de PO\'s. Spreek ze aan op hun rol. Deze en de volgende verdieping zijn met reden de langste.',
-  script: `Zevende verdieping. Product Owners. Dit is de verdieping die de meeste architectuurtalks overslaan, en ik denk dat dat de grootste fout in ons vak is.
+Bewijs: de beroemdste term in ons vak is uitgevonden [[voor deze verdieping]].`,
+  cue: 'Kijk naar de PO\'s. Spreek ze aan op hun rol. Hou deze verdieping kort: twee slides en de vraag.',
+  script: `Derde verdieping. Product Owners. De verdieping die de meeste architectuurtalks overslaan, en ik denk dat dat de grootste fout in ons vak is.
 
-[Kijk ze aan.] Jullie doen al architectuur. Elke keer dat je de backlog ordent, beslis je wat het systeem volgend jaar goedkoop of duur gaat vinden. Je doet het alleen in een taal die niemand in de machinekamer spreekt, en niemand vertaalt.
+[Kijk ze aan.] Jullie doen al architectuur. Jullie bepalen de volgorde. De eerste drie dingen die gebouwd worden, worden het skelet waar alles daarna in moet passen, en elk "later" op je backlog is een lening met rente. Dat is architectuur in de taal van tijd, en niemand in de machinekamer vertaalt het.
 
-Laat me dat bewijzen met een afgewezen paper.` },
+Bewijs: de beroemdste term in ons vak is uitgevonden voor jullie verdieping.` },
 
-conway: {
-  notes: `[[Mel Conway, 1967]]. Paper met de titel "How Do Committees Invent?" Ingestuurd naar Harvard Business Review. [[Afgewezen]]: hij had zijn stelling niet bewezen. Datamation drukte het in 1968. [[Fred Brooks]] noemde het Conway's Law in The Mythical Man-Month en het is sindsdien elk jaar bewezen.
-
-Links: het organogram in januari. Rechts: het systeem in december. [[Dezelfde vorm]]. Altijd.
-
-Dus, PO's: wie [[de backlog ordent]] en wie [[de teams splitst]], tekent het architectuurdiagram. Of iemand het zo noemt of niet.`,
-  script: `1967. Mel Conway schrijft een paper met de titel "How Do Committees Invent?" De stelling: elke organisatie die een systeem ontwerpt, produceert een ontwerp waarvan de structuur een kopie is van de communicatiestructuur van die organisatie. Hij stuurt het naar Harvard Business Review. Ze wijzen het af: hij heeft het niet bewezen. Datamation publiceert het in 1968. Fred Brooks noemt het Conway's Law in The Mythical Man-Month, en het is sindsdien elk jaar opnieuw bewezen.
-
-Links: het organogram in januari. Drie teams. Rechts: het systeem in december. Drie services. Dezelfde vorm. Het is altijd dezelfde vorm.
-
-Dus, Product Owners, Scrum Masters: wie de backlog ordent en wie de teams splitst, tekent het architectuurdiagram. Of iemand het nu zo noemt of niet.` },
 
 debt: {
   notes: `De meeste mensen denken dat technical debt een klacht van developers is. Het is het tegenovergestelde.
@@ -1327,19 +1318,32 @@ De meest gebruikte term in softwarearchitectuur is uitgevonden als vertaalmiddel
 
 Het is de definitie van Booch, omgezet in een zin die een PO op maandag kan uitspreken zonder te weten wat een service mesh is. Geen toestemming nodig. Geen diagram nodig. En elke keer dat een developer hem beantwoordt, verhuist een stuk van de [[theorie]] van het systeem van het ene hoofd naar het andere.`,
   cue: '"Dit kun je maandag vragen. Je hebt geen toestemming nodig en je hoeft niet te weten wat een service mesh is."',
-  script: `De tool voor de zevende verdieping is één zin. Wat maakt dit later duur?
+  script: `De tool voor de derde verdieping is één zin, en het is een vraag over tijd. Wat maakt dit later duur?
 
 Stel hem één keer per refinement, over wat er bovenaan de backlog staat. Je hebt geen diagram nodig. Je hoeft niet te weten wat een service mesh is. Je hebt geen toestemming nodig. Het is de definitie van Booch, omgezet in een vraag die een PO op maandagochtend kan stellen.
 
 En elke keer dat een developer hem beantwoordt, verhuist een stuk van de theorie van het systeem van zijn hoofd naar het jouwe.` },
 
 f12: {
-  notes: `Twaalfde verdieping. [[Scrum Masters]], agile coaches, iedereen die teams vormt.
+  notes: `Vierde verdieping. [[Scrum Masters]], agile coaches, iedereen die teams vormt.
 
-Zeg het tegen ze: jullie horen het woord architectuur en denken [[niet mijn meeting]]. Ik wil jullie overtuigen dat het de meest architecturale meeting is waar jullie [[niet bij zijn]]. Vanwege een manoeuvre met een gekke naam.`,
-  script: `Twaalfde verdieping. Scrum Masters, agile coaches, iedereen die teams vormt.
+De ene zin voor deze verdieping: de PO bepaalt [[wanneer]], jullie bepalen [[wie het samen bouwt]]. Dat is architectuur in de taal van [[ruimte]]. Teamgrenzen worden [[systeemgrenzen]], en daar bestaat een vijftig jaar oude wet over.
 
-Ik gok jullie reactie op het woord architectuur: niet mijn meeting. Ik wil jullie overtuigen dat het de meest architecturale meeting is waar jullie niet bij zijn. Het komt neer op een manoeuvre met een licht gekke naam.` },
+Opstap: een [[afgewezen paper]].`,
+  script: `Vierde verdieping. Scrum Masters, agile coaches, iedereen die teams vormt.
+
+Eén zin voor deze verdieping. De Product Owner bepaalt wanneer. Jullie bepalen wie het samen bouwt. Dat is architectuur in de taal van ruimte: teamgrenzen worden systeemgrenzen. En er is een vijftig jaar oude wet die dat zegt. Die begon als een afgewezen paper.` },
+conway: {
+  notes: `[[Mel Conway, 1967]]. Paper met de titel "How Do Committees Invent?" Ingestuurd naar Harvard Business Review. [[Afgewezen]]: hij had zijn stelling niet bewezen. Datamation drukte het in 1968. [[Fred Brooks]] noemde het Conway's Law in The Mythical Man-Month en het is sindsdien elk jaar bewezen.
+
+Links: het organogram in januari. Rechts: het systeem in december. [[Dezelfde vorm]]. Altijd.
+
+Dus, Scrum Masters: wie [[de teams splitst]], tekent het architectuurdiagram, of iemand het zo noemt of niet. Volgende slide: hoe je dat [[met opzet]] doet.`,
+  script: `1967. Mel Conway schrijft een paper met de titel "How Do Committees Invent?" De stelling: elke organisatie die een systeem ontwerpt, produceert een ontwerp waarvan de structuur een kopie is van de communicatiestructuur van die organisatie. Hij stuurt het naar Harvard Business Review. Ze wijzen het af: hij heeft het niet bewezen. Datamation publiceert het in 1968. Fred Brooks noemt het Conway's Law in The Mythical Man-Month, en het is sindsdien elk jaar opnieuw bewezen.
+
+Links: het organogram in januari. Drie teams. Rechts: het systeem in december. Drie services. Dezelfde vorm. Het is altijd dezelfde vorm.
+
+Dus, Scrum Masters: wie de teams splitst, tekent het architectuurdiagram, of iemand het nu zo noemt of niet. Wat de voor de hand liggende vraag oproept: als het toch gebeurt, kun je het dan met opzet doen?` },
 
 inverse: {
   notes: `Boven: Conway. Teamstructuur wordt systeemstructuur, of je het wilt of niet.
@@ -1347,7 +1351,7 @@ inverse: {
 Onder: de [[inverse Conway-manoeuvre]]. Begin bij het systeem dat je wilt. Ontwerp de [[teams]] zo dat ze het opleveren. [[Team Topologies]], Skelton en Pais, 2019: stream-aligned teams, platformteams, [[cognitieve belasting]] als begrenzing.
 
 Dit is [[de architectuurtool van de Scrum Master]]. Toen je voor het laatst een team herschikte, liet iemand je toen het architectuurdiagram zien? Dat had gemoeten. Je was het aan het bewerken.`,
-  script: `Bovenste rij, Conway's Law: teamstructuur wordt systeemstructuur, of je het wilt of niet.
+  script: `Ja. Bovenste rij, Conway's Law: teamstructuur wordt systeemstructuur, of je het wilt of niet.
 
 Onderste rij, de inverse Conway-manoeuvre. Begin bij het systeem dat je wilt. Ontwerp de teams zo dat Conway's Law het oplevert. Matthew Skelton en Manuel Pais hebben dit rigoureus gemaakt in Team Topologies, 2019: stream-aligned teams, platformteams, en cognitieve belasting als grens van wat één team kan bezitten.
 
@@ -1358,12 +1362,12 @@ pizza: {
 
 Geen van beide is een technische beslissing. Beide zijn [[organisatiebeslissingen]]. Beide leverden de architectuur op die Amazon wilde: kleine services, duidelijk eigenaarschap, geen muur om over te gooien.
 
-Dat is Conway [[gebruikt]] in plaats van [[ondergaan]]. En het was een zet van de twaalfde verdieping.`,
+Dat is Conway [[gebruikt]] in plaats van [[ondergaan]]. En het was een zet van de vierde verdieping.`,
   script: `Twee Amazon-regels. Het twee-pizzateam: een team is zo groot als twee pizza's kunnen voeden, en niet groter. En Werner Vogels, 2006: you build it, you run it. Het team dat een service bouwt, draagt er de pieper voor.
 
 Geen van beide is een technische beslissing. Beide zijn organisatorisch. En beide leverden precies de architectuur op die Amazon wilde: kleine services, duidelijk eigenaarschap, niets dat over een muur gegooid wordt.
 
-Dat is Conway met opzet gebruikt in plaats van per ongeluk ondergaan. En het was een zet van de twaalfde verdieping.` },
+Dat is Conway met opzet gebruikt in plaats van per ongeluk ondergaan. En het was een zet van de vierde verdieping.` },
 
 spotify: {
   notes: `De waarschuwing voor deze verdieping. [[Henrik Kniberg, 2012]]: een whitepaper over Spotify's squads, tribes, chapters en guilds, als [[momentopname van een experiment]]. De wereld nam het over als [[sjabloon]].
@@ -1384,7 +1388,7 @@ Het heeft een [[facilitator]] harder nodig dan een architect. Timeboxen, zorgen 
 
 Zeg het direct: [[jullie gaan er zelf een begeleiden]]. Kijk wat ik doe in de workshop.`,
   cue: '"Over een paar minuten help je er zelf een draaien. Kijk wat ik doe."',
-  script: `De tool voor de twaalfde verdieping. Over een paar minuten doen we een architectuurkata: kleine groepen, een fictieve opdracht van één pagina, een timebox, dan aan elkaar presenteren en vragen beantwoorden.
+  script: `De tool voor de vierde verdieping. Over een paar minuten doen we een architectuurkata: kleine groepen, een fictieve opdracht van één pagina, een timebox, dan aan elkaar presenteren en vragen beantwoorden.
 
 Let hierop terwijl we het doen: een kata heeft veel harder een facilitator nodig dan een architect. Timeboxen. Zorgen dat de stille persoon aan het woord komt. De stift laten rouleren. Dat is jullie vak al.
 
@@ -1508,12 +1512,12 @@ Deze regels zijn hoe je elke verdieping in dezelfde kamer aan het woord krijgt.`
 close: {
   notes: `Terug naar het gebouw. De lift gaat langs alle verdiepingen terwijl je praat.
 
-Samenvatting in één adem, per verdieping: de machinekamer maakt de verandering makkelijk; de derde spreekt als laatste; de zevende vraagt wat duur wordt; de twaalfde ontwerpt de teams; het penthouse houdt het logboek bij. [[Elke verdieping]], zelfde gebouw, zelfde bestemming.
+Samenvatting in één adem, per verdieping: de machinekamer maakt de verandering makkelijk; de tweede spreekt als laatste; de derde vraagt wat duur wordt; de vierde ontwerpt de teams; het penthouse houdt het logboek bij. [[Elke verdieping]], zelfde gebouw, zelfde bestemming.
 
 Dan de fysieke instructie.`,
   script: `[Laat de lift langs de verdiepingen gaan terwijl je praat.]
 
-Machinekamer: maak de verandering makkelijk. Derde verdieping: spreek als laatste. Zevende: vraag wat duur wordt. Twaalfde: ontwerp de teams. Penthouse: hou het logboek bij.
+Machinekamer: maak de verandering makkelijk. Tweede verdieping: spreek als laatste. Derde: vraag wat duur wordt. Vierde: ontwerp de teams. Penthouse: hou het logboek bij.
 
 Zes verdiepingen. Eén gebouw. En de komende vijftien minuten stopt de lift op allemaal.` },
 
@@ -1548,7 +1552,7 @@ c2: {
 
 Niveau twee, [[containers]]: open de systeemdoos en toon de [[los deploybare]] onderdelen, elk met zijn [[technologie]]. Webapp in React, API in Spring, PostgreSQL, een queue. Geen Docker-containers, alles wat op zichzelf draait of opslaat.
 
-Terugverwijzing naar de [[twaalfde verdieping]]: op dit niveau worden teamgrenzen zichtbaar. Eén team, één container is de twee-pizzaregel, getekend.
+Terugverwijzing naar de [[vierde verdieping]]: op dit niveau worden teamgrenzen zichtbaar. Eén team, één container is de twee-pizzaregel, getekend.
 
 Stel de [[tweede kata]] voor op het werk: zelfde opdracht, zelfde groepen, een week later.`,
   script: `[Twee minuten voor deze slide en de volgende, samen.]
@@ -1557,7 +1561,7 @@ Jullie tekenden niveau één. Zo ziet de volgende ronde eruit. Niveau twee, cont
 
 Container betekent hier niet Docker. Het betekent alles wat op zichzelf draait of opslaat.
 
-En let op: dit is het niveau waarop de twaalfde verdieping zichtbaar wordt. Eén team, één container is de twee-pizzaregel, getekend. Wil je de tweede kata op het werk doen: zelfde opdracht, zelfde groepen, een week later, teken dit.` },
+En let op: dit is het niveau waarop de vierde verdieping zichtbaar wordt. Eén team, één container is de twee-pizzaregel, getekend. Wil je de tweede kata op het werk doen: zelfde opdracht, zelfde groepen, een week later, teken dit.` },
 
 c3: {
   notes: `Niveau drie, [[componenten]]: open één container, hier de API, en toon zijn [[belangrijkste bouwblokken]] en hun verantwoordelijkheden. Gebruik de woorden die je codebase al gebruikt: controller, service, repository, facade.

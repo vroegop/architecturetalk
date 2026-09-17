@@ -287,7 +287,8 @@
   .progress { position: fixed; left: 0; right: 0; bottom: 0; height: 4px; background: var(--line); z-index: 5; }
   .progress i { display: block; height: 100%; background: var(--accent); transition: width .3s ease; }
   .hint { position: fixed; right: 16px; bottom: 14px; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); opacity: .8; z-index: 5; }
-  .blackout { position: fixed; inset: 0; background: #000; z-index: 50; }
+  .blackout { position: fixed; inset: 0; background: #000; z-index: 50; display: grid; place-content: center; }
+  .blackout span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; color: #444; }
   .main.with-bar .frame { bottom: 64px; }
   .hint.up { bottom: 74px; }
   .touchnav { display: none; position: fixed; left: 12px; bottom: 12px; z-index: 6; gap: 8px; }
@@ -303,6 +304,9 @@
   .listen[hidden] { display: none; }
   .listen .fold { margin-left: 4px; }
   .listen-pill { position: fixed; left: 14px; bottom: 14px; z-index: 6; }
+  .dbg { position: fixed; left: 8px; top: 8px; z-index: 99; background: rgba(0,0,0,.82); color: #7CFFB2; border: 1px solid #2c5c44;
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; line-height: 1.5; padding: 8px 10px; border-radius: 8px;
+    max-width: calc(100vw - 16px); white-space: pre-wrap; word-break: break-word; pointer-events: none; }
   .listen { position: fixed; left: 0; right: 0; bottom: 4px; z-index: 6; display: flex; align-items: center; gap: 14px; padding: 10px 16px; background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -6px 24px rgba(0,0,0,.12); }
   .listen .lt { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
   .listen .cap { flex: 1; font-size: 17px; line-height: 1.35; color: var(--ink); min-height: 1.35em; max-height: 2.7em; overflow: hidden; }
@@ -384,13 +388,17 @@
     s.textContent = msg;
   };
   window.DECK_BOOT_OK = false;
+  window.DECK_ERRORS = [];
   window.addEventListener('error', function (e) {
+    var s0 = (e.target && e.target.src) ? e.target.src.split('/').pop() : (e.message || 'error');
+    if (window.DECK_ERRORS.length < 6) window.DECK_ERRORS.push(s0);
     if (window.DECK_BOOT_OK) return;
     var src = (e.target && e.target.src) ? e.target.src.split('/').pop() : '';
     say(src ? ('Could not load ' + src + '. Check your connection, then reload.')
             : ('Error: ' + (e.message || 'unknown') + '. Reload to try again.'));
   }, true);
   window.addEventListener('unhandledrejection', function (e) {
+    if (window.DECK_ERRORS.length < 6) window.DECK_ERRORS.push('promise: ' + ((e.reason && e.reason.message) || e.reason));
     if (!window.DECK_BOOT_OK) say('Error: ' + ((e.reason && e.reason.message) || e.reason) + '. Reload to try again.');
   });
   setTimeout(function () {
@@ -1996,7 +2004,7 @@ function Frame({ children }) {
   const ref = useRef(null); const [sc, setSc] = useState({ s: .5, w: 800, h: 450 });
   useEffect(() => {
     const el = ref.current; if (!el) return;
-    const ro = new ResizeObserver(() => { const r = el.getBoundingClientRect(); const s = Math.min(r.width / 1600, r.height / 900); setSc({ s, w: r.width, h: r.height }); });
+    const ro = new ResizeObserver(() => { const r = el.getBoundingClientRect(); let s = Math.min(r.width / 1600, r.height / 900); if (!isFinite(s) || s <= 0) s = 0.5; setSc({ s, w: r.width, h: r.height }); });
     ro.observe(el); return () => ro.disconnect();
   }, []);
   return <div className="frame" ref={ref}><div className="canvas" style={{ transform: `translate(-50%, -50%) scale(${sc.s})`, left: '50%', top: '50%', transformOrigin: '50% 50%' }}>{children}</div></div>;
@@ -2044,6 +2052,25 @@ function Help({ onClose }) {
       </ul>
       <div className="row"><button className="btn" onClick={onClose}>Close</button></div>
     </div></div>);
+}
+
+const DEBUG = /(\?|&)debug\b/.test(location.search);
+function Debug({ state }) {
+  const [tick, setTick] = useState(0);
+  useEffect(() => { const id = setInterval(() => setTick(t => t + 1), 500); return () => clearInterval(id); }, []);
+  const f = document.querySelector('.main .frame'), c = document.querySelector('.canvas');
+  const r = f ? f.getBoundingClientRect() : null;
+  const lines = [
+    'build 2026-09-17c  slides ' + SLIDES.length,
+    'viewport ' + window.innerWidth + 'x' + window.innerHeight + '  dpr ' + (window.devicePixelRatio || 1),
+    'frame ' + (r ? Math.round(r.width) + 'x' + Math.round(r.height) : 'none'),
+    'scale ' + (c ? (c.style.transform.match(/scale\(([^)]+)\)/) || [])[1] : 'none'),
+    'slide ' + (state.index + 1) + '  step ' + (state.step || 0) + '  theme ' + state.theme,
+    'BLACKOUT ' + (state.blackout ? 'ON  <-- this is the problem' : 'off'),
+    'audio ' + Object.keys(AUDIO).length + '  boot ' + (window.DECK_BOOT_OK ? 'ok' : 'FAILED'),
+    'errors ' + (window.DECK_ERRORS && window.DECK_ERRORS.length ? window.DECK_ERRORS.join(' | ') : 'none'),
+  ];
+  return <div className="dbg">{lines.join('\n')}</div>;
 }
 
 /* ================= main (audience) view ================= */
@@ -2121,7 +2148,8 @@ function MainView({ state, set, dark, openOther }) {
         <audio ref={audioRef} preload="auto" onTimeUpdate={e => setLs(l => ({ ...l, t: e.target.currentTime }))} onPlay={() => setLs(l => ({ ...l, playing: true, on: true }))} onPause={() => setLs(l => ({ ...l, playing: false }))} onEnded={onEnded} />
       </div>}
       {ls.transcript && track && <aside className="transcript" onClick={e => e.stopPropagation()}><h4>Transcript · slide {pad(state.index + 1)}</h4>{track.cues.map((c, i) => <p key={i} className={cue === c ? 'cur' : ''} onClick={() => seek(c[0])}>{c[2]}</p>)}</aside>}
-      {state.blackout && <div className="blackout" />}
+      {DEBUG && <Debug state={state} />}
+      {state.blackout && <div className="blackout" onClick={e => { e.stopPropagation(); set({ blackout: false }); }}><span>Tap to return to the slide</span></div>}
       {help && <Help onClose={() => setHelp(false)} />}
     </div>);
 }

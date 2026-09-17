@@ -240,9 +240,6 @@
   .bub.mid { background: var(--teal); color: #fff; }
   .bub.small { background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line); }
 
-  .l-deriv { grid-template-columns: 1fr 420px; gap: 72px; align-items: center; }
-  .l-deriv .txt { display: grid; gap: 28px; }
-
   .l-c4 { grid-template-rows: auto 1fr; gap: 18px; }
   .c4grid { display: grid; grid-template-columns: 860px 1fr; gap: 44px; align-items: start; }
   .c4dg { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 0; overflow: hidden; }
@@ -382,10 +379,10 @@ const { useState, useEffect, useRef, useMemo, useCallback } = React;
 /* IMAGES — one WebP per image slide, keyed by slide id (folder img/). */
 const IMAGES = {
   title: 'img/01-title.webp', alarm: 'img/07-alarm.webp', null: 'img/12-null.webp', debt: 'img/17-debt.webp', pizza: 'img/22-pizza.webp',
-  spotify: 'img/23-spotify.webp', netflix: 'img/27-netflix.webp', deriv: 'img/30-deriv.webp', naur: 'img/32-naur.webp', lauren: 'img/34-lauren.webp',
+  spotify: 'img/23-spotify.webp', netflix: 'img/27-netflix.webp', lauren: 'img/34-lauren.webp',
 };
 // Panel shape per slide, matched to the generated files. Anything not listed is 16:9 landscape.
-const SHAPE = { title: 'r23', alarm: 'r23', deriv: 'r916' };
+const SHAPE = { title: 'r23', alarm: 'r23' };
 
 // Narration files in audio/ with manifest.js. Absent = no listen mode.
 const AUDIO = window.AUDIO_MANIFEST || {};
@@ -708,34 +705,18 @@ Easier: [[Michael Nygard, 2011]]. [[Architecture Decision Records]]. One short f
 It is the [[elevator's logbook]]. The penthouse can read why; the engine room can read what; a junior in two years can read both.` },
 
 /* ---------------- WHY IT IS HARD ---------------- */
-{ id: 'deriv', section: 'Why it is hard', plan: 1240, layout: 'deriv',
-  title: 'Architects live in the first derivative',
-  attr: 'Gregor Hohpe',
-  body: 'The current state of a system is a fact. Its <b>rate of change</b> is the architecture. What is getting cheaper to change, and what is quietly getting more expensive?',
-  image: { short: 'A tall building mid-construction, lower floors occupied, upper floors still scaffolding' },
-  notes: `We have visited every floor. Now: why is riding the elevator so hard?
-
-[[Hohpe]]: architects live in the [[first derivative]]. The current state of the system is a fact anyone can read. The [[rate of change]] is the architecture: what is getting cheaper to change and what is quietly getting more expensive. You cannot see a derivative in a snapshot. You see it by [[watching over time]], from more than one floor.` },
 
 { id: 'laws', section: 'Why it is hard', plan: 1275, layout: 'statement',
   quote: 'First law: <em>everything</em> in software architecture is a trade-off.<br>Second law: <em>why</em> is more important than how.',
   attr: '<b>Mark Richards & Neal Ford</b>, Fundamentals of Software Architecture, 2020',
-  notes: `[[Richards and Ford]], two laws.
+  notes: `All floors visited. Open the section: [[why is the elevator hard to ride?]]
+
+[[Richards and Ford]], two laws.
 
 [[Everything is a trade-off]]. If you think you found something that is not, you have not found the trade-off yet. There is no answer. Seniors know more trade-offs; that is different from knowing the answer.
 
 [[Why beats how]]. And "why" is the one question every floor can ask. The PO can ask it. The SM can ask it. The most junior developer can ask it.` },
 
-{ id: 'naur', section: 'Why it is hard', plan: 1310, layout: 'story',
-  when: 'Peter Naur · 1985', title: 'Programming as theory building',
-  points: ['A program is not the code. It is the <b>theory</b> the team holds about how the code relates to the world.', 'The theory cannot be fully written down. It transfers by <b>working alongside</b> someone who has it.', 'So the theory must live on every floor, and nobody can ride the elevator alone.'],
-  image: { short: 'Two people at a whiteboard at night; a thick binder untouched on a shelf' },
-  src: 'Naur, “Programming as Theory Building,” Microprocessing and Microprogramming, 1985.',
-  notes: `The deepest reason it is hard. [[Peter Naur, 1985]]. A program is not the code; it is the [[theory]] the team holds about how the code maps to the world.
-
-The theory [[cannot be fully written down]]. Documentation helps, but the theory transfers by [[working alongside]] someone who already has it. This is why the consultants leave and the system quietly dies.
-
-For us: the theory has to live on [[every floor]]. Which means you cannot ride alone. You have to decide things [[together]].` },
 
 { id: 'brandolini', section: 'Why it is hard', plan: 1350, layout: 'statement',
   quote: '“It is not the domain expert’s knowledge that goes to production. It is the <em>developer’s assumptions</em> about it.”',
@@ -852,7 +833,6 @@ Then the reading slide, and thank them.` },
     { who: 'Michael Nygard', what: '“Documenting Architecture Decisions,” 2011', why: 'The one-page ADR. The elevator’s logbook.' },
     { who: 'Skelton & Pais', what: 'Team Topologies (IT Revolution, 2019)', why: 'The inverse Conway manoeuvre, for floor 4.' },
     { who: 'Richards & Ford', what: 'Fundamentals of Software Architecture (O’Reilly, 2020)', why: 'The two laws. Also architecturalkatas.com for the workshop briefs.' },
-    { who: 'Peter Naur', what: '“Programming as Theory Building,” 1985', why: 'Why nobody can ride the elevator alone.' },
   ],
   notes: `Final slide. Leave it up while people [[pack up]]. No need to read it aloud.
 
@@ -1034,17 +1014,11 @@ adr: `Hard for the penthouse: there is no feedback loop. Decisions go down; cons
 
 Easier: Michael Nygard, 2011. Architecture Decision Records. One short file per significant decision, kept with the code: context, decision, consequences. Without it, a decision is a rumour within a year. With it, the penthouse reads why, the engine room reads what, and a new hire reads both. It is the elevator's logbook.`,
 
-deriv: `Every floor visited. So why is the elevator hard to ride?
 
-Hohpe: architects live in the first derivative. The state of a system is a fact anyone can read. The rate of change is the architecture: what is getting cheaper to change, and what is quietly getting more expensive. You cannot see that in a snapshot. Only over time, and from more than one floor.`,
-
-laws: `Richards and Ford, two laws. First: everything in software architecture is a trade-off. If you think you found something that is not, you have not found the trade-off yet. Seniors know more trade-offs; that is not the same as knowing the answer.
+laws: `Every floor visited. So why is riding the elevator so hard? Richards and Ford give us two laws. First: everything in software architecture is a trade-off. If you think you found something that is not, you have not found the trade-off yet. Seniors know more trade-offs; that is not the same as knowing the answer.
 
 Second: why is more important than how. And why is the one question every floor can ask.`,
 
-naur: `The deepest reason. Peter Naur, 1985: a program is not the code. It is the theory the team holds about how the code relates to the world. That theory cannot be fully written down. It transfers by working alongside someone who has it, which is why the consultants leave and the system quietly dies.
-
-So the theory has to live on every floor. You cannot ride the elevator alone.`,
 
 brandolini: `Alberto Brandolini, who invented event storming: it is not the domain expert's knowledge that goes to production. It is the developer's assumptions about it. His fix is not a better document. It is everyone at one wall, at the same time.
 
@@ -1446,33 +1420,19 @@ Het is het [[logboek van de lift]]. Het penthouse leest waarom; de machinekamer 
 
 Makkelijker: Michael Nygard, 2011. Architecture Decision Records. Eén kort bestand per significante beslissing, bewaard bij de code: context, beslissing, gevolgen. Zonder is een beslissing binnen een jaar een gerucht. Met leest het penthouse waarom, leest de machinekamer wat, en leest een nieuwe collega beide. Het is het logboek van de lift.` },
 
-deriv: {
-  notes: `Alle verdiepingen bezocht. Waarom is de lift zo moeilijk?
-
-[[Hohpe]]: architecten leven in de [[eerste afgeleide]]. De huidige toestand van een systeem is een feit dat iedereen kan lezen. De [[snelheid van verandering]] is de architectuur: wat wordt goedkoper om te veranderen, wat wordt stilletjes duurder. Een afgeleide zie je niet in een momentopname. Je ziet hem door [[in de tijd te kijken]], vanaf meer dan één verdieping.`,
-  script: `Alle verdiepingen bezocht. Dus waarom is de lift zo moeilijk?
-
-Hohpe: architecten leven in de eerste afgeleide. De toestand van een systeem is een feit dat iedereen kan lezen. De snelheid van verandering is de architectuur: wat wordt goedkoper om te veranderen, en wat wordt stilletjes duurder. Dat zie je niet in een momentopname. Alleen in de tijd, en vanaf meer dan één verdieping.` },
 
 laws: {
-  notes: `[[Richards en Ford]], twee wetten.
+  notes: `Alle verdiepingen bezocht. Open het deel: [[waarom is de lift zo moeilijk?]]
+
+[[Richards en Ford]], twee wetten.
 
 [[Alles is een trade-off]]. Denk je iets gevonden te hebben dat dat niet is, dan heb je de trade-off nog niet gevonden. Er is geen antwoord. Seniors kennen meer trade-offs; dat is iets anders dan het antwoord kennen.
 
 [[Waarom gaat boven hoe]]. En "waarom" is de ene vraag die elke verdieping kan stellen.`,
-  script: `Richards en Ford, twee wetten. Ten eerste: alles in softwarearchitectuur is een trade-off. Denk je iets gevonden te hebben dat dat niet is, dan heb je de trade-off nog niet gevonden. Seniors kennen meer trade-offs; dat is niet hetzelfde als het antwoord kennen.
+  script: `Alle verdiepingen bezocht. Dus waarom is de lift zo moeilijk? Richards en Ford geven ons twee wetten. Ten eerste: alles in softwarearchitectuur is een trade-off. Denk je iets gevonden te hebben dat dat niet is, dan heb je de trade-off nog niet gevonden. Seniors kennen meer trade-offs; dat is niet hetzelfde als het antwoord kennen.
 
 Ten tweede: waarom is belangrijker dan hoe. En waarom is de ene vraag die elke verdieping kan stellen.` },
 
-naur: {
-  notes: `De diepste reden. [[Peter Naur, 1985]]. Een programma is niet de code; het is de [[theorie]] die het team heeft over hoe de code zich tot de wereld verhoudt.
-
-De theorie [[kan niet volledig opgeschreven worden]]. Ze wordt overgedragen door [[samen te werken]] met iemand die haar al heeft. Daarom vertrekken de consultants en sterft het systeem stilletjes.
-
-Voor ons: de theorie moet op [[elke verdieping]] leven. Je kunt niet alleen rijden. Je moet dingen [[samen]] beslissen.`,
-  script: `De diepste reden. Peter Naur, 1985: een programma is niet de code. Het is de theorie die het team heeft over hoe de code zich tot de wereld verhoudt. Die theorie kan niet volledig worden opgeschreven. Ze wordt overgedragen door samen te werken met iemand die haar heeft, en daarom vertrekken de consultants en sterft het systeem stilletjes.
-
-Dus de theorie moet op elke verdieping leven. Je kunt de lift niet alleen nemen.` },
 
 brandolini: {
   notes: `[[Brandolini]], de uitvinder van event storming. Wat in productie gaat is niet wat de [[domeinexpert]] weet; het is wat de developer erover [[aannam]].
@@ -1977,26 +1937,6 @@ function Slide({ slide, i, total, dark, step = 0 }) {
     <div className="slide l-bubbles">
       <div><h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2><p className="cap" style={{ fontSize: 26, color: 'var(--muted)', marginTop: 8 }}>{slide.attr}. Circle size = cost of change.</p></div>
       <div className="bubbles">{slide.bubbles.map((b, k) => <div key={k} className={'bub ' + b.size} style={{ width: b.d, height: b.d, left: b.x, top: b.y, fontSize: b.size === 'big' ? 27 : b.size === 'mid' ? 23 : 19 }}>{b.t}</div>)}</div>
-      {foot}
-    </div>);
-  if (L === 'deriv') return (
-    <div className="slide l-deriv">
-      <div className="txt"><span className="eyebrow">{slide.attr}</span><h2 className="display">{slide.title}</h2><p className="body" dangerouslySetInnerHTML={{ __html: slide.body }} /></div>
-      <ImagePanel slide={slide} />
-      {foot}
-    </div>);
-  if (L === 'c4') return (
-    <div className="slide l-c4">
-      <div><span className="eyebrow">C4 model · <b>{slide.level}</b></span><h2 className="display" style={{ fontSize: 56, marginTop: 8 }}>{slide.title}</h2></div>
-      <div className="c4grid">
-        <div className="c4dg">{React.createElement(C4DIAGRAMS[slide.id])}</div>
-        <div className="c4txt">
-          <p className="lead" dangerouslySetInnerHTML={{ __html: slide.lead }} />
-          <ul>{slide.points.map((x, k) => <li key={k}>{x}</li>)}</ul>
-          <div className="do"><span className="k">{slide.doLabel}</span>{slide.doText}</div>
-          <p className="ref">{slide.ref}</p>
-        </div>
-      </div>
       {foot}
     </div>);
   if (L === 'reading') return (

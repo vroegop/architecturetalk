@@ -2,11 +2,21 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Chrome for Android applies its own "darken the page" filter to any document that does not
+     say it handles dark mode itself. On this deck that landed on top of the already-dark theme
+     and flattened text and background into the same near-black. Declaring color-scheme opts out. -->
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F6F8">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0B1420">
 <title>Six Floors, One Architect</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Non-blocking: on a phone with a slow or filtered connection the deck must not wait for fonts. -->
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap"></noscript>
 <style>
   :root {
+    color-scheme: light dark;
     --bg: #F4F6F8;
     --surface: #FFFFFF;
     --surface-2: #E9EDF1;
@@ -31,6 +41,7 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
+      color-scheme: dark;
       --bg: #0B1420;
       --surface: #142031;
       --surface-2: #1B2B40;
@@ -54,7 +65,9 @@
       --window-on: #FFD874;
     }
   }
+  :root[data-theme="light"] { color-scheme: light; }
   :root[data-theme="dark"] {
+    color-scheme: dark;
     --bg: #0B1420;
     --surface: #142031;
     --surface-2: #1B2B40;
@@ -278,12 +291,18 @@
   @media (prefers-reduced-motion: reduce) { .bld .car { transition: none; } }
 
   /* ---------- main view chrome ---------- */
-  .boot { position: fixed; inset: 0; display: grid; place-content: center; gap: 10px; text-align: center; padding: 24px; background: var(--bg); }
+  .boot { position: fixed; inset: 0; z-index: 90; display: grid; place-content: center; justify-items: center; gap: 10px; text-align: center; padding: 24px; background: var(--bg); }
+  .boot[hidden] { display: none; }
+  .boot-d { margin: 4px 0 0; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; line-height: 1.5; color: var(--muted);
+    max-width: min(46ch, calc(100vw - 48px)); max-height: 34vh; overflow: auto; white-space: pre-wrap; word-break: break-word; text-align: left;
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+  .boot-b { margin-top: 6px; font: inherit; font-size: 15px; padding: 10px 22px; border-radius: 10px; cursor: pointer;
+    background: var(--accent); color: var(--accent-ink); border: none; }
   .boot-t { margin: 0; font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 28px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
   .boot-s { margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 14px; color: var(--muted); max-width: 40ch; line-height: 1.5; }
   .boot-err .boot-s { color: var(--accent); }
   .main { position: fixed; inset: 0; background: var(--bg); }
-  .main .frame { position: absolute; inset: 0; }
+  .main .frame { position: absolute; inset: 0; height: auto; }
   .progress { position: fixed; left: 0; right: 0; bottom: 0; height: 4px; background: var(--line); z-index: 5; }
   .progress i { display: block; height: 100%; background: var(--accent); transition: width .3s ease; }
   .hint { position: fixed; right: 16px; bottom: 14px; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); opacity: .8; z-index: 5; }
@@ -295,11 +314,12 @@
   .touchnav.up { bottom: 74px; }
   .touchnav .btn { font-size: 26px; line-height: 1; padding: 6px 16px; }
   @media (pointer: coarse) { .touchnav { display: flex; } .hint { display: none; } }
-  @media (max-width: 700px) {
-    .listen { flex-wrap: wrap; gap: 8px 10px; padding: 8px 12px; }
-    .listen .cap { flex-basis: 100%; order: 10; font-size: 15px; max-height: 4.1em; }
-    .listen .chk { font-size: 12px; } .listen .lt { font-size: 12px; }
-    .main.with-bar .frame { bottom: 132px; } .touchnav.up { bottom: 142px; }
+  .phone-note { display: none; }
+  @media (pointer: coarse) and (orientation: portrait) {
+    .phone-note { display: grid; gap: 6px; position: fixed; left: 0; right: 0; top: calc(12px + env(safe-area-inset-top)); z-index: 5;
+      text-align: center; padding: 0 18px; pointer-events: none; font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 12px; line-height: 1.4; letter-spacing: .06em; color: var(--muted); }
+    .phone-note .ttl { color: var(--ink-2); font-weight: 500; }
   }
   .listen[hidden] { display: none; }
   .listen .fold { margin-left: 4px; }
@@ -313,6 +333,20 @@
   .listen .cap.idle { color: var(--muted); font-style: italic; }
   .listen .chk { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); white-space: nowrap; cursor: pointer; }
   .listen .bar { position: absolute; left: 0; top: -3px; height: 3px; background: var(--teal); transition: width .25s linear; }
+  @media (max-width: 700px) {
+    .listen { flex-wrap: wrap; gap: 8px 10px; padding: 8px 12px 10px; }
+    .listen .cap { flex: 1 0 100%; order: 10; font-size: 15px; line-height: 1.3; max-height: 3.9em; }
+    .listen .chk { font-size: 12px; } .listen .lt { font-size: 12px; }
+    .listen .pri { flex: 0 1 auto; min-width: 0; }
+    .main.with-bar .frame { bottom: 150px; } .touchnav.up { bottom: 160px; }
+  }
+  @media (max-height: 480px) {
+    .listen { flex-wrap: nowrap; gap: 10px; padding: 6px 12px; }
+    .listen .cap { flex: 1 1 0; order: 0; font-size: 13px; line-height: 1.3; max-height: 2.6em; }
+    .listen .pri { font-size: 13px; padding: 6px 12px; }
+    .listen .chk { display: none; }
+    .main.with-bar .frame { bottom: 62px; } .touchnav.up { bottom: 72px; }
+  }
   .transcript { position: fixed; right: 16px; top: 16px; bottom: 84px; width: min(440px, 42vw); overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; z-index: 6; display: grid; gap: 8px; align-content: start; box-shadow: var(--shadow); }
   .transcript h4 { margin: 0 0 6px; font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
   .transcript p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--muted); cursor: pointer; padding: 6px 8px; border-radius: 6px; }
@@ -374,42 +408,92 @@
   .sheet .row { display: flex; gap: 10px; justify-content: flex-end; }
 </style>
 
-<div id="root"><div class="boot" id="boot">
+<div id="root"></div>
+<!-- The boot card lives OUTSIDE #root. React's createRoot() empties its container on first
+     render, so a card inside #root was deleted before any failure could be reported: every
+     crash after that point showed an empty page, which on the dark theme reads as black. -->
+<div class="boot" id="boot">
   <p class="boot-t">Six Floors, One Architect</p>
   <p class="boot-s" id="boot-s">Loading the deck…</p>
-</div></div>
+</div>
 <script>
 (function () {
   var el = function (id) { return document.getElementById(id); };
-  var say = function (msg) {
-    var b = el('boot'), s = el('boot-s');
-    if (!b || !s) return;
-    b.classList.add('boot-err');
-    s.textContent = msg;
-  };
-  window.DECK_BOOT_OK = false;
+  window.DECK_BOOT_OK = false;   /* the deck script ran */
+  window.DECK_PAINTED = false;   /* the deck actually put a slide on screen */
   window.DECK_ERRORS = [];
+
+  function note(msg) {
+    msg = String(msg == null ? 'unknown' : msg).slice(0, 300);
+    if (window.DECK_ERRORS.indexOf(msg) === -1 && window.DECK_ERRORS.length < 8) window.DECK_ERRORS.push(msg);
+  }
+
+  /* Replace whatever is on screen with a readable failure card. Called for any state that
+     would otherwise leave the viewer staring at an empty, near-black page. */
+  function fail(headline, detail) {
+    var b = el('boot');
+    if (!b) {
+      b = document.createElement('div');
+      b.id = 'boot'; b.className = 'boot';
+      document.body.appendChild(b);
+    }
+    b.className = 'boot boot-err';
+    b.hidden = false;
+    b.innerHTML = '';
+    var t = document.createElement('p'); t.className = 'boot-t'; t.textContent = 'Six Floors, One Architect';
+    var m = document.createElement('p'); m.className = 'boot-s'; m.id = 'boot-s'; m.textContent = headline;
+    b.appendChild(t); b.appendChild(m);
+    if (detail) { var d = document.createElement('pre'); d.className = 'boot-d'; d.textContent = detail; b.appendChild(d); }
+    var r = document.createElement('button'); r.className = 'boot-b'; r.type = 'button'; r.textContent = 'Reload';
+    r.onclick = function () { location.reload(); };
+    b.appendChild(r);
+  }
+  window.DECK_FAIL = fail;
+
+  /* Called by the app once a slide is on screen; retires the boot card. */
+  window.DECK_ON_PAINT = function () {
+    window.DECK_PAINTED = true;
+    var b = el('boot');
+    if (b && b.parentNode && b.className.indexOf('boot-err') === -1) b.parentNode.removeChild(b);
+  };
+
   window.addEventListener('error', function (e) {
-    var s0 = (e.target && e.target.src) ? e.target.src.split('/').pop() : (e.message || 'error');
-    if (window.DECK_ERRORS.length < 6) window.DECK_ERRORS.push(s0);
-    if (window.DECK_BOOT_OK) return;
-    var src = (e.target && e.target.src) ? e.target.src.split('/').pop() : '';
-    say(src ? ('Could not load ' + src + '. Check your connection, then reload.')
-            : ('Error: ' + (e.message || 'unknown') + '. Reload to try again.'));
+    var src = (e.target && e.target.src) ? String(e.target.src).split('/').pop() : '';
+    note(src ? ('could not load ' + src) : (e.message || 'error'));
+    if (window.DECK_PAINTED) return;              /* a slide is up; a stray asset error is not fatal */
+    if (src && /\.(m4a|webp|png|jpg|css)$/i.test(src)) return;  /* media is optional, the deck is not */
+    fail(src ? ('Could not load ' + src + '. Check your connection, then reload.')
+             : ('The deck hit an error: ' + (e.message || 'unknown')),
+         window.DECK_ERRORS.join('\n'));
   }, true);
+
   window.addEventListener('unhandledrejection', function (e) {
-    if (window.DECK_ERRORS.length < 6) window.DECK_ERRORS.push('promise: ' + ((e.reason && e.reason.message) || e.reason));
-    if (!window.DECK_BOOT_OK) say('Error: ' + ((e.reason && e.reason.message) || e.reason) + '. Reload to try again.');
+    note('promise: ' + ((e.reason && e.reason.message) || e.reason));
   });
-  setTimeout(function () {
-    if (window.DECK_BOOT_OK) return;
-    var missing = [];
-    if (!window.React) missing.push('React');
-    if (!window.ReactDOM) missing.push('ReactDOM');
-    if (!window.Babel) missing.push('Babel');
-    say(missing.length ? ('Still loading: ' + missing.join(', ') + ' did not arrive. Check your connection, then reload.')
-                       : 'The deck script did not start. Reload to try again.');
-  }, 12000);
+
+  /* Watchdog. If nothing has been painted by the time these fire, say so on screen rather
+     than leaving an empty page. This is the net under every "it just went black" report. */
+  function watch(ms) {
+    setTimeout(function () {
+      if (window.DECK_PAINTED) return;
+      var missing = [];
+      if (!window.React) missing.push('React');
+      if (!window.ReactDOM) missing.push('ReactDOM');
+      if (missing.length) {
+        if (ms < 12000) return;                    /* still plausibly loading */
+        fail(missing.join(' and ') + ' did not arrive. Check your connection, then reload.', window.DECK_ERRORS.join('\n'));
+        return;
+      }
+      if (!window.DECK_BOOT_OK) {
+        if (ms < 12000) return;
+        fail('The deck script did not start. Reload to try again.', window.DECK_ERRORS.join('\n'));
+        return;
+      }
+      /* Script ran but nothing painted: the render threw. Show it. */
+      fail('The deck started but could not draw a slide.', window.DECK_ERRORS.join('\n') || 'No error was reported.');
+    }, ms);
+  }
+  watch(8000); watch(16000); watch(30000);
 })();
 </script>
 
@@ -1619,19 +1703,38 @@ const CH = 'elevator-deck-v1';
 const ME = Math.random().toString(36).slice(2);
 const bc = ('BroadcastChannel' in window) ? new BroadcastChannel(CH) : null;
 const DEFAULT = { index: 0, theme: 'system', blackout: false, timer: { running: false, startedAt: null, acc: 0 }, ns: 20, script: true, step: 0, lang: 'en' };
-function loadState() { try { const raw = localStorage.getItem(CH); if (raw) { const m = JSON.parse(raw); return { ...DEFAULT, ...m.state, blackout: false }; } } catch (e) {} return DEFAULT; }
+
+/* The saved position outlives the deck it was saved from. When slides are removed, a browser
+   that stopped on one of them comes back asking for a slide that no longer exists, SLIDES[i]
+   is undefined, and reading a property off it throws during render. React then unmounts the
+   whole tree and the page goes blank, which on the dark theme is a black screen that survives
+   every reload because the bad index is still in localStorage. Clamp on the way in, from every
+   source: stored state, another window, and our own patches. */
+function sanitize(state) {
+  const s = { ...state };
+  const last = SLIDES.length - 1;
+  let i = Math.floor(Number(s.index));
+  if (!isFinite(i)) i = 0;
+  s.index = Math.min(last, Math.max(0, i));
+  let step = Math.floor(Number(s.step));
+  if (!isFinite(step) || step < 0) step = 0;
+  s.step = Math.min(step, SLIDES[s.index].steps || 0);
+  if (!s.timer || typeof s.timer !== 'object') s.timer = { ...DEFAULT.timer };
+  return s;
+}
+function loadState() { try { const raw = localStorage.getItem(CH); if (raw) { const m = JSON.parse(raw); return sanitize({ ...DEFAULT, ...m.state, blackout: false }); } } catch (e) {} return DEFAULT; }
 function broadcast(state) { const msg = { src: ME, state }; try { bc && bc.postMessage(msg); } catch (e) {} try { localStorage.setItem(CH, JSON.stringify(msg)); } catch (e) {} }
 
 function useSharedState() {
   const [state, setLocal] = useState(loadState);
   useEffect(() => {
-    const onMsg = e => { const m = e.data; if (m && m.src !== ME && m.state) setLocal(s => ({ ...s, ...m.state })); };
-    const onStorage = e => { if (e.key !== CH || !e.newValue) return; try { const m = JSON.parse(e.newValue); if (m.src !== ME) setLocal(s => ({ ...s, ...m.state })); } catch (err) {} };
+    const onMsg = e => { const m = e.data; if (m && m.src !== ME && m.state) setLocal(s => sanitize({ ...s, ...m.state })); };
+    const onStorage = e => { if (e.key !== CH || !e.newValue) return; try { const m = JSON.parse(e.newValue); if (m.src !== ME) setLocal(s => sanitize({ ...s, ...m.state })); } catch (err) {} };
     bc && bc.addEventListener('message', onMsg);
     window.addEventListener('storage', onStorage);
     return () => { bc && bc.removeEventListener('message', onMsg); window.removeEventListener('storage', onStorage); };
   }, []);
-  const set = useCallback(patch => setLocal(s => { const n = { ...s, ...(typeof patch === 'function' ? patch(s) : patch) }; broadcast(n); return n; }), []);
+  const set = useCallback(patch => setLocal(s => { const n = sanitize({ ...s, ...(typeof patch === 'function' ? patch(s) : patch) }); broadcast(n); return n; }), []);
   return [state, set];
 }
 
@@ -2077,7 +2180,7 @@ function Debug({ state }) {
 function MainView({ state, set, dark, openOther }) {
   const [help, setHelp] = useState(false);
   const touchRef = useRef(null); const swipedRef = useRef(false);
-  const slide = SLIDES[state.index];
+  const slide = SLIDES[state.index] || SLIDES[0];
   /* ---- listen mode: narration audio + captions + auto-advance ---- */
   const track = AUDIO[slide.id];
   const audioRef = useRef(null);
@@ -2130,6 +2233,11 @@ function MainView({ state, set, dark, openOther }) {
         if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && Date.now() - t0.t < 800) { swipedRef.current = true; setTimeout(() => { swipedRef.current = false; }, 400); dx < 0 ? next() : prev(); } }}
       onClickCapture={e => { if (swipedRef.current) { e.stopPropagation(); e.preventDefault(); } }}>
       <Frame><Slide slide={slide} i={state.index} total={SLIDES.length} dark={dark} step={state.step || 0} /></Frame>
+      <div className="phone-note">
+        <span className="ttl">Six Floors, One Architect</span>
+        <span>{pad(state.index + 1)} / {SLIDES.length} · {slide.section}</span>
+        <span>Turn your phone sideways for a bigger slide</span>
+      </div>
       <div className="progress"><i style={{ width: `${(state.index / (SLIDES.length - 1)) * 100}%` }} /></div>
       <div className={'touchnav' + (track && !ls.collapsed ? ' up' : '')} onClick={e => e.stopPropagation()}>
         <button className="btn" aria-label="Previous slide" onClick={prev}>‹</button>
@@ -2164,7 +2272,7 @@ function SpeakerView({ state, set, dark, openOther }) {
   const [help, setHelp] = useState(false);
   const [now, setNow] = useState(Date.now());
   useEffect(() => { const id = setInterval(() => setNow(Date.now()), 250); return () => clearInterval(id); }, []);
-  const slide = SLIDES[state.index];
+  const slide = SLIDES[state.index] || SLIDES[0];
   const nxt = SLIDES[state.index + 1];
   const elapsedMs = state.timer.acc + (state.timer.running ? now - state.timer.startedAt : 0);
   const elapsed = elapsedMs / 1000;
@@ -2263,7 +2371,41 @@ function App() {
   return isSpeaker ? <SpeakerView state={state} set={set} dark={dark} openOther={openOther} /> : <MainView state={state} set={set} dark={dark} openOther={openOther} />;
 }
 
+/* ================= failure containment =================
+   Without a boundary React unmounts the whole tree when a render or effect throws, leaving an
+   empty #root. On the dark theme that is a black screen with nothing to read and nothing to tap.
+   The boundary keeps a readable card on screen and names the error instead. */
+class ErrorBoundary extends React.Component {
+  constructor(props) { super(props); this.state = { err: null }; }
+  static getDerivedStateFromError(err) { return { err }; }
+  componentDidCatch(err) {
+    try { window.DECK_ERRORS.push('render: ' + ((err && err.message) || err)); } catch (e) {}
+    try { const b = document.getElementById('boot'); if (b && b.parentNode) b.parentNode.removeChild(b); } catch (e) {}
+  }
+  render() {
+    if (!this.state.err) return this.props.children;
+    const e = this.state.err;
+    const detail = [(e && e.stack) || String(e), 'slide ' + (SLIDES.length ? '1-' + SLIDES.length : '?'),
+      'viewport ' + window.innerWidth + 'x' + window.innerHeight + ' dpr ' + (window.devicePixelRatio || 1)].join('\n');
+    return (
+      <div className="boot boot-err">
+        <p className="boot-t">Six Floors, One Architect</p>
+        <p className="boot-s">The deck hit an error while drawing this slide.</p>
+        <pre className="boot-d">{detail}</pre>
+        <button className="boot-b" type="button" onClick={() => location.reload()}>Reload</button>
+      </div>);
+  }
+}
+
+/* Tells the boot card a slide is genuinely on screen, so it can retire itself. */
+function Painted({ children }) {
+  useEffect(() => { try { window.DECK_ON_PAINT && window.DECK_ON_PAINT(); } catch (e) {} }, []);
+  return children;
+}
+
 window.DECK_BOOT_OK = true;
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <ErrorBoundary><Painted><App /></Painted></ErrorBoundary>
+);
 </script>
 </html>

@@ -1703,19 +1703,38 @@ const CH = 'elevator-deck-v1';
 const ME = Math.random().toString(36).slice(2);
 const bc = ('BroadcastChannel' in window) ? new BroadcastChannel(CH) : null;
 const DEFAULT = { index: 0, theme: 'system', blackout: false, timer: { running: false, startedAt: null, acc: 0 }, ns: 20, script: true, step: 0, lang: 'en' };
-function loadState() { try { const raw = localStorage.getItem(CH); if (raw) { const m = JSON.parse(raw); return { ...DEFAULT, ...m.state, blackout: false }; } } catch (e) {} return DEFAULT; }
+
+/* The saved position outlives the deck it was saved from. When slides are removed, a browser
+   that stopped on one of them comes back asking for a slide that no longer exists, SLIDES[i]
+   is undefined, and reading a property off it throws during render. React then unmounts the
+   whole tree and the page goes blank, which on the dark theme is a black screen that survives
+   every reload because the bad index is still in localStorage. Clamp on the way in, from every
+   source: stored state, another window, and our own patches. */
+function sanitize(state) {
+  const s = { ...state };
+  const last = SLIDES.length - 1;
+  let i = Math.floor(Number(s.index));
+  if (!isFinite(i)) i = 0;
+  s.index = Math.min(last, Math.max(0, i));
+  let step = Math.floor(Number(s.step));
+  if (!isFinite(step) || step < 0) step = 0;
+  s.step = Math.min(step, SLIDES[s.index].steps || 0);
+  if (!s.timer || typeof s.timer !== 'object') s.timer = { ...DEFAULT.timer };
+  return s;
+}
+function loadState() { try { const raw = localStorage.getItem(CH); if (raw) { const m = JSON.parse(raw); return sanitize({ ...DEFAULT, ...m.state, blackout: false }); } } catch (e) {} return DEFAULT; }
 function broadcast(state) { const msg = { src: ME, state }; try { bc && bc.postMessage(msg); } catch (e) {} try { localStorage.setItem(CH, JSON.stringify(msg)); } catch (e) {} }
 
 function useSharedState() {
   const [state, setLocal] = useState(loadState);
   useEffect(() => {
-    const onMsg = e => { const m = e.data; if (m && m.src !== ME && m.state) setLocal(s => ({ ...s, ...m.state })); };
-    const onStorage = e => { if (e.key !== CH || !e.newValue) return; try { const m = JSON.parse(e.newValue); if (m.src !== ME) setLocal(s => ({ ...s, ...m.state })); } catch (err) {} };
+    const onMsg = e => { const m = e.data; if (m && m.src !== ME && m.state) setLocal(s => sanitize({ ...s, ...m.state })); };
+    const onStorage = e => { if (e.key !== CH || !e.newValue) return; try { const m = JSON.parse(e.newValue); if (m.src !== ME) setLocal(s => sanitize({ ...s, ...m.state })); } catch (err) {} };
     bc && bc.addEventListener('message', onMsg);
     window.addEventListener('storage', onStorage);
     return () => { bc && bc.removeEventListener('message', onMsg); window.removeEventListener('storage', onStorage); };
   }, []);
-  const set = useCallback(patch => setLocal(s => { const n = { ...s, ...(typeof patch === 'function' ? patch(s) : patch) }; broadcast(n); return n; }), []);
+  const set = useCallback(patch => setLocal(s => { const n = sanitize({ ...s, ...(typeof patch === 'function' ? patch(s) : patch) }); broadcast(n); return n; }), []);
   return [state, set];
 }
 
@@ -2161,7 +2180,7 @@ function Debug({ state }) {
 function MainView({ state, set, dark, openOther }) {
   const [help, setHelp] = useState(false);
   const touchRef = useRef(null); const swipedRef = useRef(false);
-  const slide = SLIDES[state.index];
+  const slide = SLIDES[state.index] || SLIDES[0];
   /* ---- listen mode: narration audio + captions + auto-advance ---- */
   const track = AUDIO[slide.id];
   const audioRef = useRef(null);
@@ -2253,7 +2272,7 @@ function SpeakerView({ state, set, dark, openOther }) {
   const [help, setHelp] = useState(false);
   const [now, setNow] = useState(Date.now());
   useEffect(() => { const id = setInterval(() => setNow(Date.now()), 250); return () => clearInterval(id); }, []);
-  const slide = SLIDES[state.index];
+  const slide = SLIDES[state.index] || SLIDES[0];
   const nxt = SLIDES[state.index + 1];
   const elapsedMs = state.timer.acc + (state.timer.running ? now - state.timer.startedAt : 0);
   const elapsed = elapsedMs / 1000;

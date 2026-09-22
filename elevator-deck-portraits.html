@@ -1,0 +1,2484 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Chrome for Android applies its own "darken the page" filter to any document that does not
+     say it handles dark mode itself. On this deck that landed on top of the already-dark theme
+     and flattened text and background into the same near-black. Declaring color-scheme opts out. -->
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F6F8">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0B1420">
+<title>Six Floors, One Architect · portraits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Non-blocking: on a phone with a slow or filtered connection the deck must not wait for fonts. -->
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap"></noscript>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #F4F6F8;
+    --surface: #FFFFFF;
+    --surface-2: #E9EDF1;
+    --ink: #101820;
+    --ink-2: #2E3A45;
+    --muted: #5A6873;
+    --line: #D3DBE2;
+    --line-strong: #A9B6C1;
+    --accent: #C8401F;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #F9E4DD;
+    --teal: #0F7C82;
+    --teal-soft: #DCEFF0;
+    --mark: #FFE79A;
+    --mark-ink: #2A1F00;
+    --card: #FBF6EA;
+    --card-line: #E4D9BE;
+    --shadow: 0 2px 6px rgba(16,24,32,.08), 0 14px 40px rgba(16,24,32,.10);
+    --elev-glass: rgba(15,124,130,.18);
+    --window-off: #D3DBE2;
+    --window-on: #FFD874;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0B1420;
+      --surface: #142031;
+      --surface-2: #1B2B40;
+      --ink: #ECF0F4;
+      --ink-2: #C9D3DC;
+      --muted: #96A5B3;
+      --line: #263A52;
+      --line-strong: #3B5270;
+      --accent: #F26A45;
+      --accent-ink: #12100F;
+      --accent-soft: #3B241C;
+      --teal: #45BDC0;
+      --teal-soft: #14343A;
+      --mark: #5A4A12;
+      --mark-ink: #FFF2C2;
+      --card: #24201A;
+      --card-line: #3D362A;
+      --shadow: 0 2px 6px rgba(0,0,0,.4), 0 14px 40px rgba(0,0,0,.45);
+      --elev-glass: rgba(69,189,192,.22);
+      --window-off: #22344B;
+      --window-on: #FFD874;
+    }
+  }
+  :root[data-theme="light"] { color-scheme: light; }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0B1420;
+    --surface: #142031;
+    --surface-2: #1B2B40;
+    --ink: #ECF0F4;
+    --ink-2: #C9D3DC;
+    --muted: #96A5B3;
+    --line: #263A52;
+    --line-strong: #3B5270;
+    --accent: #F26A45;
+    --accent-ink: #12100F;
+    --accent-soft: #3B241C;
+    --teal: #45BDC0;
+    --teal-soft: #14343A;
+    --mark: #5A4A12;
+    --mark-ink: #FFF2C2;
+    --card: #24201A;
+    --card-line: #3D362A;
+    --shadow: 0 2px 6px rgba(0,0,0,.4), 0 14px 40px rgba(0,0,0,.45);
+    --elev-glass: rgba(69,189,192,.22);
+    --window-off: #22344B;
+    --window-on: #FFD874;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow: hidden;
+  }
+  #root { height: 100%; }
+  button { font: inherit; }
+  :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-variant-numeric: tabular-nums; }
+  .display { font-family: "Bricolage Grotesque", "IBM Plex Sans", sans-serif; font-variation-settings: "opsz" 96; letter-spacing: -.02em; line-height: 1.02; text-wrap: balance; }
+
+  /* ---------- slide frame (scales a 1600x900 canvas) ---------- */
+  .frame { position: relative; width: 100%; height: 100%; display: grid; place-items: center; overflow: hidden; }
+  .canvas {
+    width: 1600px; height: 900px; position: absolute; left: 50%; top: 50%;
+    transform-origin: 0 0; background: var(--bg); color: var(--ink);
+    overflow: hidden;
+  }
+  .slide { position: absolute; inset: 0; padding: 88px 104px; display: grid; }
+  .slide .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 20px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .slide .eyebrow b { color: var(--accent); font-weight: 600; }
+  .slide h1 { margin: 0; font-size: 112px; font-weight: 700; }
+  .slide h2 { margin: 0; font-size: 72px; font-weight: 700; }
+  .slide h3 { margin: 0; font-size: 44px; font-weight: 600; letter-spacing: -.01em; }
+  .slide p { margin: 0; }
+  .slide .body { font-size: 32px; line-height: 1.4; color: var(--ink-2); }
+  .slide .body b, .slide li b { color: var(--ink); font-weight: 600; }
+  .slide ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 22px; }
+  .slide li { font-size: 32px; line-height: 1.35; color: var(--ink-2); position: relative; padding-left: 42px; }
+  .slide li::before { content: ""; position: absolute; left: 0; top: .48em; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+  .slide .foot { position: absolute; left: 104px; right: 104px; bottom: 44px; display: flex; justify-content: space-between; align-items: center; font-family: "IBM Plex Mono", monospace; font-size: 18px; color: var(--muted); letter-spacing: .06em; }
+  .slide .foot .sec { text-transform: uppercase; }
+  .slide .foot .n { font-variant-numeric: tabular-nums; }
+  .slide .rule { height: 4px; width: 120px; background: var(--accent); border-radius: 2px; }
+
+  .l-title { align-content: center; gap: 28px; }
+  .l-title .sub { font-size: 40px; color: var(--muted); max-width: 26ch; line-height: 1.25; }
+  .l-title .who { font-size: 26px; color: var(--muted); margin-top: 16px; }
+  .l-title-grid { display: grid; grid-template-columns: 1fr 460px; gap: 60px; align-items: center; }
+  .slide h1 em { font-style: normal; color: var(--accent); }
+  .slide .credit { font-size: 21px; color: var(--muted); line-height: 1.4; max-width: 52ch; border-top: 1px solid var(--line); padding-top: 14px; }
+  .l-reading { grid-template-rows: auto 1fr; gap: 36px; }
+  .reads { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 40px; align-content: start; }
+  .read { display: grid; gap: 4px; padding: 18px 0; border-top: 1px solid var(--line); }
+  .read .who { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -.01em; }
+  .read .what { font-size: 23px; color: var(--ink-2); }
+  .read .why { font-size: 21px; color: var(--muted); }
+  .read:first-child .who { color: var(--accent); }
+
+  .l-memo { grid-template-columns: 440px 1fr; gap: 64px; align-items: center; }
+  .memo { background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); padding: 34px 40px; font-family: "IBM Plex Mono", monospace; font-size: 19px; line-height: 1.45; color: var(--ink-2); transform: rotate(-1.2deg); max-height: 700px; }
+  .memo .hdr { color: var(--muted); font-size: 15px; letter-spacing: .1em; text-transform: uppercase; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 14px; }
+  .memo ol { margin: 0; padding-left: 26px; display: grid; gap: 8px; }
+  .memo .sig { margin-top: 16px; color: var(--accent); font-weight: 600; }
+
+  .l-statement { align-content: center; gap: 36px; }
+  .l-statement blockquote { margin: 0; font-size: 68px; font-weight: 600; line-height: 1.12; max-width: 22ch; }
+  .l-statement blockquote em { font-style: normal; color: var(--accent); }
+  .l-statement .attr { font-size: 28px; color: var(--muted); }
+  .l-statement .attr b { color: var(--ink); font-weight: 600; }
+
+  .l-building { grid-template-columns: 530px 1fr; gap: 80px; align-items: center; }
+  .l-building .txt { display: grid; gap: 28px; }
+
+  .l-floor { grid-template-columns: 470px 1fr; gap: 70px; align-items: center; }
+  .l-floor .num { font-family: "IBM Plex Mono", monospace; font-size: 26px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .l-floor .txt { display: grid; gap: 30px; }
+  .l-floor .def { font-size: 34px; line-height: 1.35; color: var(--ink-2); max-width: 30ch; }
+  .l-floor .def b { color: var(--ink); }
+
+  .l-story { grid-template-columns: 640px 1fr; gap: 72px; align-items: center; }
+  .l-story.wide { grid-template-columns: 740px 1fr; gap: 56px; }
+  .l-story.wide .txt h2 { font-size: 54px !important; }
+  .l-story.wide li { font-size: 27px; }
+  .l-story.tall { grid-template-columns: 460px 1fr; gap: 72px; }
+  .l-story .txt { display: grid; gap: 30px; }
+  .l-story .txt .when { font-family: "IBM Plex Mono", monospace; font-size: 20px; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+
+  .l-diagram { grid-template-rows: auto 1fr; gap: 24px; }
+  .l-diagram .cap { font-size: 26px; color: var(--muted); }
+  .dgwrap { display: grid; place-items: start center; min-height: 0; }
+  .dg { position: relative; width: 1392px; height: 520px; }
+  .dg .bgl { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .dnode { position: absolute; background: var(--surface); border: 2px solid var(--line-strong); border-radius: 14px; padding: 16px 20px; font-size: 24px; line-height: 1.3; color: var(--ink); display: grid; gap: 6px; align-content: start; }
+  .dnode .lbl, .dlabel, .dpanel-t { font-family: "IBM Plex Mono", monospace; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .dnode.teal { border-color: var(--teal); } .dnode.teal .lbl { color: var(--teal); }
+  .dnode.acc { border-color: var(--accent); background: var(--accent-soft); } .dnode.acc .lbl { color: var(--accent); }
+  .dnode.fill { background: var(--teal); border-color: var(--teal); color: #fff; } .dnode.fill .lbl { color: rgba(255,255,255,.75); }
+  .dnode.dim { border-style: dashed; color: var(--muted); background: transparent; }
+  .dlabel { position: absolute; white-space: nowrap; }
+  .dyear { position: absolute; transform: translateX(-50%); font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: 54px; letter-spacing: -.02em; line-height: 1; }
+  .dyear.dim { color: var(--line-strong); font-weight: 500; font-size: 40px; padding-top: 10px; }
+  .dyear.acc { color: var(--accent); }
+  .dfoot { position: absolute; font-size: 21px; color: var(--muted); text-align: center; line-height: 1.3; }
+  .dpanel { position: absolute; border: 2px dashed var(--line); border-radius: 18px; }
+  .dpanel-t { position: absolute; }
+  .ppl { display: flex; gap: 5px; } .ppl i { width: 14px; height: 14px; border-radius: 50%; background: currentColor; opacity: .55; display: block; }
+  .ppl i:nth-child(2) { opacity: .8; } .ppl i:nth-child(3) { opacity: 1; }
+  .hex { width: 22px; height: 22px; display: block; }
+  /* rows layout (speaking order, inverse conway) */
+  .drows { position: absolute; inset: 0; display: grid; grid-template-rows: 1fr 1fr; gap: 28px; }
+  .drow { display: grid; grid-template-columns: 250px 1fr; gap: 28px; align-items: center; }
+  .drow.reveal { transition: opacity .5s ease, transform .5s ease; } .drow.reveal.held { opacity: 0; transform: translateY(14px); } .drow.reveal.shown { opacity: 1; transform: none; }
+  .drow .rk { display: grid; gap: 8px; align-content: center; }
+  .drow .rk b { font-family: "Bricolage Grotesque", sans-serif; font-size: 30px; font-weight: 700; line-height: 1.1; letter-spacing: -.01em; }
+  .drow .rk span { font-size: 18px; color: var(--muted); }
+  .drow .flow { display: flex; align-items: center; gap: 14px; }
+  .drow .flow .dnode { position: relative; flex: 1; min-height: 132px; }
+  .darrow { flex: 0 0 auto; display: grid; justify-items: center; gap: 4px; color: var(--muted); }
+  .darrow.teal { color: var(--teal); }
+  .darrow .al { font-family: "IBM Plex Mono", monospace; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+  .bubble { position: relative; }
+  .bubble::after { content: ""; position: absolute; left: 34px; bottom: -14px; width: 24px; height: 24px; background: inherit; border-right: 2px solid; border-bottom: 2px solid; border-color: inherit; transform: rotate(45deg); border-radius: 0 0 4px 0; }
+  .bubble .q { font-size: 26px; font-weight: 500; }
+  .bubble.dim .q { font-weight: 400; }
+  .l-compare { grid-template-rows: auto 1fr; gap: 40px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-content: start; }
+  .col { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 36px 40px; display: grid; gap: 20px; align-content: start; transition: border-color .4s ease, box-shadow .4s ease; }
+  .col.hi { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-soft); }
+  .col h3 { font-size: 40px; }
+  .col .k { font-family: "IBM Plex Mono", monospace; font-size: 18px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .col.hi .k { color: var(--teal); }
+  .col ul { gap: 14px; } .col li { font-size: 27px; transition: opacity .45s ease; }
+  .col li.held { opacity: 0; } .col li.shown { opacity: 1; }
+
+  .l-tool { align-content: center; gap: 40px; }
+  .toolcard { background: var(--surface); border: 1px solid var(--line); border-left: 12px solid var(--accent); border-radius: 12px; padding: 48px 56px; box-shadow: var(--shadow); display: grid; gap: 18px; max-width: 1200px; }
+  .toolcard .k { font-family: "IBM Plex Mono", monospace; font-size: 20px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .toolcard .phrase { font-size: 56px; font-weight: 600; line-height: 1.12; }
+  .toolcard .how { font-size: 28px; color: var(--muted); line-height: 1.4; }
+
+  .l-rules { grid-template-rows: auto 1fr; gap: 44px; }
+  .rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; align-content: start; }
+  .rule-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 36px; display: grid; gap: 14px; align-content: start; }
+  .rule-card .n { font-family: "Bricolage Grotesque", sans-serif; font-size: 72px; font-weight: 800; color: var(--accent); line-height: 1; }
+  .rule-card h3 { font-size: 36px; }
+  .rule-card p { font-size: 25px; color: var(--muted); line-height: 1.4; }
+
+  .l-adr { grid-template-rows: auto 1fr; gap: 36px; }
+  .adr { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-content: start; }
+  .adr .box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 34px 36px; display: grid; gap: 12px; align-content: start; }
+  .adr .box .k { font-family: "IBM Plex Mono", monospace; font-size: 18px; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
+  .adr .box h3 { font-size: 36px; }
+  .adr .box p { font-size: 25px; color: var(--muted); line-height: 1.4; }
+  .adr-file { font-family: "IBM Plex Mono", monospace; font-size: 22px; color: var(--muted); }
+
+  .l-vocab { grid-template-rows: auto 1fr; gap: 40px; }
+  .vocab { display: grid; grid-template-columns: 1fr 200px 1fr; gap: 28px; align-items: center; }
+  .vocab .side { display: grid; gap: 16px; }
+  .vocab .side .k { font-family: "IBM Plex Mono", monospace; font-size: 18px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .vocab .word { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px 28px; font-size: 32px; font-weight: 500; }
+  .vocab .mid { display: grid; place-items: center; }
+
+  .l-bubbles { grid-template-rows: auto 1fr; gap: 20px; }
+  .bubbles { position: relative; }
+  .bub { position: absolute; border-radius: 50%; display: grid; place-items: center; text-align: center; padding: 20px; font-weight: 500; line-height: 1.2; }
+  .bub.big { background: var(--accent); color: var(--accent-ink); }
+  .bub.mid { background: var(--teal); color: #fff; }
+  .bub.small { background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line); }
+
+  .l-c4 { grid-template-rows: auto 1fr; gap: 18px; }
+  .c4grid { display: grid; grid-template-columns: 860px 1fr; gap: 44px; align-items: start; }
+  .c4dg { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 0; overflow: hidden; }
+  .c4txt { display: grid; gap: 16px; align-content: start; }
+  .c4txt .lead { font-size: 26px; line-height: 1.35; color: var(--ink); }
+  .c4txt .lead b { color: var(--teal); }
+  .c4txt ul { gap: 10px; } .c4txt li { font-size: 21px; padding-left: 30px; line-height: 1.35; } .c4txt li::before { width: 9px; height: 9px; top: .5em; }
+  .c4txt .do { border-left: 6px solid var(--accent); padding: 12px 16px; background: var(--accent-soft); border-radius: 0 10px 10px 0; font-size: 20px; line-height: 1.35; display: grid; gap: 4px; }
+  .c4txt .do .k { font-family: "IBM Plex Mono", monospace; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .c4txt .ref { font-family: "IBM Plex Mono", monospace; font-size: 14px; color: var(--muted); line-height: 1.45; }
+
+  .l-handoff { align-content: center; justify-items: start; gap: 36px; }
+  .l-handoff .big { font-size: 96px; font-weight: 700; line-height: 1; }
+  .l-handoff .big em { font-style: normal; color: var(--accent); }
+  .l-handoff .sub { font-size: 36px; color: var(--muted); }
+
+  /* image panel */
+  .img { position: relative; border-radius: 14px; overflow: hidden; background: var(--surface-2); border: 1px solid var(--line); aspect-ratio: 4 / 3; max-width: 100%; box-shadow: var(--shadow); }
+  .img.r169 { aspect-ratio: 16 / 9; width: 100%; }
+  .img.r23 { aspect-ratio: 2 / 3; height: 690px; width: auto; justify-self: center; }
+  .img.r916 { aspect-ratio: 9 / 16; height: 710px; width: auto; justify-self: center; }
+  .l-title-grid .img.r23 { height: 690px; }
+  .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .img .ph { position: absolute; inset: 0; display: grid; align-content: end; padding: 28px; gap: 8px; background-image: linear-gradient(to top, var(--surface) 0%, transparent 55%), repeating-linear-gradient(45deg, transparent 0 22px, var(--line) 22px 23px); }
+  .img .ph .k { font-family: "IBM Plex Mono", monospace; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .img .ph .t { font-size: 24px; color: var(--muted); line-height: 1.3; }
+
+  /* portraits: small round photos of the people the deck quotes, beside their attribution */
+  .faces { display: inline-flex; gap: 12px; flex: 0 0 auto; }
+  .face { display: inline-grid; place-items: center; border-radius: 50%; overflow: hidden; background: var(--surface-2); border: 3px solid var(--surface); box-shadow: var(--shadow); }
+  .face img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .face .ini { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; color: var(--muted); letter-spacing: -.02em; }
+  .byline { display: flex; align-items: center; gap: 22px; }
+  .l-title .byline { margin-top: 16px; } .l-title .byline .who { margin-top: 0; }
+  .l-statement { gap: 30px; }   /* the face adds height; the longest quote must stay inside the slide */
+  .toolcard .by { font-size: 24px; color: var(--muted); font-weight: 500; }
+  .l-reading { grid-template-rows: auto 1fr auto; gap: 24px; }
+  .l-reading .reads { gap: 10px 40px; } .l-reading .read { padding: 12px 0; }
+  .credits { font-family: "IBM Plex Mono", monospace; font-size: 14px; line-height: 1.45; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
+
+  /* building svg */
+  .bld .car { transition: transform .9s cubic-bezier(.65,.05,.36,1); }
+  .bld .floor-lbl { font-family: "IBM Plex Mono", monospace; font-size: 22px; fill: var(--muted); letter-spacing: .06em; }
+  .bld .floor-lbl.on { fill: var(--ink); font-weight: 600; }
+  .bld .role-lbl { font-family: "IBM Plex Sans", sans-serif; font-size: 20px; fill: var(--muted); }
+  .bld .role-lbl.on { fill: var(--accent); font-weight: 600; }
+  .bld .win { fill: var(--window-off); transition: fill .6s ease; }
+  .bld .win.on { fill: var(--window-on); }
+  @media (prefers-reduced-motion: reduce) { .bld .car { transition: none; } }
+
+  /* ---------- main view chrome ---------- */
+  .boot { position: fixed; inset: 0; z-index: 90; display: grid; place-content: center; justify-items: center; gap: 10px; text-align: center; padding: 24px; background: var(--bg); }
+  .boot[hidden] { display: none; }
+  .boot-d { margin: 4px 0 0; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; line-height: 1.5; color: var(--muted);
+    max-width: min(46ch, calc(100vw - 48px)); max-height: 34vh; overflow: auto; white-space: pre-wrap; word-break: break-word; text-align: left;
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+  .boot-b { margin-top: 6px; font: inherit; font-size: 15px; padding: 10px 22px; border-radius: 10px; cursor: pointer;
+    background: var(--accent); color: var(--accent-ink); border: none; }
+  .boot-t { margin: 0; font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 28px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+  .boot-s { margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 14px; color: var(--muted); max-width: 40ch; line-height: 1.5; }
+  .boot-err .boot-s { color: var(--accent); }
+  .main { position: fixed; inset: 0; background: var(--bg); }
+  .main .frame { position: absolute; inset: 0; height: auto; }
+  .progress { position: fixed; left: 0; right: 0; bottom: 0; height: 4px; background: var(--line); z-index: 5; }
+  .progress i { display: block; height: 100%; background: var(--accent); transition: width .3s ease; }
+  .hint { position: fixed; right: 16px; bottom: 14px; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); opacity: .8; z-index: 5; }
+  .blackout { position: fixed; inset: 0; background: #000; z-index: 50; display: grid; place-content: center; }
+  .blackout span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; color: #444; }
+  .main.with-bar .frame { bottom: 64px; }
+  .hint.up { bottom: 74px; }
+  .touchnav { display: none; position: fixed; left: 12px; bottom: 12px; z-index: 6; gap: 8px; }
+  .touchnav.up { bottom: 74px; }
+  .touchnav .btn { font-size: 26px; line-height: 1; padding: 6px 16px; }
+  @media (pointer: coarse) { .touchnav { display: flex; } .hint { display: none; } }
+  .phone-note { display: none; }
+  @media (pointer: coarse) and (orientation: portrait) {
+    .phone-note { display: grid; gap: 6px; position: fixed; left: 0; right: 0; top: calc(12px + env(safe-area-inset-top)); z-index: 5;
+      text-align: center; padding: 0 18px; pointer-events: none; font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 12px; line-height: 1.4; letter-spacing: .06em; color: var(--muted); }
+    .phone-note .ttl { color: var(--ink-2); font-weight: 500; }
+  }
+  .listen[hidden] { display: none; }
+  .listen .fold { margin-left: 4px; }
+  .listen-pill { position: fixed; left: 14px; bottom: 14px; z-index: 6; }
+  .dbg { position: fixed; left: 8px; top: 8px; z-index: 99; background: rgba(0,0,0,.82); color: #7CFFB2; border: 1px solid #2c5c44;
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; line-height: 1.5; padding: 8px 10px; border-radius: 8px;
+    max-width: calc(100vw - 16px); white-space: pre-wrap; word-break: break-word; pointer-events: none; }
+  .listen { position: fixed; left: 0; right: 0; bottom: 4px; z-index: 6; display: flex; align-items: center; gap: 14px; padding: 10px 16px; background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -6px 24px rgba(0,0,0,.12); }
+  .listen .lt { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .listen .cap { flex: 1; font-size: 17px; line-height: 1.35; color: var(--ink); min-height: 1.35em; max-height: 2.7em; overflow: hidden; }
+  .listen .cap.idle { color: var(--muted); font-style: italic; }
+  .listen .chk { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); white-space: nowrap; cursor: pointer; }
+  .listen .bar { position: absolute; left: 0; top: -3px; height: 3px; background: var(--teal); transition: width .25s linear; }
+  @media (max-width: 700px) {
+    .listen { flex-wrap: wrap; gap: 8px 10px; padding: 8px 12px 10px; }
+    .listen .cap { flex: 1 0 100%; order: 10; font-size: 15px; line-height: 1.3; max-height: 3.9em; }
+    .listen .chk { font-size: 12px; } .listen .lt { font-size: 12px; }
+    .listen .pri { flex: 0 1 auto; min-width: 0; }
+    .main.with-bar .frame { bottom: 150px; } .touchnav.up { bottom: 160px; }
+  }
+  @media (max-height: 480px) {
+    .listen { flex-wrap: nowrap; gap: 10px; padding: 6px 12px; }
+    .listen .cap { flex: 1 1 0; order: 0; font-size: 13px; line-height: 1.3; max-height: 2.6em; }
+    .listen .pri { font-size: 13px; padding: 6px 12px; }
+    .listen .chk { display: none; }
+    .main.with-bar .frame { bottom: 62px; } .touchnav.up { bottom: 72px; }
+  }
+  .transcript { position: fixed; right: 16px; top: 16px; bottom: 84px; width: min(440px, 42vw); overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; z-index: 6; display: grid; gap: 8px; align-content: start; box-shadow: var(--shadow); }
+  .transcript h4 { margin: 0 0 6px; font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  .transcript p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--muted); cursor: pointer; padding: 6px 8px; border-radius: 6px; }
+  .transcript p:hover { background: var(--surface-2); }
+  .transcript p.cur { background: var(--mark); color: var(--mark-ink); }
+
+  /* ---------- speaker view ---------- */
+  .spk { height: 100%; display: grid; grid-template-rows: auto 1fr; background: var(--bg); }
+  .spk-bar { display: flex; align-items: center; gap: 22px; padding: 12px 20px; border-bottom: 1px solid var(--line); background: var(--surface); flex-wrap: wrap; }
+  .timer { display: grid; gap: 0; }
+  .timer .big { font-family: "IBM Plex Mono", monospace; font-size: 44px; font-weight: 600; line-height: 1; letter-spacing: -.02em; }
+  .timer .k { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .delta { font-family: "IBM Plex Mono", monospace; font-size: 22px; font-weight: 600; padding: 6px 12px; border-radius: 8px; }
+  .delta.ok { background: var(--teal-soft); color: var(--teal); }
+  .delta.late { background: var(--accent-soft); color: var(--accent); }
+  .delta.idle { background: var(--surface-2); color: var(--muted); }
+  .clock { font-family: "IBM Plex Mono", monospace; font-size: 22px; color: var(--muted); }
+  .spk-bar .sp { flex: 1; }
+  .btn { appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 14px; font-weight: 500; display: inline-flex; gap: 6px; align-items: center; white-space: nowrap; }
+  .btn:hover { border-color: var(--line-strong); background: var(--surface-2); }
+  .btn.pri { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .btn.sm { padding: 5px 9px; font-size: 13px; }
+  .btn kbd { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; }
+  .btn.pri kbd { color: var(--accent-ink); border-color: rgba(255,255,255,.4); }
+
+  .spk-body { display: grid; grid-template-columns: minmax(360px, 44%) 1fr; gap: 0; min-height: 0; }
+  @media (max-width: 900px) { .spk-body { grid-template-columns: 1fr; grid-template-rows: auto 1fr; overflow: auto; } }
+  .spk-left { display: grid; grid-template-rows: auto auto 1fr; gap: 14px; padding: 18px; border-right: 1px solid var(--line); min-height: 0; overflow: auto; }
+  .prev { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); background: var(--bg); }
+  .prev .frame { aspect-ratio: 16/9; height: auto; }
+  .prev .cap { display: flex; justify-content: space-between; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 8px 12px; border-top: 1px solid var(--line); background: var(--surface); }
+  .prev.next { max-width: 62%; box-shadow: none; }
+  .spk-right { display: grid; grid-template-rows: auto 1fr; min-height: 0; }
+  .notes-head { display: flex; align-items: center; gap: 10px; padding: 14px 22px 10px; flex-wrap: wrap; }
+  .notes-head .ttl { font-family: "Bricolage Grotesque", sans-serif; font-size: 22px; font-weight: 700; flex: 1; letter-spacing: -.01em; }
+  .notes-head .plan { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+  .notes { overflow: auto; padding: 0 22px 40px; min-height: 0; display: grid; gap: 18px; align-content: start; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; font-size: calc(var(--ns, 20px) * 1.05); padding: 6px 12px; border-radius: 8px; background: var(--mark); color: var(--mark-ink); letter-spacing: -.01em; line-height: 1.1; }
+  .ntext { font-size: var(--ns, 20px); line-height: 1.6; color: var(--ink-2); max-width: 70ch; display: grid; gap: 14px; }
+  .ntext mark { background: var(--mark); color: var(--mark-ink); font-weight: 600; padding: 0 4px; border-radius: 4px; }
+  .cuebox { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: calc(var(--ns, 20px) * .9); max-width: 70ch; }
+  .cuebox .k { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 4px; }
+  .srcbox { font-size: 13.5px; color: var(--muted); max-width: 70ch; }
+  .script { border-top: 3px solid var(--teal); padding-top: 14px; max-width: 72ch; display: grid; gap: 12px; }
+  .script .k { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); }
+  .stext { font-size: var(--ns, 20px); line-height: 1.7; color: var(--ink); display: grid; gap: 14px; }
+  .stext p { margin: 0; }
+  .stext i { color: var(--muted); }
+  /* overlay */
+  .overlay { position: fixed; inset: 0; background: rgba(6,10,16,.55); display: grid; place-items: center; z-index: 60; padding: 20px; }
+  .sheet { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); max-width: 860px; width: 100%; max-height: 90vh; overflow: auto; padding: 26px 30px; display: grid; gap: 18px; }
+  .sheet h2 { margin: 0; font-family: "Bricolage Grotesque", sans-serif; font-size: 28px; }
+  .sheet h3 { margin: 18px 0 8px; font-size: 16px; font-family: "IBM Plex Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  .keys { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px 20px; font-size: 14.5px; }
+  .keys kbd { font-family: "IBM Plex Mono", monospace; font-size: 12px; border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; background: var(--surface-2); margin-right: 6px; }
+  .sheet ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 14.5px; color: var(--ink-2); }
+  .sheet textarea { width: 100%; min-height: 300px; font: 13px/1.5 "IBM Plex Mono", monospace; background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+  .sheet .row { display: flex; gap: 10px; justify-content: flex-end; }
+</style>
+
+<div id="root"></div>
+<!-- The boot card lives OUTSIDE #root. React's createRoot() empties its container on first
+     render, so a card inside #root was deleted before any failure could be reported: every
+     crash after that point showed an empty page, which on the dark theme reads as black. -->
+<div class="boot" id="boot">
+  <p class="boot-t">Six Floors, One Architect</p>
+  <p class="boot-s" id="boot-s">Loading the deck…</p>
+</div>
+<script>
+(function () {
+  var el = function (id) { return document.getElementById(id); };
+  window.DECK_BOOT_OK = false;   /* the deck script ran */
+  window.DECK_PAINTED = false;   /* the deck actually put a slide on screen */
+  window.DECK_ERRORS = [];
+
+  function note(msg) {
+    msg = String(msg == null ? 'unknown' : msg).slice(0, 300);
+    if (window.DECK_ERRORS.indexOf(msg) === -1 && window.DECK_ERRORS.length < 8) window.DECK_ERRORS.push(msg);
+  }
+
+  /* Replace whatever is on screen with a readable failure card. Called for any state that
+     would otherwise leave the viewer staring at an empty, near-black page. */
+  function fail(headline, detail) {
+    var b = el('boot');
+    if (!b) {
+      b = document.createElement('div');
+      b.id = 'boot'; b.className = 'boot';
+      document.body.appendChild(b);
+    }
+    b.className = 'boot boot-err';
+    b.hidden = false;
+    b.innerHTML = '';
+    var t = document.createElement('p'); t.className = 'boot-t'; t.textContent = 'Six Floors, One Architect';
+    var m = document.createElement('p'); m.className = 'boot-s'; m.id = 'boot-s'; m.textContent = headline;
+    b.appendChild(t); b.appendChild(m);
+    if (detail) { var d = document.createElement('pre'); d.className = 'boot-d'; d.textContent = detail; b.appendChild(d); }
+    var r = document.createElement('button'); r.className = 'boot-b'; r.type = 'button'; r.textContent = 'Reload';
+    r.onclick = function () { location.reload(); };
+    b.appendChild(r);
+  }
+  window.DECK_FAIL = fail;
+
+  /* Called by the app once a slide is on screen; retires the boot card. */
+  window.DECK_ON_PAINT = function () {
+    window.DECK_PAINTED = true;
+    var b = el('boot');
+    if (b && b.parentNode && b.className.indexOf('boot-err') === -1) b.parentNode.removeChild(b);
+  };
+
+  window.addEventListener('error', function (e) {
+    var t = e.target;
+    /* <link> elements carry the URL in href, not src. Without this the failed font stylesheet
+       counted as a deck error and the failure card sat on top of a perfectly good deck. */
+    var url = t && (t.src || t.href) ? String(t.src || t.href) : '';
+    var src = url ? url.split('?')[0].split('/').pop() : '';
+    var tag = t && t.tagName ? String(t.tagName).toUpperCase() : '';
+    note(src ? ('could not load ' + src) : (e.message || 'error'));
+    if (window.DECK_PAINTED) return;              /* a slide is up; a stray asset error is not fatal */
+    if (tag === 'LINK') return;                   /* fonts and stylesheets are optional, the deck is not */
+    if (src && /\.(m4a|webp|png|jpg|css)$/i.test(src)) return;  /* media is optional, the deck is not */
+    fail(src ? ('Could not load ' + src + '. Check your connection, then reload.')
+             : ('The deck hit an error: ' + (e.message || 'unknown')),
+         window.DECK_ERRORS.join('\n'));
+  }, true);
+
+  window.addEventListener('unhandledrejection', function (e) {
+    note('promise: ' + ((e.reason && e.reason.message) || e.reason));
+  });
+
+  /* Watchdog. If nothing has been painted by the time these fire, say so on screen rather
+     than leaving an empty page. This is the net under every "it just went black" report. */
+  function watch(ms) {
+    setTimeout(function () {
+      if (window.DECK_PAINTED) return;
+      var missing = [];
+      if (!window.React) missing.push('React');
+      if (!window.ReactDOM) missing.push('ReactDOM');
+      if (missing.length) {
+        if (ms < 12000) return;                    /* still plausibly loading */
+        fail(missing.join(' and ') + ' did not arrive. Check your connection, then reload.', window.DECK_ERRORS.join('\n'));
+        return;
+      }
+      if (!window.DECK_BOOT_OK) {
+        if (ms < 12000) return;
+        fail('The deck script did not start. Reload to try again.', window.DECK_ERRORS.join('\n'));
+        return;
+      }
+      /* Script ran but nothing painted: the render threw. Show it. */
+      fail('The deck started but could not draw a slide.', window.DECK_ERRORS.join('\n') || 'No error was reported.');
+    }, ms);
+  }
+  watch(8000); watch(16000); watch(30000);
+})();
+</script>
+
+<script src="vendor/react.js"></script>
+<script src="vendor/react-dom.js"></script>
+<script src="vendor/babel.js"></script>
+<script src="audio/manifest.js"></script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef, useMemo, useCallback } = React;
+
+/* IMAGES — one WebP per image slide, keyed by slide id (folder img/). */
+const IMAGES = {
+  title: 'img/01-title.webp', alarm: 'img/07-alarm.webp', null: 'img/12-null.webp', debt: 'img/17-debt.webp', pizza: 'img/22-pizza.webp',
+  spotify: 'img/23-spotify.webp', netflix: 'img/27-netflix.webp', lauren: 'img/34-lauren.webp',
+};
+// Panel shape per slide, matched to the generated files. Anything not listed is 16:9 landscape.
+const SHAPE = { title: 'r23', alarm: 'r23' };
+
+/* PORTRAITS — small photos of the people the deck quotes, keyed by person (folder img/people/), each
+   cropped to a square. Only images whose licence allows reuse: public domain, CC0, CC BY or CC BY-SA.
+   Every entry keeps its author, licence and source, and the reading slide prints the credits.
+   A slide opts in with faces: ['hoare']. People without a free photo simply have no entry. */
+const PEOPLE = {
+  randy:  { name: 'Randy Vroegop', file: 'img/people/randy.webp', by: 'speaker photo', lic: '', src: 'https://sessionize.com/randy-vroegop/' },
+  bezos:  { name: 'Jeff Bezos', file: 'img/people/bezos.webp', by: 'SECWAR, U.S. government photo', lic: 'public domain', src: 'https://commons.wikimedia.org/wiki/File:260202-D-PM193-2205_SECWAR_Arsenal_of_Freedom_Tour_-_Florida_(3x4_cropped_on_Bezos_and_rotated).jpg' },
+  booch:  { name: 'Grady Booch', file: 'img/people/booch.webp', by: 'vonguard', lic: 'CC BY-SA 2.0', src: 'https://commons.wikimedia.org/wiki/File:Grady_Booch,_CHM_2011_2_cropped.jpg' },
+  beck:   { name: 'Kent Beck', file: 'img/people/beck.webp', by: 'Improve It', lic: 'CC BY-SA 2.0', src: 'https://commons.wikimedia.org/wiki/File:Kent_Beck_no_Workshop_Mapping_XP.jpg' },
+  fowler: { name: 'Martin Fowler', file: 'img/people/fowler.webp', by: 'Webysther Nunes', lic: 'CC BY-SA 4.0', src: 'https://commons.wikimedia.org/wiki/File:Webysther_20150414193208_-_Martin_Fowler.jpg' },
+  hoare:  { name: 'Tony Hoare', file: 'img/people/hoare.webp', by: 'Rama', lic: 'CC BY-SA 2.0 fr', src: 'https://commons.wikimedia.org/wiki/File:Sir_Tony_Hoare_IMG_5125.jpg' },
+  kay:    { name: 'Alan Kay', file: 'img/people/kay.webp', by: 'Marcin Wichary', lic: 'CC BY 2.0', src: 'https://commons.wikimedia.org/wiki/File:Alan_Kay_and_the_prototype_of_the_Dynabook_(3009206205).jpg' },
+};
+// One line for the reading slide. Licensed photos need their author and licence shown somewhere the audience can see.
+const PHOTO_CREDITS = 'Portraits, cropped: ' + Object.values(PEOPLE).filter(p => p.lic).map(p => p.name + ' by ' + p.by + ' (' + p.lic + ')').join(' · ') + '. All via Wikimedia Commons.';
+
+// Narration files in audio/ with manifest.js. Absent = no listen mode.
+const AUDIO = window.AUDIO_MANIFEST || {};
+
+
+const FLOORS = [
+  { key: 'B',  label: 'Basement',    role: 'Ops & infrastructure' },
+  { key: '1',  label: 'Engine room', role: 'Developers' },
+  { key: '2',  label: 'Floor 2',     role: 'Seniors & architects' },
+  { key: '3',  label: 'Floor 3',     role: 'Product Owners' },
+  { key: '4',  label: 'Floor 4',    role: 'Scrum Masters & org' },
+  { key: 'P',  label: 'Penthouse',   role: 'Management' },
+];
+
+/* =====================================================================
+   SLIDES — plan = planned start time in seconds from the first word.
+   notes use [[double brackets]] to mark memory-card words.
+   ===================================================================== */
+const SLIDES = [
+{ id: 'title', section: 'Open', plan: 0, layout: 'title',
+  title: 'Six Floors, <em>One</em> Architect', sub: 'Riding the architect elevator.',
+  who: 'Randy Vroegop · 24-09-2026', faces: ['randy'],
+  credit: 'Builds on the elevator metaphor from Gregor Hohpe, The Software Architect Elevator (O’Reilly, 2020).',
+  image: { short: 'Brass elevator button panel, one button lit' },
+  notes: `Welcome. Before the workshop I want to spend thirty minutes on one idea: [[architecture is a building]], and every one of you works on a [[different floor]] of it.
+
+The elevator is [[Gregor Hohpe's]] metaphor, from The Software Architect Elevator. He describes [[two floors]]. Today I am going to [[add four]].
+
+Do not start the timer yet. Start it on the first word of the memo.` },
+
+{ id: 'memo', section: 'Open', plan: 0, layout: 'memo',
+  title: 'A memo from the top floor', when: 'Amazon, around 2002',
+  lines: ['All teams will henceforth expose their data and functionality through service interfaces.', 'Teams must communicate with each other through these interfaces.', 'There will be no other form of interprocess communication allowed.', 'It doesn’t matter what technology they use.', 'All service interfaces, without exception, must be designed from the ground up to be externalizable.'],
+  sig: 'Anyone who doesn’t do this will be fired.',
+  notes: `Read the memo [[slowly]], line by line. Do not comment between lines. It is a real memo, [[Jeff Bezos, 2002]], retold by [[Steve Yegge]] in a Google+ post he did not mean to make public.
+
+The last line is the punchline. Pause before it.` },
+
+{ id: 'niceday', section: 'Open', plan: 60, layout: 'statement',
+  quote: '“Anyone who doesn’t do this will be fired. <em>Thank you; have a nice day!</em>”',
+  attr: '<b>Jeff Bezos</b>, as retold by Steve Yegge, 2011', faces: ['bezos'],
+  notes: `Land the laugh, then turn serious in one sentence: [[That memo was written in the penthouse]]. It [[rebuilt the engine room]]. It is the reason [[AWS]] exists.
+
+Most consequential architecture decision in Amazon's history. [[No architect wrote it]]. Today we ride between the floor where it was written and the floor where it landed.` },
+
+{ id: 'building', section: 'Open', plan: 90, layout: 'building', active: null, sweep: true,
+  title: 'One building. Six floors.',
+  body: 'Every role in this room lives on one of them. The architect is not a floor. The architect is the <b>elevator</b>.',
+  credit: 'Gregor Hohpe’s metaphor has two floors, the penthouse and the engine room. The four in between are mine.',
+  cue: '“Which floor do you work on?” Hands per floor. Say the counts back so people feel counted.',
+  notes: `Point at the building. Name the floors from the bottom: [[Basement: ops]]. [[Engine room: developers]]. [[Floor two: seniors]] and whoever has "architect" in their title. [[Floor three: Product Owners]]. [[Floor four: Scrum Masters]] and everyone who shapes teams. [[Penthouse: management]].
+
+Ask for hands per floor. Count out loud. This matters later: you will ask them to [[form groups across floors]] at the end.
+
+Credit again, briefly: [[Hohpe]] describes the penthouse and the engine room. The four floors in between are [[my addition]], and that is the part I want you to argue with.` },
+
+/* ---------------- ENGINE ROOM ---------------- */
+{ id: 'f1', section: 'Engine room', plan: 120, layout: 'floor', active: '1',
+  num: 'Floor 1 · Engine room', title: 'Developers',
+  def: '“Architecture is about the <b>important stuff</b>. Whatever that is.”',
+  attr: 'Ralph Johnson, quoted by Martin Fowler in “Who Needs an Architect?” (2003)',
+  notes: `The elevator stops at the engine room first, because this is where most of the room lives.
+
+[[Ralph Johnson's]] definition, via [[Martin Fowler, 2003]]: architecture is the important stuff, whatever that is. Sounds like a joke. It is the most honest definition we have. Fowler adds a second one: architecture is [[the shared understanding]] the expert developers have of the system.
+
+If it is shared understanding, then a diagram nobody understands is [[not architecture]].` },
+
+{ id: 'booch', section: 'Engine room', plan: 165, layout: 'bubbles',
+  title: 'Significant, measured by cost of change',
+  attr: 'Grady Booch', faces: ['booch'],
+  bubbles: [
+    { size: 'big', d: 300, x: 120, y: 40, t: 'Which database, and who owns the schema' },
+    { size: 'big', d: 260, x: 460, y: 160, t: 'Sync or async between teams' },
+    { size: 'mid', d: 230, x: 740, y: 10, t: 'Where the boundary between Orders and Payments sits' },
+    { size: 'mid', d: 190, x: 1000, y: 210, t: 'Deploy together or apart' },
+    { size: 'small', d: 120, x: 1230, y: 60, t: 'Tabs or spaces' },
+    { size: 'small', d: 100, x: 1180, y: 330, t: 'Button colour' },
+    { size: 'small', d: 130, x: 720, y: 300, t: 'Logging library' },
+  ],
+  notes: `[[Grady Booch]]: architecture is the significant design decisions, where [[significant means cost of change]].
+
+Not the size of the meeting. Not who was in the room. Cost of change. The big circles are the ones you [[cannot undo next sprint]]. The small ones you can.
+
+Notice: most of the big ones are about [[boundaries between teams]]. Hold that thought for floors three and four.` },
+
+{ id: 'alarm', section: 'Engine room', plan: 210, layout: 'story',
+  when: 'Apollo 11 · 20 July 1969', title: 'The 1202 alarm',
+  points: ['A radar switch floods the guidance computer with work during the descent.', 'The <b>asynchronous executive</b>, designed years earlier, drops low-priority tasks and keeps steering.', 'Eagle lands. Nobody had clapped for that design decision when it was made.'],
+  image: { short: 'Apollo DSKY display glowing amber digits, one hand hovering' },
+  src: 'NASA Apollo 11 mission reports; Margaret Hamilton, Datamation, 1971.',
+  notes: `The war story for this floor. [[Margaret Hamilton's]] team at MIT built an [[asynchronous executive]] with [[priority scheduling]]: under overload, drop the unimportant work, keep the important.
+
+Three years later, during the lunar descent, a [[rendezvous radar]] switch floods the computer. [[1202 alarm]]. The executive sheds the low-priority tasks and keeps steering. Armstrong lands.
+
+Point: an engine-room decision, made in [[silence]], years before anybody knew it mattered. That is what architecture feels like from this floor.` },
+
+{ id: 'alarm-tl', section: 'Engine room', plan: 255, layout: 'diagram',
+  title: 'One decision, three years of silence',
+  cap: 'Feedback on an architecture decision arrives late, and sometimes on live television.',
+  diagram: 'apollo',
+  notes: `Walk the timeline left to right. [[Three years]] between the decision and the moment it mattered.
+
+This is the first thing that makes architecture [[hard]], and I want to say it plainly: [[the feedback loop is measured in years]]. You cannot learn from a loop that long by living through it. You need another way. Park that.` },
+
+{ id: 'beck', section: 'Engine room', plan: 290, layout: 'tool',
+  k: 'Take this home · Engine room',
+  phrase: '“Make the change easy. Then make the easy change.”',
+  by: 'Kent Beck, 2012', faces: ['beck'],
+  how: 'Every refactor that makes tomorrow’s change cheaper is architecture in miniature. You are already doing it. Start calling it what it is.',
+  notes: `Hard for developers: architecture [[hides inside pull requests]]. Nobody tells you the thing you just did was architecture.
+
+Easier: [[Kent Beck's]] line. First make the change easy (warning: this may be hard), then make the easy change. That is [[Parnas]] in one sentence: [[decompose by what will change]].
+
+Every floor gets a tool to take home. This is the engine room's.` },
+
+/* ---------------- FLOOR 3 ---------------- */
+{ id: 'f3', section: 'Floor 2', plan: 360, layout: 'floor', active: '2',
+  num: 'Floor 2 · Seniors', title: 'Seniors and “the architect”',
+  def: 'You <b>know the most</b>. Spend it on getting everyone to <b>ask the right questions</b>. Then explain the trade-off.',
+  notes: `Up one floor. The seniors. The people with "lead" or "architect" somewhere in their title.
+
+The why for this floor: an answer fixes [[today's decision]]. A question the team learned to ask fixes [[every decision after it]]. So the most valuable thing a senior can do with what they know is get the room [[asking the right questions]], and then [[explain the trade-off]] behind the answer.
+
+The how is one habit: [[speak last]]. If you speak first, the questions never get asked. Everything on this floor builds to that.` },
+
+{ id: 'fowler', section: 'Floor 2', plan: 390, layout: 'compare',
+  title: 'Two kinds of architect', steps: 1,
+  attr: 'Martin Fowler, 2003', faces: ['fowler'],
+  cols: [
+    { k: 'Architectus Reloadus', h: 'Decides, then hands down', items: ['Makes the decision alone', 'Communicates through documents', 'Is the single point of failure for understanding', 'Team learns what, never why'] },
+    { k: 'Architectus Oryzus', h: 'Pairs, mentors, disappears', hi: true, items: ['Works inside the team, on real problems', 'Communicates through conversation and code', 'Measures success by how little they are needed', 'Team learns why, and can decide next time'] },
+  ],
+  notes: `[[Fowler's]] two archetypes. [[Reloadus]], like the Matrix character: decides, hands down, is consulted like an oracle. [[Oryzus]], the rice-grower: works in the field with the team, mentors, and measures success by [[how little they are needed]].
+
+The first two bullets per column are visible, neutral. Ask the room: [[which one does your organisation reward?]] Take two answers. Then: [[which one does it need?]] [[Press next]]: Oryzus lights up and the last two bullets appear, the ones about [[what the team learns]].
+
+The Oryzus architect's real job: [[make decisions visible]], not make them alone.`,
+  cue: 'One reveal. Ask both questions before you press next.' },
+{ id: 'silence', section: 'Floor 2', plan: 440, layout: 'diagram',
+  title: 'When the senior speaks first, the meeting is over', steps: 1,
+  cap: 'Weinberg (1971) called it egoless programming. Zuill’s mob programming team (2011) rediscovered it: seniors learn from juniors because juniors keep asking why.',
+  cue: 'Top row only on entry. Ask what they would change, then press next for the junior-first row.',
+  diagram: 'speaking',
+  notes: `Only the top row is visible. Senior speaks first, room nods, done. Nobody learned anything, including the senior. Ask: [[what would you change?]] Take one answer, then [[press next]].
+
+Bottom row appears: flip the order. Junior asks [[why not Y]]. Senior has to [[say the trade-off out loud]]. Now the decision has been examined twice, and the junior just learned what a senior knows.
+
+[[Jerry Weinberg, 1971]], egoless programming. [[Woody Zuill's]] mob at Hunter Industries, 2011: seniors reported learning from juniors daily.
+
+Bridge: "But surely the senior's answer is usually right?" Next slide: [[Tony Hoare]].` },
+
+{ id: 'hoare', section: 'Floor 2', plan: 485, layout: 'statement',
+  quote: '“There are two ways of constructing a software design: one way is to make it <em>so simple that there are obviously no deficiencies</em>, and the other way is to make it so complicated that there are no obvious deficiencies.”',
+  attr: '<b>Tony Hoare</b>, Turing Award lecture, 1980', faces: ['hoare'],
+  notes: `Read it twice. The second reading is where the room hears the difference between [[obviously no deficiencies]] and [[no obvious deficiencies]].
+
+Then the twist on the next slide.` },
+
+{ id: 'null', section: 'Floor 2', plan: 515, layout: 'story',
+  when: 'QCon London · 2009', title: 'The billion-dollar mistake',
+  points: ['The same Tony Hoare invented the null reference in 1965 because it was <b>easy to implement</b>.', 'Forty-four years later he called it “my billion-dollar mistake.”', 'The Turing Award winner’s architecture had a billion-dollar hole. <b>Seniors are not oracles.</b>'],
+  image: { short: 'A cathedral wall with one missing stone, light pouring through' },
+  src: 'Hoare, “Null References: The Billion Dollar Mistake,” QCon London 2009.',
+  notes: `Same man. [[1965]], ALGOL W, he adds the [[null reference]] because it was [[easy to implement]]. Not because it was right. Because it was easy.
+
+[[2009]], QCon London, he stands on stage and calls it his [[billion-dollar mistake]].
+
+The point for floor two: the most senior person in the history of our field shipped a billion-dollar architectural hole because it was easy. [[Seniors are not oracles]]. They are people who know more trade-offs.
+
+Which is exactly why the tool on the next slide works.` },
+
+
+{ id: 'senior-tool', section: 'Floor 2', plan: 565, layout: 'tool',
+  k: 'Take this home · Floor 2',
+  phrase: 'Speak last. Ask first.',
+  how: 'Open every design discussion with a question, not an answer. Let the room reason. Then explain the trade-off behind what you would have said. The decision gets examined twice, and the team learns how you think.',
+  notes: `The tool for floor two, two habits in four words. [[Ask first]]: open with a question, the ones from the intro, what changes most here, what does this make expensive later, why not the other option. [[Speak last]]: let the room reason before you do.
+
+Then [[explain the trade-off]], not just the conclusion. That is how a decision gets examined twice and how the team learns to make the next one without you.
+
+Callback to Hoare: if the best of us can ship a billion-dollar hole, the second pair of eyes is not a courtesy. It is the [[architecture]].` },
+
+/* ---------------- FLOOR 7 ---------------- */
+{ id: 'f7', section: 'Floor 3', plan: 600, layout: 'floor', active: '3',
+  num: 'Floor 3 · Product', title: 'Product Owners',
+  def: 'You decide <b>what gets built first</b>. The first things built become the skeleton everything after it has to fit. That is architecture, in the language of <b>time</b>.',
+  cue: 'Look at the POs. Address them by role. Keep this floor short: two slides and the question.',
+  notes: `The floor most architecture talks skip. [[Product Owners]].
+
+Say it directly: [[you already do architecture]]. You decide the [[order]]. The first things built become the [[skeleton]] everything after it has to fit, and "later" is a loan with interest. That is architecture in the language of [[time]]. Nobody in the engine room translates it.
+
+Proof: the most famous phrase in our field was invented [[for this floor]].` },
+
+
+{ id: 'debt', section: 'Floor 3', plan: 640, layout: 'story',
+  when: 'WyCash · 1992', title: 'Ward Cunningham invents “technical debt”',
+  points: ['Cunningham needed to explain to <b>non-technical bosses</b> why shipping now and cleaning up later was a legitimate loan, not sloppiness.', 'He borrowed the language of finance. Interest, principal, repayment.', 'The most famous phrase in architecture was invented <b>for this floor</b>, as a translation device.'],
+  image: { short: 'A 1990s trading desk with a leather ledger open to a loan page' },
+  src: 'Cunningham, OOPSLA 1992 experience report; his 2009 video on the origin of the metaphor.',
+  notes: `Most people think technical debt is a developer's complaint. It is the opposite.
+
+[[Ward Cunningham, 1992]], WyCash portfolio system. He needs to tell his [[non-technical bosses]] why shipping now and refactoring later is a [[legitimate loan]], not sloppiness. He borrows their language: debt, interest, repayment.
+
+The most-used phrase in our field was invented [[as a translation device for the PO's floor]]. The best architects invent vocabulary that lets two floors see the same thing.` },
+
+
+{ id: 'po-tool', section: 'Floor 3', plan: 700, layout: 'tool',
+  k: 'Take this home · Floor 3',
+  phrase: '“What does this make expensive later?”',
+  how: 'One question, once per refinement. It turns cost of change into a backlog conversation without a single diagram. Booch would approve.',
+  cue: '“You can ask this on Monday. You do not need permission and you do not need to know what a service mesh is.”',
+  notes: `The PO's tool. [[One question]], asked once per refinement: [[what does this make expensive later?]]
+
+It is Booch's definition turned into a sentence a PO can say on Monday without knowing what a service mesh is. It does not need permission. It does not need a diagram. And every time a developer answers it, the [[theory]] of the system moves from one head into another.` },
+
+/* ---------------- FLOOR 12 ---------------- */
+{ id: 'f12', section: 'Floor 4', plan: 750, layout: 'floor', active: '4',
+  num: 'Floor 4 · Agile & org', title: 'Scrum Masters and the org',
+  def: 'The PO decides <b>when</b>. You decide <b>who builds it together</b>. That is architecture in the language of <b>space</b>: team boundaries become system boundaries.',
+  notes: `Floor four. [[Scrum Masters]], agile coaches, anyone who shapes teams.
+
+The one sentence for this floor: the PO decides [[when]], you decide [[who builds it together]]. That is architecture in the language of [[space]]. Team boundaries become [[system boundaries]], and there is a fifty-year-old law about it.
+
+Lead in: a [[rejected paper]].` },
+{ id: 'conway', section: 'Floor 4', plan: 790, layout: 'diagram',
+  title: 'Conway’s Law: the org chart is drawing the diagram',
+  cap: 'Mel Conway, 1967. Harvard Business Review rejected the paper for lack of proof. Fred Brooks named it a law anyway.',
+  diagram: 'conway',
+  notes: `[[Mel Conway, 1967]]. Paper called "How Do Committees Invent?" Submitted to Harvard Business Review. [[Rejected]]: he had not proven his thesis. Datamation printed it in 1968. [[Fred Brooks]] called it Conway's Law in The Mythical Man-Month and it has been proven every year since.
+
+Left: the org chart in January. Right: the system in December. [[Same shape]]. Always.
+
+So, Scrum Masters: whoever [[splits the teams]] is drawing the architecture diagram, whether or not anybody calls it that. Next slide: how to do it [[on purpose]].` },
+
+{ id: 'inverse', section: 'Floor 4', plan: 840, layout: 'diagram',
+  title: 'The inverse Conway manoeuvre',
+  cap: 'If the org chart becomes the architecture anyway, design the org chart to produce the architecture you want. Skelton & Pais, Team Topologies, 2019.',
+  diagram: 'inverse',
+  notes: `Top: Conway. Team structure becomes system structure, whether you like it or not.
+
+Bottom: the [[inverse Conway manoeuvre]]. Start from the system you want. Design the [[teams]] to produce it. [[Team Topologies]], Skelton and Pais, 2019: stream-aligned teams, platform teams, [[cognitive load]] as the limiting factor.
+
+This is [[the Scrum Master's architecture tool]]. When you last re-formed a team, did anyone show you the architecture diagram? They should have. You were editing it.` },
+
+{ id: 'pizza', section: 'Floor 4', plan: 885, layout: 'story',
+  when: 'Amazon · 2002 to 2006', title: 'Two pizzas, and “you build it, you run it”',
+  points: ['Teams capped at what two pizzas can feed.', 'Werner Vogels, 2006: every team runs in production what it builds. No throwing over the wall.', 'Both are <b>organisational</b> moves that produce an architecture, on purpose. Conway, used instead of suffered.'],
+  image: { short: 'Two pizza boxes on top of a humming server rack' },
+  src: 'Vogels interview with Jim Gray, ACM Queue, 2006.',
+  notes: `Two Amazon rules. [[Two-pizza teams]]: a team is as big as two pizzas can feed. [[You build it, you run it]], [[Werner Vogels, 2006]]: the team that builds a service carries the pager for it.
+
+Neither is a technical decision. Both are [[org decisions]]. Both produced the architecture Amazon wanted: small services, clear ownership, no wall to throw over.
+
+That is Conway [[used]] instead of [[suffered]]. And it was a floor four move.` },
+
+{ id: 'spotify', section: 'Floor 4', plan: 930, layout: 'story',
+  when: 'Caution · 2012 to 2020', title: 'The Spotify model that Spotify does not use',
+  points: ['Kniberg’s 2012 whitepaper was a <b>snapshot of an experiment</b>. Squads, tribes, chapters, guilds.', 'Companies worldwide adopted it as a template.', 'Former Spotify staff have since said it was aspirational, and Spotify itself moved on. Copying another company’s architecture is <b>planting coral in a forest</b>.'],
+  image: { short: 'A branch of orange coral planted in a pine forest floor' },
+  src: 'Kniberg & Ivarsson, “Scaling Agile @ Spotify” (2012); Jeremiah Lee, “Spotify’s Failed #SquadGoals” (2020).',
+  notes: `The caution for this floor. [[Henrik Kniberg, 2012]]: a whitepaper describing Spotify's squads, tribes, chapters and guilds as [[a snapshot of an experiment]]. The world adopted it as a [[template]].
+
+[[2020]]: former Spotify staff say it was aspirational and Spotify had moved on. The template outlived the thing it described.
+
+Organisational architecture copied from another habitat is [[coral planted in a forest]]. Design your own teams for your own system.` },
+
+{ id: 'sm-tool', section: 'Floor 4', plan: 975, layout: 'tool',
+  k: 'Take this home · Floor 4',
+  phrase: 'The kata is a ceremony you can own.',
+  how: 'An architecture kata is a time-boxed, facilitated session with a fictional brief. It needs a facilitator more than it needs an architect. In a few minutes you will help run one. Watch what I do.',
+  cue: '“In a few minutes you will help run one of these. Watch what I do.”',
+  notes: `The SM's tool. In a few minutes we do an [[architecture kata]]: small groups, a one-page fictional brief, a time box, present, questions from peers.
+
+It needs a [[facilitator]] more than it needs an architect. Time-boxing, making sure the quiet person speaks, rotating who holds the marker. That is your craft already.
+
+Tell them directly: [[you will facilitate one]] soon. Watch what I do in the workshop.` },
+
+/* ---------------- PENTHOUSE ---------------- */
+{ id: 'fp', section: 'Penthouse', plan: 1080, layout: 'floor', active: 'P',
+  num: 'Penthouse · Management', title: 'Management',
+  def: 'The penthouse speaks in <b>options and risk</b>. The engine room speaks in <b>latency and coupling</b>. Nobody is translating.',
+  notes: `Top floor. [[Management]]. Where the memo came from.
+
+[[Hohpe's]] observation: the penthouse and the engine room [[stopped talking]]. Not out of malice. They speak different languages, and the elevator stopped running.` },
+
+{ id: 'vocab', section: 'Penthouse', plan: 1110, layout: 'vocab',
+  title: 'Two vocabularies, one system',
+  left: { k: 'Penthouse', words: ['Options', 'Risk', 'Time to market', 'Cost of delay'] },
+  right: { k: 'Engine room', words: ['Coupling', 'Latency', 'Deploy frequency', 'Blast radius'] },
+  notes: `Left column, penthouse words. Right column, engine room words. [[Same system]], described twice, and the columns never meet.
+
+The elevator's job is [[translation in both directions]]. "Coupling" becomes "we cannot ship Payments without re-testing Orders, so every Payments feature costs two teams." "Time to market" becomes "we need Payments deployable alone by Q3."
+
+If nobody rides, each floor optimises its own vocabulary and the building slowly stops working.` },
+
+{ id: 'netflix', section: 'Penthouse', plan: 1150, layout: 'story',
+  when: 'Netflix · August 2008', title: 'Three days of no DVDs',
+  points: ['A database corruption stops Netflix shipping DVDs for three days.', 'Instead of hardening the data centre, the penthouse makes a bet: the <b>single points of failure are the architecture</b>. Move to AWS.', 'The engine room then earns the bet with Chaos Monkey: kill servers in production on purpose so the architecture is forced to survive it.'],
+  image: { short: 'A warehouse of red mail envelopes, conveyor stopped, one worker waiting' },
+  src: 'Netflix Tech Blog, Yury Izrailevsky, 2010; Chaos Monkey announced 2011.',
+  notes: `The penthouse story. [[Netflix, August 2008]]. A database corruption. [[Three days]] with no DVDs shipping.
+
+The penthouse could have bought a bigger database. Instead they concluded: [[the single points of failure are the architecture]], and bet the company on [[AWS]]. Then the engine room earned that bet with [[Chaos Monkey]]: deliberately killing servers in production.
+
+A penthouse decision, translated down, executed up. The elevator working.` },
+
+
+{ id: 'adr', section: 'Penthouse', plan: 1195, layout: 'adr',
+  title: 'The elevator’s logbook',
+  file: 'docs/adr/0007-payments-deployable-alone.md',
+  boxes: [
+    { k: 'Context', h: 'Why now', p: 'What forces are in play: business, team, technical. Written so the penthouse recognises it.' },
+    { k: 'Decision', h: 'What we chose', p: 'One paragraph. Active voice. “We will…” Written so the engine room can act on it.' },
+    { k: 'Consequences', h: 'What it costs', p: 'What becomes easier, what becomes harder, what we are now committed to.' },
+  ],
+  attr: 'Architecture Decision Records. Michael Nygard, 2011.',
+  notes: `Hard for the penthouse: [[no feedback loop]]. Decisions go down; consequences rarely come back up in a form anyone recognises.
+
+Easier: [[Michael Nygard, 2011]]. [[Architecture Decision Records]]. One short file per decision, versioned with the code: [[context]], [[decision]], [[consequences]]. A decision without a record is a rumour within a year.
+
+It is the [[elevator's logbook]]. The penthouse can read why; the engine room can read what; a junior in two years can read both.` },
+
+/* ---------------- WHY IT IS HARD ---------------- */
+
+{ id: 'laws', section: 'Why it is hard', plan: 1275, layout: 'statement',
+  quote: 'First law: <em>everything</em> in software architecture is a trade-off.<br>Second law: <em>why</em> is more important than how.',
+  attr: '<b>Mark Richards & Neal Ford</b>, Fundamentals of Software Architecture, 2020',
+  notes: `All floors visited. Open the section: [[why is the elevator hard to ride?]]
+
+[[Richards and Ford]], two laws.
+
+[[Everything is a trade-off]]. If you think you found something that is not, you have not found the trade-off yet. There is no answer. Seniors know more trade-offs; that is different from knowing the answer.
+
+[[Why beats how]]. And "why" is the one question every floor can ask. The PO can ask it. The SM can ask it. The most junior developer can ask it.` },
+
+
+{ id: 'brandolini', section: 'Why it is hard', plan: 1350, layout: 'statement',
+  quote: '“It is not the domain expert’s knowledge that goes to production. It is the <em>developer’s assumptions</em> about it.”',
+  attr: '<b>Alberto Brandolini</b>, on why event storming puts everyone at one wall',
+  cue: 'Look at the POs and the seniors in turn: “So put the expert in the room. Not in the ticket. In the room.”',
+  notes: `[[Brandolini]], the inventor of event storming. What ships is not what the [[domain expert]] knows; it is what the developer [[assumed]] about it.
+
+The fix is not a better document. It is [[everyone at one wall]], at the same time, no laptops. Put the expert in the room. Not in the ticket. [[In the room]].
+
+That is the bridge to the last floor.` },
+
+/* ---------------- EVERYONE RIDES ---------------- */
+{ id: 'lauren', section: 'Everyone rides', plan: 1380, layout: 'story',
+  when: 'MIT Instrumentation Lab · 1968', title: 'The four-year-old who found the bug',
+  points: ['Margaret Hamilton’s daughter Lauren, playing with the Apollo simulator, selects pre-launch program <b>P01</b> mid-flight. It crashes.', 'Hamilton wants a guard. NASA: “astronauts are trained never to make a mistake.”', 'Apollo 8: Jim Lovell selects P01 mid-flight and wipes the navigation data. Nine hours to recover. <b>Then</b> she got to add the guard.'],
+  image: { short: 'A small child’s hand reaching toward a 1960s console keypad' },
+  src: 'Hamilton interviews; NASA history office; Wired, “Her Code Got Humans on the Moon,” 2015.',
+  notes: `The slow moment of the talk. Take your time.
+
+[[Margaret Hamilton]] brought her daughter [[Lauren]], four years old, to the lab. Lauren plays with the simulator and selects [[P01]], a pre-launch program, in the middle of a simulated flight. Crash.
+
+Hamilton wants to add a guard. [[NASA says no]]: astronauts are trained never to make a mistake. She adds a note in the docs instead.
+
+[[Apollo 8]]. [[Jim Lovell]] selects P01 mid-flight. Navigation data gone. [[Nine hours]] to rebuild and upload it. After that, she got to add her guard.
+
+Pause on "nine hours." The least experienced person in the building found the flaw the experts were [[trained to ignore]].` },
+
+{ id: 'kay', section: 'Everyone rides', plan: 1450, layout: 'statement',
+  quote: '“A change in perspective is worth <em>80 IQ points</em>.”',
+  attr: '<b>Alan Kay</b>, Xerox PARC', faces: ['kay'],
+  notes: `[[Alan Kay]] at PARC. The smartest person in the room is beaten by the room with the most [[perspectives]] in it.
+
+The junior's ignorance of your codebase is a [[perspective]] you cannot buy. The PO's ignorance of your service mesh is a perspective. The SM's habit of watching who has not spoken is a perspective.` },
+
+{ id: 'rules', section: 'Everyone rides', plan: 1475, layout: 'rules',
+  title: 'Three rules for the exercise',
+  rules: [
+    { n: '1', h: 'Rotate the marker', p: 'Whoever holds the marker draws. Every three minutes it moves to the next person. Nobody drives for long.' },
+    { n: '2', h: 'Junior speaks first', p: 'The least experienced person in the group opens every discussion. The senior speaks last.' },
+    { n: '3', h: 'Seniors ask, then tell', p: 'For the first five minutes, seniors may only ask questions. After that, they may explain trade-offs. Never answers.' },
+  ],
+  notes: `Preview the kata rules so the workshop feels like a callback, not a new instruction.
+
+[[Rotate the marker]]: Llewellyn Falco's strong-style pairing, for an idea to reach the board it must go through someone else's hands. [[Junior speaks first]]: the Zuill mob lesson. [[Seniors ask, then tell]]: for the first five minutes, questions only.
+
+These rules are how you get every floor talking in the same room.` },
+
+/* ---------------- CLOSE ---------------- */
+{ id: 'close', section: 'Close', plan: 1520, layout: 'building', active: null, sweep: true,
+  title: 'Every floor is going to the same place.',
+  body: 'For the next exercise, the elevator stops at all of them. Press the button.',
+  notes: `Back to the building. The elevator sweeps every floor while you talk.
+
+Recap in one breath, floor by floor: the engine room makes changes easy; floor two speaks last; floor three asks what gets expensive; floor four designs the teams; the penthouse keeps the logbook. [[Every floor]], same building, same place.
+
+Then the physical instruction.` },
+
+{ id: 'handoff', section: 'Close', plan: 1550, layout: 'handoff',
+  big: 'Groups of <em>four</em>.',
+  sub: 'At least two floors in every group. Stand up. Go.',
+  cue: 'Enforce the two-floors rule. Walk the room and re-mix groups that are all developers.',
+  notes: `Last sentence is an instruction, not a summary. [[Groups of four]]. [[At least two floors]] per group. Stand up.
+
+Walk the room. Break up any group that is all engine room. Advance to the [[C1 slide]] and leave it up during the whole exercise.` },
+
+/* ---------------- KATA + CLOSE-OFF ---------------- */
+{ id: 'c1', section: 'Kata', plan: 1800, layout: 'c4', level: 'Level 1 · System Context',
+  title: 'What you draw: the system context',
+  lead: 'Your system as <b>one box</b>. Every person who uses it. Every other system it talks to. Nothing inside the box.',
+  points: ['No technology, no internals, no boxes for teams.', 'Every arrow gets a label: what flows, in plain words.', 'If the PO in your group cannot read it, redraw it.'],
+  doLabel: 'Kata brief · 15 minutes', doText: 'Draw the C1 diagram for your brief. Rotate the marker every three minutes. Junior opens. Seniors ask only, for the first five minutes.',
+  ref: 'Simon Brown, The C4 model, c4model.com/diagrams/system-context. Example system adapted from the Conway slide.',
+  cue: 'Leave this slide up for the whole exercise. Walk the room; check every arrow has a label.',
+  notes: `This stays on screen for the whole kata. Explain it in [[ninety seconds]] before they start.
+
+[[One box]] for the system in your brief. Around it, the [[people]] who use it and the [[external systems]] it depends on. Arrows with [[labels in plain words]]: places orders, charges cards, sends confirmations. No technology. Nothing inside the box. That is level one of [[Simon Brown's C4 model]], the system context.
+
+Test for done: can the [[PO in your group]] read the whole thing aloud without help? Then repeat the [[three rules]] and start the timer.` },
+
+{ id: 'c2', section: 'Close-off', plan: 2700, layout: 'c4', level: 'Level 2 · Container',
+  title: 'Next round: zoom in to containers',
+  lead: 'Open the box. The <b>separately deployable</b> pieces inside: apps, services, databases, queues. Each with its technology.',
+  points: ['A container is anything that runs or stores on its own. Not Docker.', 'This is where “you build it, you run it” becomes visible: one team, one container.', 'The arrows now say how: JSON over HTTPS, JDBC, a queue.'],
+  doLabel: 'Not today', doText: 'Run this as the second kata at work: same brief, same groups, one week later. Thirty minutes is enough.',
+  ref: 'Simon Brown, The C4 model, c4model.com/diagrams/container. Big Bank plc is the canonical worked example on the site.',
+  notes: `Close-off, two minutes for both zoom levels. Do not draw these today; show what the next rounds look like.
+
+Level two, [[containers]]: open the system box and show the [[separately deployable]] pieces, each with its [[technology]]. Web app in React, API in Spring, PostgreSQL, a queue. Not Docker containers, anything that runs or stores on its own.
+
+Callback to [[floor 4]]: this is the level where team boundaries become visible. One team, one container is the two-pizza rule drawn.
+
+Suggest the [[second kata]] at work: same brief, same groups, one week later.` },
+
+{ id: 'c3', section: 'Close-off', plan: 2760, layout: 'c4', level: 'Level 3 · Component',
+  title: 'Third round: zoom in to components',
+  lead: 'Open one container. Its <b>major building blocks</b>, what each is responsible for, and how they talk.',
+  points: ['Controllers, services, repositories, facades: whatever your codebase already calls them.', 'Most teams stop here. Level 4, code, is what your IDE generates.', 'Where the Parnas question lives: which of these will change most?'],
+  doLabel: 'Level 4 · Code', doText: 'Class diagrams. Generate them if you need them; never draw them by hand. That is Simon Brown’s own advice.',
+  ref: 'Simon Brown, The C4 model, c4model.com/diagrams/component. Also: Software Architecture for Developers (Leanpub) and structurizr.com for tooling.',
+  notes: `Level three, [[components]]: open one container, the API in this example, and show its [[major building blocks]] and their responsibilities. Use the words your codebase already uses: controller, service, repository, facade.
+
+[[Most teams stop here]]. Level four is code, and Simon Brown's own advice is to [[generate it]] from the IDE, never draw it.
+
+Callback to the [[engine room]]: this is where Parnas's question lives. Which of these components will change most? That is where the boundary should be.
+
+Then the reading slide, and thank them.` },
+
+{ id: 'reading', section: 'Close-off', plan: 2820, layout: 'reading',
+  title: 'Where the floors came from',
+  items: [
+    { who: 'Gregor Hohpe', what: 'The Software Architect Elevator (O’Reilly, 2020) · architectelevator.com', why: 'The metaphor this talk rides on. Read it first.' },
+    { who: 'Simon Brown', what: 'The C4 model · c4model.com · Software Architecture for Developers (Leanpub)', why: 'The diagrams you just drew, and the two levels below them.' },
+    { who: 'Martin Fowler', what: '“Who Needs an Architect?” IEEE Software, 2003', why: 'Reloadus, Oryzus, and Ralph Johnson’s definition.' },
+    { who: 'Michael Nygard', what: '“Documenting Architecture Decisions,” 2011', why: 'The one-page ADR. The elevator’s logbook.' },
+    { who: 'Skelton & Pais', what: 'Team Topologies (IT Revolution, 2019)', why: 'The inverse Conway manoeuvre, for floor 4.' },
+    { who: 'Richards & Ford', what: 'Fundamentals of Software Architecture (O’Reilly, 2020)', why: 'The two laws. Also architecturalkatas.com for the workshop briefs.' },
+  ],
+  notes: `Final slide. Leave it up while people [[pack up]]. No need to read it aloud.
+
+If anyone asks where to start: [[Hohpe's book]] for the elevator, [[c4model.com]] for the diagrams, then [[architecturalkatas.com]] for briefs they can run at work.` },
+];
+
+
+/* PRACTICE SCRIPTS — full spoken version per slide. Stage directions in [brackets]. Hide with X. */
+const SCRIPTS = {
+title: `Good afternoon. Before we get our hands dirty, I want to give you one picture to carry for the next thirty minutes.
+
+Architecture is a building. Not a diagram, not a document. A building, with floors. Every one of you works on one of those floors, and most of you have never visited the others. Today we ride between them.
+
+The picture belongs to Gregor Hohpe. He describes two floors. I am going to add four, and by the end I want you to argue with me about them.`,
+
+memo: `Let me start with a memo. Amazon, around 2002. Jeff Bezos sends this to every team in the company. [Read slowly. Do not comment between lines.]
+
+All teams will henceforth expose their data and functionality through service interfaces. Teams must communicate with each other through these interfaces. There will be no other form of interprocess communication allowed. It doesn't matter what technology they use. All service interfaces, without exception, must be designed from the ground up to be externalizable.
+
+[Pause.] Anyone who doesn't do this will be fired.`,
+
+niceday: `Thank you; have a nice day. [Wait for the laugh.]
+
+We know this memo because Steve Yegge, who worked at Amazon and later at Google, retold it in 2011 in a post he thought was private. It was not.
+
+That memo was written on the top floor of the building. It rebuilt the bottom floor. Every internal system became a service with an interface, and a few years later Amazon noticed it could sell those interfaces to the rest of us. That is where AWS came from. The most consequential architecture decision in Amazon's history, and no architect wrote it. Hold that thought.`,
+
+building: `Here is the building, from the bottom. The basement: ops and infrastructure, the people who keep the lights on. The engine room: developers, where the code is written. Floor two: seniors, leads, anyone with "architect" in their title. Floor three: Product Owners. Floor four: Scrum Masters, agile coaches, anyone who shapes teams. And the penthouse: management.
+
+Gregor Hohpe's version has two floors, the penthouse and the engine room, and he says the architect's job is to ride the elevator between them. The four floors in between are mine.
+
+So. Which floor do you work on? [Hands per floor. Say each count back.] Remember your floor. I will need it at the end.`,
+
+f1: `First stop, the engine room.
+
+In 2003 Martin Fowler wrote an article called "Who Needs an Architect?", and in it he quotes Ralph Johnson: architecture is about the important stuff. Whatever that is. It sounds like a dodge. It is the most honest definition we have, because what counts as important changes per system, per year, per team.
+
+Fowler adds a second definition: architecture is the shared understanding the expert developers have of the system. Shared. So if there is a diagram on the wiki that nobody on the team could redraw from memory, that diagram is not the architecture. The architecture is whatever is actually in your heads.`,
+
+booch: `Grady Booch sharpens the word "important". Architecture is the significant decisions, where significant is measured by cost of change. Not by how long the meeting was. Not by who attended. Cost of change.
+
+Look at the circles. Which database, and who owns the schema: big. Sync or async between two teams: big. Tabs or spaces: tiny, however long the argument lasted.
+
+Now look at the big ones again. Nearly every one is about the boundary between one team and another. Hold that. It comes back on floors three and four.`,
+
+alarm: `The engine room's war story. July 20th, 1969. Eagle is descending to the moon. A switch for the rendezvous radar is in the wrong position, and it starts flooding the guidance computer with work it does not need. The computer is at capacity. On the display: 1202. Program alarm. Nobody in Mission Control has seen it in a real flight.
+
+Here is what saves the landing. Years earlier, Margaret Hamilton's team at MIT built the software around an asynchronous executive with priority scheduling. Under overload it drops the least important tasks and keeps the ones that matter. So the computer sheds the radar work, keeps flying, and Armstrong lands with seconds of fuel to spare.
+
+That decision was made in a room in Cambridge, Massachusetts, years earlier. Nobody clapped.`,
+
+'alarm-tl': `Look at the gap. 1966: the executive is designed. 1968: Apollo 8 flies, nothing happens. 1969: the alarm, and the decision pays off. Three years between deciding and knowing.
+
+This is the first thing that makes architecture hard, and I want to say it plainly: the feedback loop is measured in years. You cannot learn from a loop that long just by living through it. You would get ten repetitions in a career. We are going to need another way to practise. Park that. It is where we end up.`,
+
+beck: `So, engine room. What is hard, what is easier.
+
+Hard: architecture hides inside your pull requests. You extract an interface, you split a module, and nobody tells you that was architecture.
+
+Easier: Kent Beck's line from 2012. For each desired change, make the change easy [warning: this may be hard], then make the easy change. That is David Parnas's 1972 paper in one sentence: decompose by what will change. You already do this. The only ask for this floor is to start calling it what it is, out loud, so the other floors can hear.`,
+
+f3: `Up one floor. Seniors, leads, architects. The people who know the most.
+
+Here is the question for this floor: what is the most valuable thing you can do with what you know? The obvious answer is to give the answer. And an answer fixes today's decision. But a question the team learned to ask fixes every decision after it, including the ones you are not in the room for.
+
+So the job on this floor is to spend your knowledge on getting everyone to ask the right questions. What changes most here? What does this make expensive later? Why not the other option? And then, once the questions are on the table, explain the trade-off behind your answer, so the room learns how you think and not just what you concluded.
+
+There is one habit that makes this possible, and it is uncomfortable: speak last. If you speak first, the questions never get asked. Let me show you why that order matters so much.`,
+
+fowler: `Same Fowler article, two archetypes. Architectus Reloadus, named for the Matrix: decides, then hands down. Makes the decision alone, communicates through documents. Architectus Oryzus, from oryza, rice: pairs, mentors, and works to disappear. Works inside the team on real problems, communicates through conversation and code.
+
+A question for you. Which one does your organisation reward? [Take two or three answers. Usually Reloadus, because Reloadus looks decisive.] And which one does it need? [Wait for the room. Then press next.]
+
+Oryzus. And here is the part that decides it. Reloadus is the single point of failure for understanding: the team learns what was decided, never why, and when Reloadus leaves, the understanding leaves with them. Oryzus measures success by how little they are needed. The team learns why, and can decide next time without them.
+
+The Oryzus architect's real job is to make decisions visible, not to make them alone.`,
+
+hoare: `Tony Hoare, Turing Award lecture, 1980. [Read it slowly.] There are two ways of constructing a software design. One way is to make it so simple that there are obviously no deficiencies. The other way is to make it so complicated that there are no obvious deficiencies.
+
+Read it again. "Obviously no deficiencies." "No obvious deficiencies." Same words, opposite systems. Keep Hoare in mind for one more slide.`,
+
+null: `Same Tony Hoare. 1965, he is designing the language ALGOL W, and he adds the null reference. Why? In his own words: because it was so easy to implement. Not because it was right. Because it was easy.
+
+2009, QCon London. He stands on a stage and calls it his billion-dollar mistake, counting the crashes and vulnerabilities across forty years of software.
+
+This is the point for floor two. The most decorated engineer in the history of our field shipped a billion-dollar architectural hole because it was the easy option that afternoon. Seniors are not oracles. Seniors are people who know more trade-offs than others. That is valuable. It is not the same as knowing the answer.`,
+
+silence: `A meeting you have all been in. The senior says, we will use X. The room nods, because who is going to argue. Decision made, unexamined. Nobody learned anything, including the senior.
+
+What would you change? [Take one answer. Then press next.]
+
+Flip the order. The junior asks, why not Y? Now the senior has to say the trade-off out loud. Now the decision has been examined twice, and the junior just learned what a senior knows.
+
+Jerry Weinberg described this in 1971 and called it egoless programming. Woody Zuill's team at Hunter Industries rediscovered it in 2011 when they started programming as a whole team, all day, at one screen: the seniors said they learned from juniors daily, because the juniors kept asking why.
+
+Now, I can hear the objection. Surely the senior's answer is usually right? Let me introduce you to the most decorated engineer in the history of our field.`,
+
+'senior-tool': `The tool for floor two. Four words, two habits.
+
+Ask first. Open every design discussion with a question instead of an answer. The questions from a few minutes ago will do: what changes most here? What does this make expensive later? Why not the other option?
+
+Speak last. Let the room reason before you do. It will feel slow. It is not; it is the only way the questions get asked at all.
+
+And then, when you do speak, explain the trade-off behind your answer, not just the conclusion. The decision gets examined twice, and the team learns how you think, which means they can make the next one without you.
+
+If Tony Hoare can ship a billion-dollar hole because it was easy that afternoon, the second pair of eyes is not a courtesy. It is the architecture.`,
+
+f7: `Floor three. Product Owners. The floor most architecture talks skip, and I think that is the biggest mistake in our field.
+
+[Look at them.] You already do architecture. You decide the order. The first three things that get built become the skeleton everything after them has to fit, and every "later" on your backlog is a loan with interest. That is architecture in the language of time, and nobody in the engine room translates it.
+
+Proof: the most famous phrase in our field was invented for your floor.`,
+
+
+debt: `Everyone in this room uses the phrase "technical debt". Most people think it is a developer's complaint. It is the opposite.
+
+1992. Ward Cunningham is building a portfolio management system called WyCash for a financial company. He needs to explain to his bosses, who are not technical, why shipping now and cleaning up the code later is a legitimate decision and not sloppiness. So he borrows their vocabulary. It is a loan. You take on debt to ship sooner, you pay interest as slower changes, and at some point you repay the principal. His bosses understood instantly, because he was speaking their language.
+
+The most-used phrase in software architecture was invented as a translation device for the PO's floor. That is what the best architects do. They invent words that let two floors see the same thing.`,
+
+
+'po-tool': `The tool for floor three is one sentence, and it is a question about time. What does this make expensive later?
+
+Ask it once per refinement, about whatever is at the top of the backlog. You do not need a diagram. You do not need to know what a service mesh is. You do not need permission. It is Booch's definition turned into a question a PO can ask on Monday morning.
+
+And every time a developer answers it, a piece of the theory of the system moves from their head into yours.`,
+
+f12: `Floor four. Scrum Masters, agile coaches, anyone who shapes teams.
+
+One sentence for this floor. The Product Owner decides when. You decide who builds it together. That is architecture in the language of space: team boundaries become system boundaries. And there is a fifty-year-old law that says so. It started as a rejected paper.`,
+conway: `1967. Mel Conway writes a paper called "How Do Committees Invent?" The thesis: any organisation that designs a system will produce a design whose structure is a copy of the organisation's communication structure. He sends it to Harvard Business Review. They reject it: he has not proven it. Datamation publishes it in 1968. Fred Brooks names it Conway's Law in The Mythical Man-Month, and it has been proven every single year since.
+
+Left: the org chart in January. Three teams. Right: the system in December. Three services. Same shape. It is always the same shape.
+
+So, Scrum Masters: whoever splits the teams is drawing the architecture diagram, whether or not anyone calls it that. Which raises the obvious question: if it happens anyway, can you do it on purpose?`,
+
+inverse: `Yes. Top row, Conway's Law: team structure becomes system structure, whether you like it or not.
+
+Bottom row, the inverse Conway manoeuvre. Start from the system you want. Design the teams so that Conway's Law produces it. Matthew Skelton and Manuel Pais made this rigorous in Team Topologies in 2019: stream-aligned teams, platform teams, and cognitive load as the limit on what one team can own.
+
+This is the Scrum Master's architecture tool. Think back to the last time you re-formed a team. Did anyone show you the architecture diagram? They should have. You were editing it.`,
+
+pizza: `Two Amazon rules. The two-pizza team: a team is as big as two pizzas can feed, and no bigger. And Werner Vogels, 2006: you build it, you run it. The team that builds a service carries the pager for it.
+
+Neither of those is a technical decision. Both are organisational. And both produced exactly the architecture Amazon wanted: small services, clear ownership, nothing thrown over a wall.
+
+That is Conway used on purpose instead of suffered by accident. And it was a floor-four move.`,
+
+spotify: `A caution for this floor. 2012, Henrik Kniberg publishes a whitepaper describing how Spotify organises: squads, tribes, chapters, guilds. He calls it a snapshot of an experiment. The world reads it as a template. Consultancies sell it. Companies reorganise around it.
+
+2020, former Spotify people say publicly: it was aspirational, it never fully worked that way, and Spotify has moved on. The template outlived the thing it described.
+
+Copying another company's organisation is planting coral in a forest. It was beautiful where it grew. Design your own teams for your own system.`,
+
+'sm-tool': `The tool for floor four. In a few minutes we do an architecture kata: small groups, a one-page fictional brief, a time box, then present to each other and take questions.
+
+Here is what I want you to notice while we do it: a kata needs a facilitator far more than it needs an architect. Time-boxing. Making sure the quiet person speaks. Rotating who holds the marker. That is your craft already.
+
+So watch what I do in the workshop, because you are going to run one of these at work.`,
+
+fp: `Top floor. Management. Where the memo came from.
+
+Gregor Hohpe's observation is that the penthouse and the engine room stopped talking. Not out of malice. They speak different languages, and the elevator that used to connect them stopped running. Let me show you the two languages.`,
+
+vocab: `Left: how the penthouse describes the system. Options. Risk. Time to market. Cost of delay. Right: how the engine room describes the same system. Coupling. Latency. Deploy frequency. Blast radius. Same system, described twice, and the two columns never meet.
+
+The elevator's job is translation in both directions. "Coupling" rides up and becomes: we cannot ship a payments feature without re-testing orders, so every payments feature costs two teams. "Time to market" rides down and becomes: payments must be deployable on its own by the third quarter.
+
+If nobody rides, each floor optimises for its own vocabulary, and the building slowly stops working.`,
+
+netflix: `The penthouse story. Netflix, August 2008. Netflix still mails DVDs. A database corruption stops shipping for three days.
+
+The obvious fix is a bigger, better database. The penthouse concludes something different: the single points of failure are the architecture. They bet the company on moving to Amazon's cloud. The engine room then earns that bet with Chaos Monkey: software that kills production servers at random, on purpose, so the architecture is forced to survive it.
+
+A penthouse decision, translated down, executed up. That is the elevator working.`,
+
+
+adr: `Hard for the penthouse: there is no feedback loop. Decisions go down; consequences rarely come back up in a form anyone recognises.
+
+Easier: Michael Nygard, 2011. Architecture Decision Records. One short file per significant decision, kept with the code: context, decision, consequences. Without it, a decision is a rumour within a year. With it, the penthouse reads why, the engine room reads what, and a new hire reads both. It is the elevator's logbook.`,
+
+
+laws: `Every floor visited. So why is riding the elevator so hard? Richards and Ford give us two laws. First: everything in software architecture is a trade-off. If you think you found something that is not, you have not found the trade-off yet. Seniors know more trade-offs; that is not the same as knowing the answer.
+
+Second: why is more important than how. And why is the one question every floor can ask.`,
+
+
+brandolini: `Alberto Brandolini, who invented event storming: it is not the domain expert's knowledge that goes to production. It is the developer's assumptions about it. His fix is not a better document. It is everyone at one wall, at the same time.
+
+Put the expert in the room. Not in the ticket. In the room.`,
+
+lauren: `[Slow down. This is the quiet centre of the talk.]
+
+Margaret Hamilton again. Late 1960s. She sometimes brings her daughter Lauren, four years old, to the lab. Lauren plays with the simulator and selects P01, a pre-launch program, in the middle of a simulated flight. Crash.
+
+Hamilton wants to add a guard. NASA says no: astronauts are trained never to make a mistake.
+
+Apollo 8, December 1968. Jim Lovell selects P01. The navigation data is gone. Nine hours to rebuild it. [Pause.] Then she got her guard.
+
+A four-year-old found the flaw the experts were trained to ignore.`,
+
+kay: `Alan Kay: a change in perspective is worth eighty IQ points. The junior's ignorance of your codebase is a perspective you cannot buy. So is the PO's. So is the Scrum Master's habit of noticing who has not spoken yet.`,
+
+rules: `Three rules for the next fifteen minutes. One: rotate the marker. Whoever holds it draws, and every three minutes it moves. Two: junior speaks first, senior last. Three: seniors ask, then tell. Five minutes of questions only, then trade-offs. Never answers.`,
+
+close: `[Let the elevator sweep while you speak.]
+
+Engine room: make the change easy. Floor two: speak last. Floor three: ask what gets expensive. Floor four: design the teams. Penthouse: keep the logbook.
+
+Six floors. One building. And for the next fifteen minutes, the elevator stops at all of them.`,
+
+handoff: `Groups of four. At least two floors in every group. Stand up. Go.
+
+[Walk the room. Break up any group that is all engine room. Advance to the C1 slide.]`,
+
+c1: `[Ninety seconds, then start the timer.]
+
+Here is what you draw. One box: the system in your brief. Around it, every person who uses it, and every other system it depends on. Between them, arrows, and every arrow gets a label in plain words: places orders, charges cards, sends confirmations.
+
+No technology. Nothing inside the box. No boxes for teams. This is level one of Simon Brown's C4 model, the system context, and it is the diagram every floor in this room can read.
+
+Your test for done: can the Product Owner in your group read the whole thing aloud without help? If not, redraw it.
+
+Three rules, once more. Rotate the marker every three minutes. The junior opens. Seniors ask only, for the first five minutes. Fifteen minutes. Go.`,
+
+c2: `[Two minutes for this slide and the next, together.]
+
+You drew level one. Here is what the next round looks like. Level two, containers: open the box and show the separately deployable pieces inside. A web app in React, a mobile app, an API in Spring, a PostgreSQL database. Each with its technology, each an arrow with a protocol.
+
+Container here does not mean Docker. It means anything that runs or stores on its own.
+
+And notice: this is the level where floor four becomes visible. One team, one container is the two-pizza rule, drawn. If you want the second kata at work: same brief, same groups, one week later, draw this.`,
+
+c3: `Level three, components: open one container, the API in this example, and show its major building blocks. Controllers, services, repositories, a facade in front of the payment provider. Use the words your codebase already uses.
+
+Most teams stop here. Level four is code, and Simon Brown's own advice is: generate it from the IDE, never draw it by hand.
+
+One last callback to the engine room. This is where Parnas's question lives. Which of these will change most? That is where your boundary belongs.
+
+Three diagrams, three zoom levels, and every one of them readable by more than one floor. Thank you.`,
+
+reading: `[Final slide, leave it up as people pack up. If anyone asks where to start:] Hohpe's book for the elevator. c4model.com for the diagrams. Then architecturalkatas.com for briefs you can run at work.`,
+};
+
+/* =====================================================================
+   DUTCH SPEAKER MATERIAL — notes (with [[geheugenkaart]] highlights),
+   audience cues and practice scripts, per slide id. Slides stay English.
+   Toggle in the speaker view with the EN/NL button or the D key.
+   ===================================================================== */
+const NL = {
+title: {
+  notes: `Welkom. Voor de workshop wil ik dertig minuten besteden aan één idee: [[architectuur is een gebouw]], en ieder van jullie werkt op een [[andere verdieping]].
+
+Vooraf één zin credit: de lift is de metafoor van [[Gregor Hohpe]], uit The Software Architect Elevator. Hij beschrijft [[twee verdiepingen]]. Ik voeg er vandaag [[vier]] aan toe.
+
+Start de timer nog niet. Start hem bij het eerste woord van de memo.`,
+  script: `Goedemiddag. Voordat we aan de slag gaan, wil ik jullie één beeld meegeven voor de komende dertig minuten.
+
+Architectuur is een gebouw. Geen diagram, geen document. Een gebouw, met verdiepingen. Ieder van jullie werkt op een van die verdiepingen, en de meesten van jullie zijn nog nooit op de andere geweest. Vandaag rijden we ertussen.
+
+Het beeld is van Gregor Hohpe. Hij beschrijft twee verdiepingen. Ik voeg er vier aan toe, en aan het eind wil ik dat jullie daarover met me in discussie gaan.` },
+
+memo: {
+  notes: `Lees de memo [[langzaam]], regel voor regel. Geen commentaar tussendoor. Het is een echte memo, [[Jeff Bezos, 2002]], naverteld door [[Steve Yegge]] in een Google+ post die niet openbaar had moeten zijn.
+
+De laatste regel is de clou. Pauzeer ervoor.`,
+  script: `Ik begin met een memo. Amazon, rond 2002. Jeff Bezos stuurt dit naar elk team in het bedrijf. [Lees langzaam. Geen commentaar tussendoor.]
+
+Alle teams zullen vanaf nu hun data en functionaliteit ontsluiten via service-interfaces. Teams communiceren met elkaar via deze interfaces. Geen enkele andere vorm van communicatie tussen processen is toegestaan. Welke technologie ze gebruiken maakt niet uit. Alle service-interfaces, zonder uitzondering, moeten vanaf de grond ontworpen zijn om naar buiten toe aangeboden te kunnen worden.
+
+[Pauze.] Wie dit niet doet, wordt ontslagen.` },
+
+niceday: {
+  notes: `Laat de lach landen, en word dan in één zin serieus: [[die memo is in het penthouse geschreven]]. Hij heeft de [[machinekamer verbouwd]]. Het is de reden dat [[AWS]] bestaat.
+
+De belangrijkste architectuurbeslissing in de geschiedenis van Amazon. [[Geen architect heeft hem geschreven]]. Vandaag rijden we tussen de verdieping waar hij geschreven is en de verdieping waar hij landde.`,
+  script: `Dank u; nog een fijne dag. [Wacht op de lach.]
+
+We kennen deze memo omdat Steve Yegge, die bij Amazon werkte en later bij Google, hem in 2011 navertelde in een post die hij privé dacht te houden. Dat was hij niet.
+
+Die memo is op de bovenste verdieping van het gebouw geschreven. Hij heeft de onderste verdieping verbouwd. Elk intern systeem werd een service met een interface, en een paar jaar later merkte Amazon dat het die interfaces aan de rest van ons kon verkopen. Daar komt AWS vandaan. De belangrijkste architectuurbeslissing in de geschiedenis van Amazon, en geen architect heeft hem geschreven. Hou die gedachte vast.` },
+
+building: {
+  notes: `Wijs naar het gebouw. Noem de verdiepingen van onder naar boven: [[Kelder: ops]]. [[Machinekamer: developers]]. [[Tweede: seniors]] en iedereen met "architect" in de functietitel. [[Derde: Product Owners]]. [[Vierde: Scrum Masters]] en iedereen die teams vormt. [[Penthouse: management]].
+
+Vraag handen per verdieping. Tel hardop. Dat komt terug: aan het eind vraag je ze [[groepen over verdiepingen heen]] te vormen.
+
+Credit nog een keer, kort: [[Hohpe]] beschrijft het penthouse en de machinekamer. De vier verdiepingen ertussen zijn [[mijn toevoeging]], en daar mogen jullie het mee oneens zijn.`,
+  cue: '"Op welke verdieping werk jij?" Handen per verdieping. Zeg de aantallen terug zodat mensen zich geteld voelen.',
+  script: `Hier is het gebouw, van onderaf. De kelder: ops en infrastructuur, de mensen die het licht aan houden. De machinekamer: developers, waar de code geschreven wordt. De tweede verdieping: seniors, leads, iedereen met "architect" in de titel. De derde: Product Owners. De vierde: Scrum Masters, agile coaches, iedereen die teams vormt. En het penthouse: management.
+
+Gregor Hohpe's versie heeft twee verdiepingen, het penthouse en de machinekamer, en hij zegt dat het de taak van de architect is om met de lift tussen die twee te rijden. De vier verdiepingen ertussen zijn van mij.
+
+Dus. Op welke verdieping werk jij? [Handen per verdieping. Zeg elk aantal terug.] Onthoud je verdieping. Ik heb hem aan het eind nodig.` },
+
+f1: {
+  notes: `De lift stopt eerst in de machinekamer, want daar woont het grootste deel van de zaal.
+
+Definitie van [[Ralph Johnson]], via [[Martin Fowler, 2003]]: architectuur gaat over de belangrijke dingen, wat dat ook mogen zijn. Klinkt als een grap. Het is de eerlijkste definitie die we hebben. Fowler voegt een tweede toe: architectuur is [[het gedeelde begrip]] dat de ervaren developers van het systeem hebben.
+
+Als het gedeeld begrip is, dan is een diagram dat niemand begrijpt [[geen architectuur]].`,
+  script: `Eerste halte, de machinekamer.
+
+In 2003 schreef Martin Fowler een artikel met de titel "Who Needs an Architect?", en daarin citeert hij Ralph Johnson: architectuur gaat over de belangrijke dingen. Wat dat ook mogen zijn. Het klinkt als een ontwijkend antwoord. Het is de eerlijkste definitie die we hebben, want wat belangrijk is verandert per systeem, per jaar, per team.
+
+Fowler voegt een tweede definitie toe: architectuur is het gedeelde begrip dat de ervaren developers van het systeem hebben. Gedeeld. Dus als er een diagram op de wiki staat dat niemand in het team uit het hoofd zou kunnen natekenen, dan is dat diagram niet de architectuur. De architectuur is wat er werkelijk in jullie hoofden zit.` },
+
+booch: {
+  notes: `[[Grady Booch]]: architectuur is de verzameling significante ontwerpbeslissingen, waarbij [[significant gemeten wordt in de kosten van verandering]].
+
+Niet de grootte van de vergadering. Niet wie erbij was. Kosten van verandering. De grote cirkels zijn de beslissingen die je [[volgende sprint niet terugdraait]]. De kleine wel.
+
+Let op: bijna alle grote gaan over [[grenzen tussen teams]]. Hou dat vast voor de derde en vierde verdieping.`,
+  script: `Grady Booch scherpt het woord "belangrijk" aan. Architectuur is de verzameling significante beslissingen, waarbij significant gemeten wordt in de kosten van verandering. Niet in hoe lang de vergadering duurde. Niet in wie erbij was. Kosten van verandering.
+
+Kijk naar de cirkels. Welke database, en wie is eigenaar van het schema: groot. Synchroon of asynchroon tussen twee teams: groot. Tabs of spaties: klein, hoe lang de discussie ook duurde.
+
+Kijk nu nog eens naar de grote. Bijna elke gaat over de grens tussen het ene team en het andere. Hou dat vast. Het komt terug op de derde en de vierde verdieping.` },
+
+alarm: {
+  notes: `Het oorlogsverhaal van deze verdieping. Het team van [[Margaret Hamilton]] bij MIT bouwde een [[asynchrone executive]] met [[prioriteitsplanning]]: bij overbelasting het onbelangrijke werk laten vallen, het belangrijke behouden.
+
+Drie jaar later, tijdens de maanlanding, overspoelt een schakelaar van de [[rendez-vousradar]] de computer. [[1202-alarm]]. De executive laat de laagste prioriteiten vallen en blijft sturen. Armstrong landt.
+
+Punt: een beslissing uit de machinekamer, genomen in [[stilte]], jaren voordat iemand wist dat hij ertoe deed. Zo voelt architectuur op deze verdieping.`,
+  script: `Het oorlogsverhaal van de machinekamer. 20 juli 1969. De Eagle daalt af naar de maan. Een schakelaar van de rendez-vousradar staat verkeerd, en die begint de boordcomputer te overspoelen met werk dat hij niet nodig heeft. De computer zit aan zijn maximum. Op het display: 1202. Programma-alarm. Niemand in Mission Control heeft dat ooit in een echte vlucht gezien.
+
+Dit redt de landing. Jaren eerder heeft het team van Margaret Hamilton bij MIT de software gebouwd rond een asynchrone executive met prioriteitsplanning. Bij overbelasting laat hij de minst belangrijke taken vallen en houdt hij de belangrijke. Dus de computer laat het radarwerk vallen, blijft vliegen, en Armstrong landt met nog een paar seconden brandstof.
+
+Die beslissing is genomen in een kamer in Cambridge, Massachusetts, jaren eerder. Niemand klapte.` },
+
+'alarm-tl': {
+  notes: `Loop de tijdlijn van links naar rechts. [[Drie jaar]] tussen de beslissing en het moment dat hij ertoe deed.
+
+Dit is het eerste dat architectuur [[moeilijk]] maakt, en ik zeg het gewoon: [[de feedbackloop wordt gemeten in jaren]]. Van zo'n loop kun je niet leren door hem mee te maken. Je hebt iets anders nodig. Parkeer dat.`,
+  script: `Kijk naar het gat. 1966: de executive wordt ontworpen. 1968: Apollo 8 vliegt, er gebeurt niets. 1969: het alarm, en de beslissing betaalt zich uit. Drie jaar tussen beslissen en weten.
+
+Dit is het eerste dat architectuur moeilijk maakt, en ik wil het gewoon zeggen: de feedbackloop wordt gemeten in jaren. Van een loop die zo lang is, kun je niet leren door hem gewoon mee te maken. Je zou tien herhalingen krijgen in een hele loopbaan. We hebben een andere manier van oefenen nodig. Parkeer dat. Daar eindigen we.` },
+
+beck: {
+  notes: `Moeilijk voor developers: architectuur [[verstopt zich in pull requests]]. Niemand vertelt je dat wat je net deed architectuur was.
+
+Makkelijker: de regel van [[Kent Beck]]. Maak eerst de verandering makkelijk (waarschuwing: dat kan moeilijk zijn), doe dan de makkelijke verandering. Dat is [[Parnas]] in één zin: [[splits op wat gaat veranderen]].
+
+Elke verdieping krijgt een tool mee. Dit is die van de machinekamer.`,
+  script: `Dus, machinekamer. Wat is moeilijk, wat is makkelijker.
+
+Moeilijk: architectuur verstopt zich in jullie pull requests. Je trekt een interface los, je splitst een module, en niemand vertelt je dat dat architectuur was.
+
+Makkelijker: de regel van Kent Beck uit 2012. Voor elke gewenste verandering: maak eerst de verandering makkelijk (waarschuwing: dat kan moeilijk zijn), en doe dan de makkelijke verandering. Dat is het paper van David Parnas uit 1972 in één zin: splits op wat gaat veranderen. Jullie doen dit al. Het enige wat ik van deze verdieping vraag, is het hardop zo te gaan noemen, zodat de andere verdiepingen het horen.` },
+
+f3: {
+  notes: `Een verdieping hoger. De seniors. De mensen met "lead" of "architect" ergens in hun titel.
+
+Het waarom voor deze verdieping: een antwoord lost [[de beslissing van vandaag]] op. Een vraag die het team heeft leren stellen, lost [[elke beslissing daarna]] op. Het waardevolste wat een senior met zijn kennis kan doen, is de zaal [[de juiste vragen laten stellen]], en dan [[de trade-off uitleggen]] achter het antwoord.
+
+Het hoe is één gewoonte: [[als laatste spreken]]. Wie eerst spreekt, krijgt de vragen nooit te horen. Alles op deze verdieping bouwt daarnaartoe.`,
+  script: `Een verdieping hoger. Seniors, leads, architecten. De mensen die het meeste weten.
+
+Hier is de vraag voor deze verdieping: wat is het waardevolste dat je kunt doen met wat je weet? Het voor de hand liggende antwoord is: het antwoord geven. En een antwoord lost de beslissing van vandaag op. Maar een vraag die het team heeft leren stellen, lost elke beslissing daarna op, ook de beslissingen waar jij niet bij bent.
+
+Dus de taak op deze verdieping is je kennis besteden aan iedereen de juiste vragen laten stellen. Wat verandert hier het meest? Wat maakt dit later duur? Waarom niet de andere optie? En dan, als de vragen op tafel liggen, de trade-off achter je antwoord uitleggen, zodat de zaal leert hoe je denkt en niet alleen wat je concludeerde.
+
+Er is één gewoonte die dit mogelijk maakt, en die is ongemakkelijk: als laatste spreken. Als jij eerst spreekt, worden de vragen nooit gesteld. Ik laat jullie zien waarom die volgorde zo veel uitmaakt.` },
+
+fowler: {
+  notes: `De twee archetypes van [[Fowler]]. [[Reloadus]], naar de Matrix: beslist, geeft door, wordt geraadpleegd als een orakel. [[Oryzus]], de rijstboer: werkt op het veld met het team, begeleidt, meet succes aan [[hoe weinig hij nodig is]].
+
+Alleen de namen en de eerste twee punten per kolom zijn zichtbaar, neutraal. Vraag de zaal: [[welke beloont jullie organisatie?]] Neem twee antwoorden. Dan: [[welke heeft ze nodig?]] [[Druk op volgende]]: Oryzus licht op en de laatste twee punten verschijnen, over [[wat het team leert]].
+
+De echte taak van de Oryzus-architect: [[beslissingen zichtbaar maken]], niet alleen nemen.`,
+  cue: 'Eén onthulling. Stel beide vragen voordat je op volgende drukt.',
+  script: `Hetzelfde artikel van Fowler, twee archetypes. Architectus Reloadus, naar de Matrix: beslist, en geeft door. Neemt de beslissing alleen, communiceert via documenten. Architectus Oryzus, van oryza, rijst: werkt samen, begeleidt, en werkt eraan om te verdwijnen. Werkt binnen het team aan echte problemen, communiceert via gesprek en code.
+
+Een vraag voor jullie. Welke van de twee beloont jullie organisatie? [Neem twee of drie antwoorden. Meestal Reloadus, want Reloadus ziet er daadkrachtig uit.] En welke heeft ze nodig? [Wacht op de zaal. Druk dan op volgende.]
+
+Oryzus. En hier is het deel dat het beslist. Reloadus is het single point of failure voor begrip: het team leert wat er besloten is, nooit waarom, en als Reloadus vertrekt, vertrekt het begrip mee. Oryzus meet succes aan hoe weinig hij nodig is. Het team leert waarom, en kan de volgende keer zonder hem beslissen.
+
+De echte taak van de Oryzus-architect is beslissingen zichtbaar maken, niet ze alleen nemen.` },
+
+silence: {
+  notes: `Alleen de bovenste rij is zichtbaar. Senior spreekt eerst, zaal knikt, klaar. Niemand heeft iets geleerd, ook de senior niet. Vraag: [[wat zou jij veranderen?]] Neem één antwoord, [[druk op volgende]].
+
+Onderste rij verschijnt: draai de volgorde om. Junior vraagt [[waarom niet Y]]. Senior moet [[de trade-off hardop zeggen]]. Nu is de beslissing twee keer bekeken, en de junior heeft geleerd wat een senior weet.
+
+[[Jerry Weinberg, 1971]], egoless programming. De mob van [[Woody Zuill]] bij Hunter Industries, 2011: seniors leerden dagelijks van juniors.
+
+Brug: "Maar het antwoord van de senior is toch meestal goed?" Volgende slide: [[Tony Hoare]].`,
+  cue: 'Alleen de bovenste rij bij binnenkomst. Vraag wat ze zouden veranderen, druk dan op volgende voor de junior-eerst-rij.',
+  script: `Een vergadering waar jullie allemaal in hebben gezeten. De senior zegt: we gebruiken X. De zaal knikt, want wie gaat er tegenin. Beslissing genomen, niet bekeken. Niemand heeft iets geleerd, ook de senior niet.
+
+Wat zou jij veranderen? [Neem één antwoord. Druk dan op volgende.]
+
+Draai de volgorde om. De junior vraagt: waarom niet Y? Nu moet de senior de trade-off hardop zeggen. Nu is de beslissing twee keer bekeken, en de junior heeft net geleerd wat een senior weet.
+
+Jerry Weinberg beschreef dit in 1971 en noemde het egoless programming. Het team van Woody Zuill bij Hunter Industries ontdekte het opnieuw in 2011, toen ze als heel team gingen programmeren, de hele dag, achter één scherm: de seniors zeiden dat ze dagelijks van juniors leerden, omdat de juniors waarom bleven vragen.
+
+Nu hoor ik het bezwaar al. Het antwoord van de senior is toch meestal goed? Laat me jullie voorstellen aan de meest gelauwerde ingenieur in de geschiedenis van ons vak.` },
+
+hoare: {
+  notes: `Lees het twee keer. Bij de tweede keer hoort de zaal het verschil tussen [[duidelijk geen fouten]] en [[geen duidelijke fouten]].
+
+Dan de wending op de volgende slide.`,
+  script: `Tony Hoare, Turing Award-lezing, 1980. [Lees langzaam.] Er zijn twee manieren om een softwareontwerp te maken. De ene is het zo eenvoudig maken dat er duidelijk geen fouten in zitten. De andere is het zo ingewikkeld maken dat er geen duidelijke fouten in zitten.
+
+Lees het nog eens. "Duidelijk geen fouten." "Geen duidelijke fouten." Dezelfde woorden, tegengestelde systemen. Hou Hoare nog één slide in gedachten.` },
+
+null: {
+  notes: `Dezelfde man. [[1965]], ALGOL W, hij voegt de [[null-referentie]] toe omdat die [[makkelijk te implementeren]] was. Niet omdat het goed was. Omdat het makkelijk was.
+
+[[2009]], QCon Londen, hij staat op het podium en noemt het zijn [[miljardenfout]].
+
+Het punt voor de tweede verdieping: de meest senior persoon in de geschiedenis van ons vak leverde een architectuurgat van een miljard op omdat het makkelijk was. [[Seniors zijn geen orakels]]. Het zijn mensen die meer trade-offs kennen.
+
+En precies daarom werkt de tool op de volgende slide.`,
+  script: `Dezelfde Tony Hoare. 1965, hij ontwerpt de taal ALGOL W, en hij voegt de null-referentie toe. Waarom? In zijn eigen woorden: omdat het zo makkelijk te implementeren was. Niet omdat het goed was. Omdat het makkelijk was.
+
+2009, QCon Londen. Hij staat op een podium en noemt het zijn miljardenfout, als je de crashes en kwetsbaarheden van veertig jaar software optelt.
+
+Dit is het punt voor de tweede verdieping. De meest gelauwerde ingenieur in de geschiedenis van ons vak leverde een architectuurgat van een miljard op, omdat het die middag de makkelijke optie was. Seniors zijn geen orakels. Seniors zijn mensen die meer trade-offs kennen dan anderen. Dat is waardevol. Het is niet hetzelfde als het antwoord weten.` },
+
+'senior-tool': {
+  notes: `De tool voor de tweede verdieping, twee gewoontes in vier woorden. [[Eerst vragen]]: open met een vraag, die uit de intro: wat verandert hier het meest, wat maakt dit later duur, waarom niet de andere optie. [[Als laatste spreken]]: laat de zaal eerst redeneren.
+
+Dan [[de trade-off uitleggen]], niet alleen de conclusie. Zo wordt een beslissing twee keer bekeken en leert het team de volgende zonder jou te nemen.
+
+Terugverwijzing naar Hoare: als de beste van ons een gat van een miljard kan opleveren, is het tweede paar ogen geen beleefdheid. Het is de [[architectuur]].`,
+  script: `De tool voor de tweede verdieping. Vier woorden, twee gewoontes.
+
+Eerst vragen. Open elke ontwerpdiscussie met een vraag in plaats van een antwoord. De vragen van een paar minuten geleden volstaan: wat verandert hier het meest? Wat maakt dit later duur? Waarom niet de andere optie?
+
+Als laatste spreken. Laat de zaal redeneren voordat jij het doet. Het voelt traag. Dat is het niet; het is de enige manier waarop de vragen überhaupt gesteld worden.
+
+En dan, als je spreekt, leg de trade-off achter je antwoord uit, niet alleen de conclusie. De beslissing wordt twee keer bekeken, en het team leert hoe jij denkt, wat betekent dat ze de volgende zonder jou kunnen nemen.
+
+Als Tony Hoare een gat van een miljard kan opleveren omdat het die middag makkelijk was, dan is het tweede paar ogen geen beleefdheid. Het is de architectuur.` },
+
+f7: {
+  notes: `De verdieping die de meeste architectuurtalks overslaan. [[Product Owners]].
+
+Zeg het direct: [[jullie doen al architectuur]]. Jullie bepalen de [[volgorde]]. Wat het eerst gebouwd wordt, wordt het [[skelet]] waar alles daarna in moet passen, en "later" is een lening met rente. Dat is architectuur in de taal van [[tijd]]. Niemand in de machinekamer vertaalt het.
+
+Bewijs: de beroemdste term in ons vak is uitgevonden [[voor deze verdieping]].`,
+  cue: 'Kijk naar de PO\'s. Spreek ze aan op hun rol. Hou deze verdieping kort: twee slides en de vraag.',
+  script: `Derde verdieping. Product Owners. De verdieping die de meeste architectuurtalks overslaan, en ik denk dat dat de grootste fout in ons vak is.
+
+[Kijk ze aan.] Jullie doen al architectuur. Jullie bepalen de volgorde. De eerste drie dingen die gebouwd worden, worden het skelet waar alles daarna in moet passen, en elk "later" op je backlog is een lening met rente. Dat is architectuur in de taal van tijd, en niemand in de machinekamer vertaalt het.
+
+Bewijs: de beroemdste term in ons vak is uitgevonden voor jullie verdieping.` },
+
+
+debt: {
+  notes: `De meeste mensen denken dat technical debt een klacht van developers is. Het is het tegenovergestelde.
+
+[[Ward Cunningham, 1992]], het portfoliosysteem WyCash. Hij moet zijn [[niet-technische bazen]] uitleggen waarom nu opleveren en later opschonen een [[legitieme lening]] is, geen slordigheid. Hij leent hun taal: schuld, rente, aflossing.
+
+De meest gebruikte term in ons vak is uitgevonden [[als vertaalmiddel voor de verdieping van de PO]]. De beste architecten verzinnen woorden waarmee twee verdiepingen hetzelfde zien.`,
+  script: `Iedereen in deze zaal gebruikt de term "technical debt". De meeste mensen denken dat het een klacht van developers is. Het is het tegenovergestelde.
+
+1992. Ward Cunningham bouwt een portfoliosysteem, WyCash, voor een financieel bedrijf. Hij moet aan zijn bazen, die niet technisch zijn, uitleggen waarom nu opleveren en de code later opschonen een legitieme beslissing is en geen slordigheid. Dus leent hij hun vocabulaire. Het is een lening. Je neemt schuld op om eerder op te leveren, je betaalt rente in de vorm van tragere veranderingen, en op een gegeven moment los je de hoofdsom af. Zijn bazen begrepen het meteen, want hij sprak hun taal.
+
+De meest gebruikte term in softwarearchitectuur is uitgevonden als vertaalmiddel voor de verdieping van de PO. Dat is wat de beste architecten doen. Ze verzinnen woorden waarmee twee verdiepingen hetzelfde zien.` },
+
+
+'po-tool': {
+  notes: `De tool van de PO. [[Eén vraag]], één keer per refinement: [[wat maakt dit later duur?]]
+
+Het is de definitie van Booch, omgezet in een zin die een PO op maandag kan uitspreken zonder te weten wat een service mesh is. Geen toestemming nodig. Geen diagram nodig. En elke keer dat een developer hem beantwoordt, verhuist een stuk van de [[theorie]] van het systeem van het ene hoofd naar het andere.`,
+  cue: '"Dit kun je maandag vragen. Je hebt geen toestemming nodig en je hoeft niet te weten wat een service mesh is."',
+  script: `De tool voor de derde verdieping is één zin, en het is een vraag over tijd. Wat maakt dit later duur?
+
+Stel hem één keer per refinement, over wat er bovenaan de backlog staat. Je hebt geen diagram nodig. Je hoeft niet te weten wat een service mesh is. Je hebt geen toestemming nodig. Het is de definitie van Booch, omgezet in een vraag die een PO op maandagochtend kan stellen.
+
+En elke keer dat een developer hem beantwoordt, verhuist een stuk van de theorie van het systeem van zijn hoofd naar het jouwe.` },
+
+f12: {
+  notes: `Vierde verdieping. [[Scrum Masters]], agile coaches, iedereen die teams vormt.
+
+De ene zin voor deze verdieping: de PO bepaalt [[wanneer]], jullie bepalen [[wie het samen bouwt]]. Dat is architectuur in de taal van [[ruimte]]. Teamgrenzen worden [[systeemgrenzen]], en daar bestaat een vijftig jaar oude wet over.
+
+Opstap: een [[afgewezen paper]].`,
+  script: `Vierde verdieping. Scrum Masters, agile coaches, iedereen die teams vormt.
+
+Eén zin voor deze verdieping. De Product Owner bepaalt wanneer. Jullie bepalen wie het samen bouwt. Dat is architectuur in de taal van ruimte: teamgrenzen worden systeemgrenzen. En er is een vijftig jaar oude wet die dat zegt. Die begon als een afgewezen paper.` },
+conway: {
+  notes: `[[Mel Conway, 1967]]. Paper met de titel "How Do Committees Invent?" Ingestuurd naar Harvard Business Review. [[Afgewezen]]: hij had zijn stelling niet bewezen. Datamation drukte het in 1968. [[Fred Brooks]] noemde het Conway's Law in The Mythical Man-Month en het is sindsdien elk jaar bewezen.
+
+Links: het organogram in januari. Rechts: het systeem in december. [[Dezelfde vorm]]. Altijd.
+
+Dus, Scrum Masters: wie [[de teams splitst]], tekent het architectuurdiagram, of iemand het zo noemt of niet. Volgende slide: hoe je dat [[met opzet]] doet.`,
+  script: `1967. Mel Conway schrijft een paper met de titel "How Do Committees Invent?" De stelling: elke organisatie die een systeem ontwerpt, produceert een ontwerp waarvan de structuur een kopie is van de communicatiestructuur van die organisatie. Hij stuurt het naar Harvard Business Review. Ze wijzen het af: hij heeft het niet bewezen. Datamation publiceert het in 1968. Fred Brooks noemt het Conway's Law in The Mythical Man-Month, en het is sindsdien elk jaar opnieuw bewezen.
+
+Links: het organogram in januari. Drie teams. Rechts: het systeem in december. Drie services. Dezelfde vorm. Het is altijd dezelfde vorm.
+
+Dus, Scrum Masters: wie de teams splitst, tekent het architectuurdiagram, of iemand het nu zo noemt of niet. Wat de voor de hand liggende vraag oproept: als het toch gebeurt, kun je het dan met opzet doen?` },
+
+inverse: {
+  notes: `Boven: Conway. Teamstructuur wordt systeemstructuur, of je het wilt of niet.
+
+Onder: de [[inverse Conway-manoeuvre]]. Begin bij het systeem dat je wilt. Ontwerp de [[teams]] zo dat ze het opleveren. [[Team Topologies]], Skelton en Pais, 2019: stream-aligned teams, platformteams, [[cognitieve belasting]] als begrenzing.
+
+Dit is [[de architectuurtool van de Scrum Master]]. Toen je voor het laatst een team herschikte, liet iemand je toen het architectuurdiagram zien? Dat had gemoeten. Je was het aan het bewerken.`,
+  script: `Ja. Bovenste rij, Conway's Law: teamstructuur wordt systeemstructuur, of je het wilt of niet.
+
+Onderste rij, de inverse Conway-manoeuvre. Begin bij het systeem dat je wilt. Ontwerp de teams zo dat Conway's Law het oplevert. Matthew Skelton en Manuel Pais hebben dit rigoureus gemaakt in Team Topologies, 2019: stream-aligned teams, platformteams, en cognitieve belasting als grens van wat één team kan bezitten.
+
+Dit is de architectuurtool van de Scrum Master. Denk terug aan de laatste keer dat je een team herschikte. Liet iemand je toen het architectuurdiagram zien? Dat had gemoeten. Je was het aan het bewerken.` },
+
+pizza: {
+  notes: `Twee Amazon-regels. [[Twee-pizzateams]]: een team is zo groot als twee pizza's kunnen voeden. [[You build it, you run it]], [[Werner Vogels, 2006]]: het team dat een service bouwt, draagt er de pieper voor.
+
+Geen van beide is een technische beslissing. Beide zijn [[organisatiebeslissingen]]. Beide leverden de architectuur op die Amazon wilde: kleine services, duidelijk eigenaarschap, geen muur om over te gooien.
+
+Dat is Conway [[gebruikt]] in plaats van [[ondergaan]]. En het was een zet van de vierde verdieping.`,
+  script: `Twee Amazon-regels. Het twee-pizzateam: een team is zo groot als twee pizza's kunnen voeden, en niet groter. En Werner Vogels, 2006: you build it, you run it. Het team dat een service bouwt, draagt er de pieper voor.
+
+Geen van beide is een technische beslissing. Beide zijn organisatorisch. En beide leverden precies de architectuur op die Amazon wilde: kleine services, duidelijk eigenaarschap, niets dat over een muur gegooid wordt.
+
+Dat is Conway met opzet gebruikt in plaats van per ongeluk ondergaan. En het was een zet van de vierde verdieping.` },
+
+spotify: {
+  notes: `De waarschuwing voor deze verdieping. [[Henrik Kniberg, 2012]]: een whitepaper over Spotify's squads, tribes, chapters en guilds, als [[momentopname van een experiment]]. De wereld nam het over als [[sjabloon]].
+
+[[2020]]: oud-Spotify-medewerkers zeggen dat het aspirationeel was en dat Spotify verder is gegaan. Het sjabloon overleefde het ding dat het beschreef.
+
+Organisatiearchitectuur uit een andere habitat kopiëren is [[koraal planten in een bos]]. Ontwerp je eigen teams voor je eigen systeem.`,
+  script: `Een waarschuwing voor deze verdieping. 2012, Henrik Kniberg publiceert een whitepaper over hoe Spotify zich organiseert: squads, tribes, chapters, guilds. Hij noemt het een momentopname van een experiment. De wereld leest het als een sjabloon. Consultancybureaus verkopen het. Bedrijven reorganiseren eromheen.
+
+2020, oud-Spotify-mensen zeggen publiekelijk: het was aspirationeel, het heeft nooit volledig zo gewerkt, en Spotify is verder gegaan. Het sjabloon overleefde het ding dat het beschreef.
+
+De organisatie van een ander bedrijf kopiëren is koraal planten in een bos. Het was prachtig waar het groeide. Ontwerp je eigen teams voor je eigen systeem.` },
+
+'sm-tool': {
+  notes: `De tool van de SM. Zo doen we een [[architectuurkata]]: kleine groepen, een fictieve opdracht van één pagina, een timebox, presenteren, vragen van elkaar.
+
+Het heeft een [[facilitator]] harder nodig dan een architect. Timeboxen, zorgen dat de stille persoon spreekt, de stift laten rouleren. Dat is jullie vak al.
+
+Zeg het direct: [[jullie gaan er zelf een begeleiden]]. Kijk wat ik doe in de workshop.`,
+  cue: '"Over een paar minuten help je er zelf een draaien. Kijk wat ik doe."',
+  script: `De tool voor de vierde verdieping. Over een paar minuten doen we een architectuurkata: kleine groepen, een fictieve opdracht van één pagina, een timebox, dan aan elkaar presenteren en vragen beantwoorden.
+
+Let hierop terwijl we het doen: een kata heeft veel harder een facilitator nodig dan een architect. Timeboxen. Zorgen dat de stille persoon aan het woord komt. De stift laten rouleren. Dat is jullie vak al.
+
+Dus kijk wat ik doe in de workshop, want jullie gaan er zelf een draaien op het werk.` },
+
+fp: {
+  notes: `Bovenste verdieping. [[Management]]. Waar de memo vandaan kwam.
+
+De observatie van [[Hohpe]]: het penthouse en de machinekamer zijn [[gestopt met praten]]. Niet uit kwade wil. Ze spreken verschillende talen, en de lift is gestopt met rijden.`,
+  script: `Bovenste verdieping. Management. Waar de memo vandaan kwam.
+
+De observatie van Gregor Hohpe is dat het penthouse en de machinekamer gestopt zijn met praten. Niet uit kwade wil. Ze spreken verschillende talen, en de lift die ze verbond is gestopt met rijden. Ik laat jullie de twee talen zien.` },
+
+vocab: {
+  notes: `Linker kolom, penthouse-woorden. Rechter kolom, machinekamer-woorden. [[Hetzelfde systeem]], twee keer beschreven, en de kolommen raken elkaar nooit.
+
+De taak van de lift is [[vertalen in beide richtingen]]. "Coupling" wordt: we kunnen geen betalingsfeature opleveren zonder orders opnieuw te testen, dus elke betalingsfeature kost twee teams. "Time to market" wordt: betalingen moeten voor Q3 los deploybaar zijn.
+
+Als niemand rijdt, optimaliseert elke verdieping haar eigen vocabulaire en houdt het gebouw langzaam op met werken.`,
+  script: `Links: hoe het penthouse het systeem beschrijft. Opties. Risico. Time to market. Cost of delay. Rechts: hoe de machinekamer hetzelfde systeem beschrijft. Coupling. Latency. Deploy-frequentie. Blast radius. Hetzelfde systeem, twee keer beschreven, en de twee kolommen raken elkaar nooit.
+
+De taak van de lift is vertalen in beide richtingen. "Coupling" gaat omhoog en wordt: we kunnen geen betalingsfeature opleveren zonder orders opnieuw te testen, dus elke betalingsfeature kost twee teams. "Time to market" gaat omlaag en wordt: betalingen moeten voor het derde kwartaal los deploybaar zijn.
+
+Als niemand rijdt, optimaliseert elke verdieping voor haar eigen vocabulaire, en houdt het gebouw langzaam op met werken.` },
+
+netflix: {
+  notes: `Het penthouse-verhaal. [[Netflix, augustus 2008]]. Een databasecorruptie. [[Drie dagen]] geen dvd's verzonden.
+
+Het penthouse had een grotere database kunnen kopen. In plaats daarvan concludeerden ze: [[de single points of failure zijn de architectuur]], en zetten ze het bedrijf in op [[AWS]]. Daarna verdiende de machinekamer die gok met [[Chaos Monkey]]: bewust servers in productie omleggen.
+
+Een penthouse-beslissing, naar beneden vertaald, naar boven uitgevoerd. De lift die werkt.`,
+  script: `Het penthouse-verhaal. Netflix, augustus 2008. Netflix verstuurt nog dvd's per post. Een databasecorruptie legt de verzending drie dagen stil.
+
+De voor de hand liggende oplossing is een grotere, betere database. Het penthouse concludeert iets anders: de single points of failure zijn de architectuur. Ze zetten het bedrijf in op een verhuizing naar de cloud van Amazon. Daarna verdient de machinekamer die gok met Chaos Monkey: software die willekeurig productieservers omlegt, met opzet, zodat de architectuur gedwongen wordt het te overleven.
+
+Een penthouse-beslissing, naar beneden vertaald, naar boven uitgevoerd. Dat is de lift die werkt.` },
+
+adr: {
+  notes: `Moeilijk voor het penthouse: [[geen feedbackloop]]. Beslissingen gaan naar beneden; gevolgen komen zelden terug naar boven in een vorm die iemand herkent.
+
+Makkelijker: [[Michael Nygard, 2011]]. [[Architecture Decision Records]]. Eén kort bestand per beslissing, bij de code: [[context]], [[beslissing]], [[gevolgen]]. Een beslissing zonder record is binnen een jaar een gerucht.
+
+Het is het [[logboek van de lift]]. Het penthouse leest waarom; de machinekamer leest wat; een junior leest over twee jaar beide.`,
+  script: `Moeilijk voor het penthouse: er is geen feedbackloop. Beslissingen gaan naar beneden; gevolgen komen zelden terug naar boven in een vorm die iemand herkent.
+
+Makkelijker: Michael Nygard, 2011. Architecture Decision Records. Eén kort bestand per significante beslissing, bewaard bij de code: context, beslissing, gevolgen. Zonder is een beslissing binnen een jaar een gerucht. Met leest het penthouse waarom, leest de machinekamer wat, en leest een nieuwe collega beide. Het is het logboek van de lift.` },
+
+
+laws: {
+  notes: `Alle verdiepingen bezocht. Open het deel: [[waarom is de lift zo moeilijk?]]
+
+[[Richards en Ford]], twee wetten.
+
+[[Alles is een trade-off]]. Denk je iets gevonden te hebben dat dat niet is, dan heb je de trade-off nog niet gevonden. Er is geen antwoord. Seniors kennen meer trade-offs; dat is iets anders dan het antwoord kennen.
+
+[[Waarom gaat boven hoe]]. En "waarom" is de ene vraag die elke verdieping kan stellen.`,
+  script: `Alle verdiepingen bezocht. Dus waarom is de lift zo moeilijk? Richards en Ford geven ons twee wetten. Ten eerste: alles in softwarearchitectuur is een trade-off. Denk je iets gevonden te hebben dat dat niet is, dan heb je de trade-off nog niet gevonden. Seniors kennen meer trade-offs; dat is niet hetzelfde als het antwoord kennen.
+
+Ten tweede: waarom is belangrijker dan hoe. En waarom is de ene vraag die elke verdieping kan stellen.` },
+
+
+brandolini: {
+  notes: `[[Brandolini]], de uitvinder van event storming. Wat in productie gaat is niet wat de [[domeinexpert]] weet; het is wat de developer erover [[aannam]].
+
+De oplossing is geen beter document. Het is [[iedereen aan één muur]], tegelijk, zonder laptops. Zet de expert in de kamer. Niet in het ticket. [[In de kamer]].
+
+Dat is de brug naar de laatste verdieping.`,
+  cue: 'Kijk om de beurt naar de PO\'s en de seniors: "Dus zet de expert in de kamer. Niet in het ticket. In de kamer."',
+  script: `Alberto Brandolini, die event storming uitvond: het is niet de kennis van de domeinexpert die in productie gaat. Het zijn de aannames van de developer daarover. Zijn oplossing is geen beter document. Het is iedereen aan één muur, tegelijk.
+
+Zet de expert in de kamer. Niet in het ticket. In de kamer.` },
+
+lauren: {
+  notes: `Het langzame moment van de talk. Neem de tijd.
+
+[[Margaret Hamilton]] nam haar dochter [[Lauren]], vier jaar, mee naar het lab. Lauren speelt met de simulator en kiest [[P01]], een programma van voor de lancering, midden in een gesimuleerde vlucht. Crash.
+
+Hamilton wil een beveiliging inbouwen. [[NASA zegt nee]]: astronauten zijn getraind om nooit een fout te maken. Ze zet een notitie in de documentatie.
+
+[[Apollo 8]]. [[Jim Lovell]] kiest P01 midden in de vlucht. Navigatiedata weg. [[Negen uur]] om ze opnieuw op te bouwen. Daarna mocht ze haar beveiliging inbouwen.
+
+Pauzeer bij "negen uur". De minst ervaren persoon in het gebouw vond de fout die de experts [[getraind waren te negeren]].`,
+  script: `[Vertraag. Dit is het stille hart van de talk.]
+
+Margaret Hamilton opnieuw. Eind jaren zestig. Ze neemt soms haar dochter Lauren, vier jaar oud, mee naar het lab. Lauren speelt met de simulator en kiest P01, een programma van vóór de lancering, midden in een gesimuleerde vlucht. Crash.
+
+Hamilton wil een beveiliging inbouwen. NASA zegt nee: astronauten zijn getraind om nooit een fout te maken.
+
+Apollo 8, december 1968. Jim Lovell kiest P01. De navigatiedata zijn weg. Negen uur om ze opnieuw op te bouwen. [Pauze.] Toen kreeg ze haar beveiliging.
+
+Een vierjarige vond de fout die de experts getraind waren te negeren.` },
+
+kay: {
+  notes: `[[Alan Kay]] bij PARC. De slimste persoon in de kamer verliest van de kamer met de meeste [[perspectieven]].
+
+De onwetendheid van de junior over jouw codebase is een [[perspectief]] dat je niet kunt kopen. De onwetendheid van de PO over je service mesh is een perspectief. De gewoonte van de SM om te zien wie nog niets gezegd heeft, is een perspectief.`,
+  script: `Alan Kay: een verandering van perspectief is tachtig IQ-punten waard. De onwetendheid van de junior over jouw codebase is een perspectief dat je niet kunt kopen. Die van de PO ook. En de gewoonte van de Scrum Master om op te merken wie nog niets gezegd heeft, ook.` },
+
+rules: {
+  notes: `Kondig de kata-regels aan zodat de workshop als een terugverwijzing voelt, niet als een nieuwe instructie.
+
+[[Laat de stift rouleren]]: strong-style pairing van Llewellyn Falco, een idee bereikt het bord alleen via de handen van iemand anders. [[Junior spreekt eerst]]: de les van de mob van Zuill. [[Seniors vragen, dan vertellen]]: de eerste vijf minuten alleen vragen.
+
+Deze regels zijn hoe je elke verdieping in dezelfde kamer aan het woord krijgt.`,
+  script: `Drie regels voor de komende vijftien minuten. Eén: laat de stift rouleren. Wie hem heeft, tekent, en elke drie minuten gaat hij door. Twee: de junior spreekt eerst, de senior als laatste. Drie: seniors vragen eerst, vertellen daarna. Vijf minuten alleen vragen, dan trade-offs. Nooit antwoorden.` },
+
+close: {
+  notes: `Terug naar het gebouw. De lift gaat langs alle verdiepingen terwijl je praat.
+
+Samenvatting in één adem, per verdieping: de machinekamer maakt de verandering makkelijk; de tweede spreekt als laatste; de derde vraagt wat duur wordt; de vierde ontwerpt de teams; het penthouse houdt het logboek bij. [[Elke verdieping]], zelfde gebouw, zelfde bestemming.
+
+Dan de fysieke instructie.`,
+  script: `[Laat de lift langs de verdiepingen gaan terwijl je praat.]
+
+Machinekamer: maak de verandering makkelijk. Tweede verdieping: spreek als laatste. Derde: vraag wat duur wordt. Vierde: ontwerp de teams. Penthouse: hou het logboek bij.
+
+Zes verdiepingen. Eén gebouw. En de komende vijftien minuten stopt de lift op allemaal.` },
+
+handoff: {
+  notes: `De laatste zin is een instructie, geen samenvatting. [[Groepen van vier]]. [[Minstens twee verdiepingen]] per groep. Sta op.
+
+Loop door de zaal. Breek elke groep op die alleen uit machinekamer bestaat. Ga naar de [[C1-slide]] en laat die staan tijdens de hele oefening.`,
+  cue: 'Handhaaf de twee-verdiepingenregel. Loop rond en meng groepen die alleen uit developers bestaan.',
+  script: `Groepen van vier. Minstens twee verdiepingen in elke groep. Sta op. Ga.
+
+[Loop door de zaal. Breek elke groep op die alleen uit machinekamer bestaat. Ga naar de C1-slide.]` },
+
+c1: {
+  notes: `Deze blijft de hele kata op het scherm. Leg hem in [[negentig seconden]] uit voordat ze beginnen.
+
+[[Eén doos]] voor het systeem uit je opdracht. Eromheen de [[mensen]] die het gebruiken en de [[externe systemen]] waarvan het afhangt. Pijlen met [[labels in gewone woorden]]: plaatst bestellingen, rekent kaarten af, stuurt bevestigingen. Geen technologie. Niets in de doos. Dat is niveau één van [[Simon Browns C4-model]], de systeemcontext.
+
+Test voor klaar: kan de [[PO in je groep]] het hele diagram zonder hulp voorlezen? Herhaal dan de [[drie regels]] en start de timer.`,
+  cue: 'Laat deze slide de hele oefening staan. Loop rond; controleer of elke pijl een label heeft.',
+  script: `[Negentig seconden, start dan de timer.]
+
+Dit is wat jullie tekenen. Eén doos: het systeem uit je opdracht. Eromheen: elke persoon die het gebruikt, en elk ander systeem waarvan het afhangt. Daartussen pijlen, en elke pijl krijgt een label in gewone woorden: plaatst bestellingen, rekent kaarten af, stuurt bevestigingen.
+
+Geen technologie. Niets binnen de doos. Geen dozen voor teams. Dit is niveau één van het C4-model van Simon Brown, de systeemcontext, en het is het diagram dat elke verdieping in deze zaal kan lezen.
+
+Jullie test voor klaar: kan de Product Owner in je groep het hele ding zonder hulp voorlezen? Zo niet, teken het opnieuw.
+
+De drie regels, nog één keer. Laat de stift elke drie minuten rouleren. De junior opent. Seniors alleen vragen, de eerste vijf minuten. Vijftien minuten. Ga.` },
+
+c2: {
+  notes: `Afsluiting, twee minuten voor beide zoomniveaus samen. Niet tekenen vandaag; laten zien hoe de volgende rondes eruitzien.
+
+Niveau twee, [[containers]]: open de systeemdoos en toon de [[los deploybare]] onderdelen, elk met zijn [[technologie]]. Webapp in React, API in Spring, PostgreSQL, een queue. Geen Docker-containers, alles wat op zichzelf draait of opslaat.
+
+Terugverwijzing naar de [[vierde verdieping]]: op dit niveau worden teamgrenzen zichtbaar. Eén team, één container is de twee-pizzaregel, getekend.
+
+Stel de [[tweede kata]] voor op het werk: zelfde opdracht, zelfde groepen, een week later.`,
+  script: `[Twee minuten voor deze slide en de volgende, samen.]
+
+Jullie tekenden niveau één. Zo ziet de volgende ronde eruit. Niveau twee, containers: open de doos en toon de los deploybare onderdelen erin. Een webapp in React, een mobiele app, een API in Spring, een PostgreSQL-database. Elk met zijn technologie, elke pijl met een protocol.
+
+Container betekent hier niet Docker. Het betekent alles wat op zichzelf draait of opslaat.
+
+En let op: dit is het niveau waarop de vierde verdieping zichtbaar wordt. Eén team, één container is de twee-pizzaregel, getekend. Wil je de tweede kata op het werk doen: zelfde opdracht, zelfde groepen, een week later, teken dit.` },
+
+c3: {
+  notes: `Niveau drie, [[componenten]]: open één container, hier de API, en toon zijn [[belangrijkste bouwblokken]] en hun verantwoordelijkheden. Gebruik de woorden die je codebase al gebruikt: controller, service, repository, facade.
+
+[[De meeste teams stoppen hier]]. Niveau vier is code, en Simon Browns eigen advies is om dat te [[genereren]] vanuit de IDE, nooit te tekenen.
+
+Terugverwijzing naar de [[machinekamer]]: hier leeft de vraag van Parnas. Welke van deze componenten verandert het meest? Daar hoort de grens.
+
+Dan de leesslide, en bedank ze.`,
+  script: `Niveau drie, componenten: open één container, in dit voorbeeld de API, en toon de belangrijkste bouwblokken. Controllers, services, repositories, een facade voor de betaalprovider. Gebruik de woorden die je codebase al gebruikt.
+
+De meeste teams stoppen hier. Niveau vier is code, en het eigen advies van Simon Brown is: genereer het vanuit de IDE, teken het nooit met de hand.
+
+Nog één terugverwijzing naar de machinekamer. Hier leeft de vraag van Parnas. Welke van deze verandert het meest? Daar hoort jouw grens.
+
+Drie diagrammen, drie zoomniveaus, en elk ervan leesbaar door meer dan één verdieping. Dank jullie wel.` },
+
+reading: {
+  notes: `Laatste slide. Laat hem staan terwijl mensen [[inpakken]]. Niet voorlezen.
+
+Als iemand vraagt waar te beginnen: [[het boek van Hohpe]] voor de lift, [[c4model.com]] voor de diagrammen, dan [[architecturalkatas.com]] voor opdrachten die ze op het werk kunnen draaien.`,
+  script: `[Laatste slide, laat hem staan terwijl mensen inpakken. Als iemand vraagt waar te beginnen:] Het boek van Hohpe voor de lift. c4model.com voor de diagrammen. Dan architecturalkatas.com voor opdrachten die je op het werk kunt draaien.` },
+};
+
+/* ================= helpers ================= */
+const TOTAL = 48 * 60; // whole session: 30 min talk + 15 min kata + close-off
+const pad = n => String(n).padStart(2, '0');
+const plain = t => String(t || '').replace(/<[^>]+>/g, '');
+const fmt = s => { s = Math.max(0, Math.round(s)); const m = Math.floor(s / 60); return `${pad(m)}:${pad(s % 60)}`; };
+const fmtDelta = s => { const sign = s < 0 ? '−' : '+'; s = Math.abs(Math.round(s)); return `${sign}${Math.floor(s / 60)}:${pad(s % 60)}`; };
+
+function effectiveDark(theme) {
+  if (theme === 'dark') return true;
+  if (theme === 'light') return false;
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+/* ================= shared state sync ================= */
+const CH = 'elevator-deck-v1';
+const ME = Math.random().toString(36).slice(2);
+const bc = ('BroadcastChannel' in window) ? new BroadcastChannel(CH) : null;
+const DEFAULT = { index: 0, theme: 'system', blackout: false, timer: { running: false, startedAt: null, acc: 0 }, ns: 20, script: true, step: 0, lang: 'en' };
+
+/* The saved position outlives the deck it was saved from. When slides are removed, a browser
+   that stopped on one of them comes back asking for a slide that no longer exists, SLIDES[i]
+   is undefined, and reading a property off it throws during render. React then unmounts the
+   whole tree and the page goes blank, which on the dark theme is a black screen that survives
+   every reload because the bad index is still in localStorage. Clamp on the way in, from every
+   source: stored state, another window, and our own patches. */
+function sanitize(state) {
+  const s = { ...state };
+  const last = SLIDES.length - 1;
+  let i = Math.floor(Number(s.index));
+  if (!isFinite(i)) i = 0;
+  s.index = Math.min(last, Math.max(0, i));
+  let step = Math.floor(Number(s.step));
+  if (!isFinite(step) || step < 0) step = 0;
+  s.step = Math.min(step, SLIDES[s.index].steps || 0);
+  if (!s.timer || typeof s.timer !== 'object') s.timer = { ...DEFAULT.timer };
+  return s;
+}
+function loadState() { try { const raw = localStorage.getItem(CH); if (raw) { const m = JSON.parse(raw); return sanitize({ ...DEFAULT, ...m.state, blackout: false }); } } catch (e) {} return DEFAULT; }
+function broadcast(state) { const msg = { src: ME, state }; try { bc && bc.postMessage(msg); } catch (e) {} try { localStorage.setItem(CH, JSON.stringify(msg)); } catch (e) {} }
+
+function useSharedState() {
+  const [state, setLocal] = useState(loadState);
+  useEffect(() => {
+    const onMsg = e => { const m = e.data; if (m && m.src !== ME && m.state) setLocal(s => sanitize({ ...s, ...m.state })); };
+    const onStorage = e => { if (e.key !== CH || !e.newValue) return; try { const m = JSON.parse(e.newValue); if (m.src !== ME) setLocal(s => sanitize({ ...s, ...m.state })); } catch (err) {} };
+    bc && bc.addEventListener('message', onMsg);
+    window.addEventListener('storage', onStorage);
+    return () => { bc && bc.removeEventListener('message', onMsg); window.removeEventListener('storage', onStorage); };
+  }, []);
+  const set = useCallback(patch => setLocal(s => { const n = sanitize({ ...s, ...(typeof patch === 'function' ? patch(s) : patch) }); broadcast(n); return n; }), []);
+  return [state, set];
+}
+
+/* ================= notes markup ================= */
+function parseNotes(text) {
+  const paras = text.trim().split(/\n\s*\n/);
+  const keys = [];
+  const rendered = paras.map((p, i) => {
+    const parts = p.split(/(\[\[.+?\]\])/g).map((seg, j) => {
+      const m = seg.match(/^\[\[(.+)\]\]$/);
+      if (m) { keys.push(m[1]); return <mark key={j}>{m[1]}</mark>; }
+      return seg;
+    });
+    return <p key={i}>{parts}</p>;
+  });
+  return { rendered, keys };
+}
+
+/* ================= building svg ================= */
+function Building({ active, sweep, width = 530, lit }) {
+  const [sweepIdx, setSweepIdx] = useState(0);
+  useEffect(() => {
+    if (!sweep) return;
+    const id = setInterval(() => setSweepIdx(i => (i + 1) % FLOORS.length), 1800);
+    return () => clearInterval(id);
+  }, [sweep]);
+  const idx = active ? FLOORS.findIndex(f => f.key === active) : (sweep ? sweepIdx : -1);
+  const W = 690, H = 900, fh = 118, top = 90, shaftX = 60, shaftW = 70, bodyX = 150, bodyW = 250;
+  const floorY = i => top + (FLOORS.length - 1 - i) * fh;
+  const carY = idx >= 0 ? floorY(idx) + 14 : floorY(0) + 14;
+  return (
+    <svg className="bld" viewBox={`0 0 ${W} ${H}`} width={width} height={width * H / W} role="img" aria-label="Cross-section of a six-floor building with an elevator">
+      <rect x={bodyX - 8} y={top - 40} width={bodyW + 16} height={FLOORS.length * fh + 48} rx="6" fill="var(--surface)" stroke="var(--line-strong)" strokeWidth="3" />
+      <rect x={shaftX} y={top - 40} width={shaftW} height={FLOORS.length * fh + 48} rx="4" fill="var(--elev-glass)" stroke="var(--line-strong)" strokeWidth="3" />
+      <line x1={shaftX + shaftW / 2} y1={top - 40} x2={shaftX + shaftW / 2} y2={top + FLOORS.length * fh + 8} stroke="var(--line)" strokeWidth="2" strokeDasharray="4 8" />
+      {FLOORS.map((f, i) => {
+        const y = floorY(i); const on = i === idx;
+        return (
+          <g key={f.key}>
+            <line x1={bodyX - 8} y1={y + fh} x2={bodyX + bodyW + 8} y2={y + fh} stroke="var(--line)" strokeWidth="2" />
+            {[0, 1, 2].map(w => <rect key={w} className={'win' + (on || (lit && lit.includes(f.key)) ? ' on' : '')} x={bodyX + 28 + w * 70} y={y + 26} width="44" height="60" rx="3" />)}
+            <text className={'floor-lbl' + (on ? ' on' : '')} x={bodyX + bodyW + 26} y={y + 52}>{f.label}</text>
+            <text className={'role-lbl' + (on ? ' on' : '')} x={bodyX + bodyW + 26} y={y + 82}>{f.role}</text>
+          </g>
+        );
+      })}
+      <g className="car" style={{ transform: `translateY(${carY}px)` }}>
+        <rect x={shaftX + 9} y="0" width={shaftW - 18} height={fh - 28} rx="4" fill="var(--accent)" />
+        <rect x={shaftX + 17} y="10" width={shaftW - 34} height={fh - 48} rx="2" fill="var(--bg)" opacity=".85" />
+      </g>
+    </svg>
+  );
+}
+
+/* ================= hand-drawn diagrams ================= */
+const Hex = ({ c = 'currentColor' }) => <svg className="hex" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2 21,7 21,17 12,22 3,17 3,7" fill="none" stroke={c} strokeWidth="2.4" /></svg>;
+const People = () => <span className="ppl" aria-hidden="true"><i /><i /><i /></span>;
+function DArrow({ label, teal, w = 64 }) {
+  return <span className={'darrow' + (teal ? ' teal' : '')}>{label && <span className="al">{label}</span>}
+    <svg width={w} height="26" viewBox={`0 0 ${w} 26`} aria-hidden="true"><line x1="2" y1="13" x2={w - 14} y2="13" stroke="currentColor" strokeWidth="3" strokeLinecap="round" /><polyline points={`${w - 22},4 ${w - 6},13 ${w - 22},22`} fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" /></svg></span>;
+}
+
+function DgApollo() {
+  const xs = { 1966: 130, 1967: 517, 1968: 903, 1969: 1290 }; const ay = 210;
+  return (
+    <div className="dg">
+      <svg className="bgl" viewBox="0 0 1392 520" aria-hidden="true">
+        <path d={`M ${xs[1966]} 58 V 40 H ${xs[1969]} V 58`} fill="none" stroke="var(--line-strong)" strokeWidth="2" />
+        <line x1="60" y1={ay} x2="1340" y2={ay} stroke="var(--line-strong)" strokeWidth="3" />
+        <polyline points="1330,200 1345,210 1330,220" fill="none" stroke="var(--line-strong)" strokeWidth="3" strokeLinecap="round" />
+        {[1967, 1968].map(y => <circle key={y} cx={xs[y]} cy={ay} r="9" fill="var(--bg)" stroke="var(--line-strong)" strokeWidth="3" />)}
+        <circle cx={xs[1966]} cy={ay} r="15" fill="var(--teal)" />
+        <circle cx={xs[1969]} cy={ay} r="19" fill="var(--accent)" />
+        <circle cx={xs[1969]} cy={ay} r="30" fill="none" stroke="var(--accent)" strokeWidth="2" opacity=".45" />
+        <line x1={xs[1966]} y1={ay + 15} x2={xs[1966]} y2="262" stroke="var(--teal)" strokeWidth="3" />
+        <line x1={xs[1969]} y1={ay + 19} x2={xs[1969]} y2="262" stroke="var(--accent)" strokeWidth="3" />
+        <line x1={xs[1968]} y1={ay + 9} x2={xs[1968]} y2="262" stroke="var(--line-strong)" strokeWidth="2" strokeDasharray="4 6" />
+      </svg>
+      <span className="dlabel" style={{ left: (xs[1966] + xs[1969]) / 2, top: 8, transform: 'translateX(-50%)' }}>three years of silence</span>
+      {Object.entries(xs).map(([y, x]) => <span key={y} className={'dyear' + (y === '1969' ? ' acc' : '') + (y === '1967' || y === '1968' ? ' dim' : '')} style={{ left: x, top: 120 }}>{y}</span>)}
+      <div className="dnode teal" style={{ left: xs[1966] - 20, top: 262, width: 360 }}><span className="lbl">The decision</span>Asynchronous executive. Under overload, drop the least important work first.</div>
+      <div className="dfoot" style={{ left: xs[1968] - 90, top: 270, width: 180 }}>Apollo 8 flies.<br />Nothing happens.</div>
+      <div className="dnode acc" style={{ left: xs[1969] - 300, top: 262, width: 320 }}><span className="lbl">The feedback</span>Radar floods the computer. 1202 alarm. The executive sheds work. Eagle lands.</div>
+    </div>);
+}
+
+function DgSpeaking({ step = 0 }) {
+  return (
+    <div className="dg"><div className="drows">
+      <div className="drow">
+        <div className="rk"><b style={{ color: 'var(--muted)' }}>Senior speaks first</b><span>The meeting you have all been in</span></div>
+        <div className="flow">
+          <div className="dnode dim bubble"><span className="lbl">Senior</span><span className="q">“We will use X.”</span></div><DArrow />
+          <div className="dnode dim bubble"><span className="lbl">Room</span><span className="q">[nods]</span></div><DArrow />
+          <div className="dnode dim"><span className="lbl">Result</span><span className="q">Decision unexamined. Nobody learned anything.</span></div>
+        </div>
+      </div>
+      <div className={'drow reveal ' + (step >= 1 ? 'shown' : 'held')}>
+        <div className="rk"><b style={{ color: 'var(--teal)' }}>Junior speaks first</b><span>Flip the order</span></div>
+        <div className="flow">
+          <div className="dnode teal bubble"><span className="lbl">Junior</span><span className="q">“Why not Y?”</span></div><DArrow teal />
+          <div className="dnode teal bubble"><span className="lbl">Senior</span><span className="q">“Because X gives us A, at the cost of B.”</span></div><DArrow teal />
+          <div className="dnode fill"><span className="lbl">Result</span><span className="q">Decision examined twice. The junior now knows a trade-off.</span></div>
+        </div>
+      </div>
+    </div></div>);
+}
+
+function DgConway() {
+  const L = [110, 300, 490], R = [902, 1092, 1282], top = 300, bw = 180, bh = 118;
+  const teams = ['Team Payments', 'Team Orders', 'Team Customers'], svcs = ['Payments service', 'Orders service', 'Customers service'];
+  const tree = (cx, cols, col) => <g stroke={col} strokeWidth="2.5" fill="none"><line x1={cx} y1="128" x2={cx} y2="215" /><line x1={cols[0]} y1="215" x2={cols[2]} y2="215" />{cols.map(x => <line key={x} x1={x} y1="215" x2={x} y2={top} />)}</g>;
+  return (
+    <div className="dg">
+      <div className="dpanel" style={{ left: 0, top: 30, width: 600, height: 440 }} /><span className="dpanel-t" style={{ left: 22, top: 18, background: 'var(--bg)', padding: '0 8px' }}>Org chart · January</span>
+      <div className="dpanel" style={{ left: 792, top: 30, width: 600, height: 440 }} /><span className="dpanel-t" style={{ left: 814, top: 18, background: 'var(--bg)', padding: '0 8px' }}>System diagram · December</span>
+      <svg className="bgl" viewBox="0 0 1392 520" aria-hidden="true">
+        {tree(300, L, 'var(--line-strong)')}{tree(1092, R, 'var(--teal)')}
+        <line x1="622" y1="250" x2="750" y2="250" stroke="var(--accent)" strokeWidth="5" strokeLinecap="round" /><polyline points="736,236 756,250 736,264" fill="none" stroke="var(--accent)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        {L.map((x, i) => <line key={i} x1={x + bw / 2} y1={top + bh / 2} x2={R[i] - bw / 2} y2={top + bh / 2} stroke="var(--accent)" strokeWidth="1.5" strokeDasharray="3 9" opacity=".5" />)}
+      </svg>
+      <span className="dlabel" style={{ left: 686, top: 206, transform: 'translateX(-50%)', color: 'var(--accent)', fontSize: 17 }}>becomes</span>
+      <span className="dlabel" style={{ left: 686, top: 268, transform: 'translateX(-50%)' }}>Conway’s Law · 1967</span>
+      <div className="dnode" style={{ left: 300 - 130, top: 58, width: 260, textAlign: 'center' }}><People /><span>Head of Product</span></div>
+      <div className="dnode teal" style={{ left: 1092 - 130, top: 58, width: 260, textAlign: 'center' }}><Hex c="var(--teal)" /><span>API gateway</span></div>
+      {L.map((x, i) => <div key={i} className="dnode" style={{ left: x - bw / 2, top, width: bw, height: bh, fontSize: 22 }}><People />{teams[i]}</div>)}
+      {R.map((x, i) => <div key={i} className="dnode teal" style={{ left: x - bw / 2, top, width: bw, height: bh, fontSize: 22 }}><Hex c="var(--teal)" />{svcs[i]}</div>)}
+    </div>);
+}
+
+function DgInverse() {
+  return (
+    <div className="dg"><div className="drows">
+      <div className="drow">
+        <div className="rk"><b style={{ color: 'var(--muted)' }}>Conway’s Law</b><span>What happens anyway</span></div>
+        <div className="flow">
+          <div className="dnode" style={{ flex: '0 0 360px' }}><People /><span className="lbl">Given</span>Team structure</div><DArrow label="copies itself into" w={120} />
+          <div className="dnode" style={{ flex: '0 0 360px' }}><Hex /><span className="lbl">Result</span>System structure</div>
+        </div>
+      </div>
+      <div className="drow">
+        <div className="rk"><b style={{ color: 'var(--teal)' }}>Inverse Conway</b><span>On purpose · Team Topologies, 2019</span></div>
+        <div className="flow">
+          <div className="dnode teal"><Hex c="var(--teal)" /><span className="lbl">Start here</span>Target system structure</div><DArrow teal label="design backwards" w={110} />
+          <div className="dnode teal"><People /><span className="lbl">Then</span>Team design, sized to cognitive load</div><DArrow teal label="Conway does the rest" w={110} />
+          <div className="dnode fill"><Hex c="#fff" /><span className="lbl">Result</span>The system you wanted</div>
+        </div>
+      </div>
+    </div></div>);
+}
+
+const DIAGRAMS = { apollo: DgApollo, speaking: DgSpeaking, conway: DgConway, inverse: DgInverse };
+
+
+/* ================= C4 diagrams (one example system, three zoom levels) ================= */
+const C4 = {
+  person: (x, y, name, sub) => <g key={name}>
+    <circle cx={x} cy={y + 22} r="20" fill="var(--teal-soft)" stroke="var(--teal)" strokeWidth="2.5" />
+    <rect x={x - 46} y={y + 46} width="92" height="70" rx="16" fill="var(--teal-soft)" stroke="var(--teal)" strokeWidth="2.5" />
+    <text x={x} y={y + 78} textAnchor="middle" fontSize="16" fontWeight="600" fill="var(--ink)" fontFamily="IBM Plex Sans, sans-serif">{name}</text>
+    <text x={x} y={y + 100} textAnchor="middle" fontSize="12" fill="var(--muted)" fontFamily="IBM Plex Mono, monospace">{sub || '[person]'}</text>
+  </g>,
+  box: (x, y, w, h, name, sub, kind) => {
+    const own = kind === 'own', ext = kind === 'ext';
+    return <g key={name + x + y}>
+      <rect x={x} y={y} width={w} height={h} rx="12" fill={own ? 'var(--teal)' : ext ? 'transparent' : 'var(--surface)'} stroke={own ? 'var(--teal)' : ext ? 'var(--line-strong)' : kind === 'comp' ? 'var(--line-strong)' : 'var(--teal)'} strokeWidth="2.5" strokeDasharray={ext ? '6 6' : undefined} />
+      <text x={x + w / 2} y={y + h / 2 - 4} textAnchor="middle" fontSize="18" fontWeight="600" fill={own ? '#fff' : 'var(--ink)'} fontFamily="IBM Plex Sans, sans-serif">{name}</text>
+      <text x={x + w / 2} y={y + h / 2 + 18} textAnchor="middle" fontSize="12.5" fill={own ? 'rgba(255,255,255,.8)' : 'var(--muted)'} fontFamily="IBM Plex Mono, monospace">{sub}</text>
+    </g>;
+  },
+  arrow: (x1, y1, x2, y2, label, dx = 0, dy = -8) => <g key={label + x1 + y1}>
+    <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--muted)" strokeWidth="2" markerEnd="url(#c4a)" />
+    {label && <text x={(x1 + x2) / 2 + dx} y={(y1 + y2) / 2 + dy} textAnchor="middle" fontSize="13" fill="var(--muted)" fontFamily="IBM Plex Sans, sans-serif" style={{ paintOrder: 'stroke', stroke: 'var(--bg)', strokeWidth: 6, strokeLinejoin: 'round' }}>{label}</text>}
+  </g>,
+  boundary: (x, y, w, h, label) => <g key={label}>
+    <rect x={x} y={y} width={w} height={h} rx="16" fill="none" stroke="var(--line-strong)" strokeWidth="2" strokeDasharray="8 8" />
+    <text x={x + 16} y={y + h - 14} fontSize="13" fill="var(--muted)" fontFamily="IBM Plex Mono, monospace" letterSpacing="1.5">{label}</text>
+  </g>,
+  defs: () => <defs><marker id="c4a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted)" /></marker></defs>,
+};
+function C4Svg({ children }) { return <svg viewBox="0 0 860 560" width="860" height="560" role="img" style={{ display: 'block' }}>{C4.defs()}{children}</svg>; }
+
+function DgC1() {
+  return <C4Svg>
+    {C4.person(110, 60, 'Customer')}
+    {C4.person(110, 360, 'Support agent')}
+    {C4.box(320, 215, 230, 130, 'Web shop', '[software system]', 'own')}
+    {C4.box(640, 70, 200, 90, 'Payment provider', '[external system]', 'ext')}
+    {C4.box(640, 235, 200, 90, 'Email service', '[external system]', 'ext')}
+    {C4.box(640, 400, 200, 90, 'Warehouse system', '[external system]', 'ext')}
+    {C4.arrow(160, 140, 318, 240, 'Places orders, tracks delivery', 0, -12)}
+    {C4.arrow(160, 420, 318, 320, 'Refunds, changes orders', 0, 22)}
+    {C4.arrow(552, 250, 638, 125, 'Charges cards', 30, -8)}
+    {C4.arrow(552, 280, 638, 280, 'Sends confirmations', 0, -10)}
+    {C4.arrow(552, 310, 638, 435, 'Requests shipment', 34, 14)}
+  </C4Svg>;
+}
+function DgC2() {
+  return <C4Svg>
+    {C4.boundary(60, 30, 570, 510, 'WEB SHOP · SOFTWARE SYSTEM')}
+    {C4.box(100, 90, 200, 100, 'Web app', '[React, browser]', 'cont')}
+    {C4.box(100, 260, 200, 100, 'Mobile app', '[Swift, Kotlin]', 'cont')}
+    {C4.box(400, 170, 200, 100, 'API application', '[Java, Spring Boot]', 'cont')}
+    {C4.box(400, 390, 200, 100, 'Database', '[PostgreSQL]', 'cont')}
+    {C4.box(100, 410, 200, 100, 'Order worker', '[Java, queue consumer]', 'cont')}
+    {C4.box(660, 170, 180, 100, 'Payment provider', '[external system]', 'ext')}
+    {C4.arrow(302, 140, 398, 200, 'JSON / HTTPS', 0, -10)}
+    {C4.arrow(302, 300, 398, 240, 'JSON / HTTPS', 0, 22)}
+    {C4.arrow(500, 272, 500, 388, 'Reads / writes · JDBC', 70, 4)}
+    {C4.arrow(602, 220, 658, 220, 'HTTPS', 0, -10)}
+    {C4.arrow(302, 450, 398, 450, 'Reads · JDBC', 0, -10)}
+  </C4Svg>;
+}
+function DgC3() {
+  return <C4Svg>
+    {C4.boundary(60, 30, 590, 510, 'API APPLICATION · CONTAINER')}
+    {C4.box(100, 90, 190, 90, 'Orders controller', '[Spring MVC]', 'comp')}
+    {C4.box(370, 90, 190, 90, 'Order service', '[component]', 'comp')}
+    {C4.box(370, 250, 190, 90, 'Payment facade', '[component]', 'comp')}
+    {C4.box(370, 410, 190, 90, 'Order repository', '[Spring Data]', 'comp')}
+    {C4.box(100, 250, 190, 90, 'Notification sender', '[component]', 'comp')}
+    {C4.box(680, 250, 160, 90, 'Payment provider', '[external]', 'ext')}
+    {C4.box(680, 410, 160, 90, 'Database', '[PostgreSQL]', 'ext')}
+    {C4.arrow(292, 135, 368, 135, 'Uses', 0, -10)}
+    {C4.arrow(465, 182, 465, 248, 'Charges', 36, 6)}
+    {C4.arrow(465, 342, 465, 408, 'Saves', 32, 6)}
+    {C4.arrow(368, 160, 292, 265, 'Sends confirmation', -10, -6)}
+    {C4.arrow(562, 295, 678, 295, 'HTTPS', 0, -10)}
+    {C4.arrow(562, 455, 678, 455, 'JDBC', 0, -10)}
+  </C4Svg>;
+}
+const C4DIAGRAMS = { c1: DgC1, c2: DgC2, c3: DgC3 };
+
+/* ================= slide layouts ================= */
+function ImagePanel({ slide, cls }) {
+  const [failed, setFailed] = useState(false);
+  const src = !failed && IMAGES[slide.id];
+  return (
+    <div className={'img ' + (SHAPE[slide.id] || 'r169') + ' ' + (cls || '')}>
+      {src ? <img src={src} alt={slide.image ? slide.image.short : ''} onError={() => setFailed(true)} /> :
+        <div className="ph"><span className="k">Image</span><span className="t">{slide.image ? slide.image.short : ''}</span></div>}
+    </div>
+  );
+}
+
+/* A small round portrait. Falls back to the person's initials if the file is missing, so a lost image never breaks a slide. */
+function Face({ who, size }) {
+  const p = PEOPLE[who];
+  const [failed, setFailed] = useState(false);
+  if (!p) return null;
+  const ini = p.name.split(' ').map(w => w[0]).join('').slice(0, 2);
+  return (
+    <span className="face" style={{ width: size, height: size }} title={p.name}>
+      {failed ? <span className="ini" style={{ fontSize: Math.round(size * .38) }}>{ini}</span>
+              : <img src={p.file} alt={p.name} onError={() => setFailed(true)} />}
+    </span>);
+}
+function Faces({ keys, size = 88 }) {
+  if (!keys || !keys.length) return null;
+  return <span className="faces">{keys.map(k => <Face key={k} who={k} size={size} />)}</span>;
+}
+
+function Foot({ slide, i, total }) {
+  return <div className="foot"><span className="sec">{slide.section}</span><span className="rule" /><span className="n">{pad(i + 1)} / {total}</span></div>;
+}
+
+function Slide({ slide, i, total, dark, step = 0 }) {
+  const L = slide.layout;
+  const foot = L === 'title' ? null : <Foot slide={slide} i={i} total={total} />;
+  if (L === 'title') return (
+    <div className="slide l-title"><div className="l-title-grid">
+      <div style={{ display: 'grid', gap: 28 }}>
+        <h1 className="display" dangerouslySetInnerHTML={{ __html: slide.title }} />
+        <p className="sub">{slide.sub}</p>
+        <div className="byline"><Faces keys={slide.faces} size={112} /><p className="who">{slide.who}</p></div>
+        {slide.credit && <p className="credit">{slide.credit}</p>}
+      </div>
+      <ImagePanel slide={slide} />
+    </div></div>);
+  if (L === 'memo') return (
+    <div className="slide l-memo">
+      <div style={{ display: 'grid', gap: 24 }}>
+        <span className="eyebrow">{slide.when}</span>
+        <h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2>
+      </div>
+      <div className="memo"><div className="hdr">Internal memo · All teams</div><ol>{slide.lines.map((l, k) => <li key={k}>{l}</li>)}</ol><div className="sig">{slide.sig}</div></div>
+      {foot}
+    </div>);
+  if (L === 'statement') return (
+    <div className="slide l-statement">
+      <blockquote className="display" dangerouslySetInnerHTML={{ __html: slide.quote }} />
+      <div className="byline"><Faces keys={slide.faces} size={80} /><p className="attr" dangerouslySetInnerHTML={{ __html: slide.attr }} /></div>
+      {foot}
+    </div>);
+  if (L === 'building') return (
+    <div className="slide l-building">
+      <Building active={slide.active} sweep={slide.sweep} width={530} />
+      <div className="txt"><h2 className="display">{slide.title}</h2><p className="body" dangerouslySetInnerHTML={{ __html: slide.body }} />{slide.credit && <p className="credit">{slide.credit}</p>}</div>
+      {foot}
+    </div>);
+  if (L === 'floor') return (
+    <div className="slide l-floor">
+      <Building active={slide.active} width={470} />
+      <div className="txt">
+        <span className="num">{slide.num}</span>
+        <h2 className="display">{slide.title}</h2>
+        <p className="def" dangerouslySetInnerHTML={{ __html: slide.def }} />
+        {slide.attr && <div className="byline"><Faces keys={slide.faces} size={72} /><p className="body" style={{ fontSize: 24, color: 'var(--muted)' }}>{slide.attr}</p></div>}
+      </div>
+      {foot}
+    </div>);
+  if (L === 'story') return (
+    <div className={'slide l-story ' + (SHAPE[slide.id] === 'r23' ? 'tall' : 'wide')}>
+      <ImagePanel slide={slide} />
+      <div className="txt">
+        <span className="when">{slide.when}</span>
+        <h2 className="display" style={{ fontSize: 64 }}>{slide.title}</h2>
+        <ul>{slide.points.map((p, k) => <li key={k} dangerouslySetInnerHTML={{ __html: p }} />)}</ul>
+      </div>
+      {foot}
+    </div>);
+  if (L === 'diagram') return (
+    <div className="slide l-diagram">
+      <div style={{ display: 'grid', gap: 10 }}><h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2><p className="cap">{slide.cap}</p></div>
+      <div className="dgwrap">{React.createElement(DIAGRAMS[slide.diagram], { step })}</div>
+      {foot}
+    </div>);
+  if (L === 'compare') return (
+    <div className="slide l-compare">
+      <div><h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2><div className="byline" style={{ marginTop: 10 }}><Faces keys={slide.faces} size={72} /><p className="cap" style={{ fontSize: 26, color: 'var(--muted)' }}>{slide.attr}</p></div></div>
+      <div className="cols">{slide.cols.map((c, k) => <div key={k} className={'col' + (c.hi && step >= 1 ? ' hi' : '')}><span className="k">{c.k}</span><h3 className="display">{c.h}</h3><ul>{c.items.map((it, j) => <li key={j} className={j < 2 || step >= 1 ? 'shown' : 'held'}>{it}</li>)}</ul></div>)}</div>
+      {foot}
+    </div>);
+  if (L === 'tool') return (
+    <div className="slide l-tool">
+      <div className="toolcard">
+        <span className="k">{slide.k}</span>
+        <p className="phrase display">{slide.phrase}</p>
+        {slide.by && <div className="byline"><Faces keys={slide.faces} size={72} /><span className="by">{slide.by}</span></div>}
+        <p className="how">{slide.how}</p>
+      </div>
+      {foot}
+    </div>);
+  if (L === 'rules') return (
+    <div className="slide l-rules">
+      <h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2>
+      <div className="rules">{slide.rules.map(r => <div key={r.n} className="rule-card"><span className="n">{r.n}</span><h3 className="display">{r.h}</h3><p>{r.p}</p></div>)}</div>
+      {foot}
+    </div>);
+  if (L === 'adr') return (
+    <div className="slide l-adr">
+      <div style={{ display: 'grid', gap: 10 }}><h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2><span className="adr-file">{slide.file}</span></div>
+      <div style={{ display: 'grid', gap: 24, alignContent: 'start' }}>
+        <div className="adr">{slide.boxes.map(b => <div key={b.k} className="box"><span className="k">{b.k}</span><h3 className="display">{b.h}</h3><p>{b.p}</p></div>)}</div>
+        <div className="byline"><Faces keys={slide.faces} size={72} /><p className="body" style={{ fontSize: 26, color: 'var(--muted)' }}>{slide.attr}</p></div>
+      </div>
+      {foot}
+    </div>);
+  if (L === 'vocab') return (
+    <div className="slide l-vocab">
+      <h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2>
+      <div className="vocab">
+        <div className="side"><span className="k">{slide.left.k}</span>{slide.left.words.map(w => <div key={w} className="word">{w}</div>)}</div>
+        <div className="mid"><svg viewBox="0 0 200 120" width="200" height="120" aria-hidden="true"><line x1="20" y1="60" x2="180" y2="60" stroke="var(--accent)" strokeWidth="6" strokeLinecap="round" /><polyline points="45,35 20,60 45,85" fill="none" stroke="var(--accent)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" /><polyline points="155,35 180,60 155,85" fill="none" stroke="var(--accent)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" /></svg></div>
+        <div className="side"><span className="k">{slide.right.k}</span>{slide.right.words.map(w => <div key={w} className="word">{w}</div>)}</div>
+      </div>
+      {foot}
+    </div>);
+  if (L === 'bubbles') return (
+    <div className="slide l-bubbles">
+      <div><h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2><div className="byline" style={{ marginTop: 10 }}><Faces keys={slide.faces} size={72} /><p className="cap" style={{ fontSize: 26, color: 'var(--muted)' }}>{slide.attr}. Circle size = cost of change.</p></div></div>
+      <div className="bubbles">{slide.bubbles.map((b, k) => <div key={k} className={'bub ' + b.size} style={{ width: b.d, height: b.d, left: b.x, top: b.y, fontSize: b.size === 'big' ? 27 : b.size === 'mid' ? 23 : 19 }}>{b.t}</div>)}</div>
+      {foot}
+    </div>);
+  if (L === 'reading') return (
+    <div className="slide l-reading">
+      <div><span className="eyebrow">Further reading</span><h2 className="display" style={{ fontSize: 60, marginTop: 10 }}>{slide.title}</h2></div>
+      <div className="reads">{slide.items.map((it, k) => <div key={k} className="read"><span className="who">{it.who}</span><span className="what">{it.what}</span><span className="why">{it.why}</span></div>)}</div>
+      <p className="credits">{PHOTO_CREDITS}</p>
+      {foot}
+    </div>);
+  if (L === 'c4') return (
+    <div className="slide l-c4">
+      <div><span className="eyebrow">C4 model · <b>{slide.level}</b></span><h2 className="display" style={{ fontSize: 56, marginTop: 8 }}>{slide.title}</h2></div>
+      <div className="c4grid">
+        <div className="c4dg">{React.createElement(C4DIAGRAMS[slide.id])}</div>
+        <div className="c4txt">
+          <p className="lead" dangerouslySetInnerHTML={{ __html: slide.lead }} />
+          <ul>{slide.points.map((x, k) => <li key={k}>{x}</li>)}</ul>
+          <div className="do"><span className="k">{slide.doLabel}</span>{slide.doText}</div>
+          <p className="ref">{slide.ref}</p>
+        </div>
+      </div>
+      {foot}
+    </div>);
+  if (L === 'handoff') return (
+    <div className="slide l-handoff">
+      <p className="big display" dangerouslySetInnerHTML={{ __html: slide.big }} />
+      <p className="sub">{slide.sub}</p>
+      {foot}
+    </div>);
+  return <div className="slide"><h2>{slide.title}</h2>{foot}</div>;
+}
+
+/* ================= frame that scales the canvas ================= */
+function Frame({ children }) {
+  const ref = useRef(null); const [sc, setSc] = useState({ s: .5, w: 800, h: 450 });
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const ro = new ResizeObserver(() => { const r = el.getBoundingClientRect(); let s = Math.min(r.width / 1600, r.height / 900); if (!isFinite(s) || s <= 0) s = 0.5; setSc({ s, w: r.width, h: r.height }); });
+    ro.observe(el); return () => ro.disconnect();
+  }, []);
+  return <div className="frame" ref={ref}><div className="canvas" style={{ transform: `translate(-50%, -50%) scale(${sc.s})`, left: '50%', top: '50%', transformOrigin: '50% 50%' }}>{children}</div></div>;
+}
+
+/* ================= keyboard ================= */
+function useKeys(handlers) {
+  useEffect(() => {
+    const on = e => {
+      if (e.target && (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT')) return;
+      const k = e.key;
+      const h = handlers[k] || handlers[k.toLowerCase()];
+      if (h) { e.preventDefault(); h(e); }
+    };
+    window.addEventListener('keydown', on); return () => window.removeEventListener('keydown', on);
+  }, [handlers]);
+}
+
+/* ================= help / prompts overlays ================= */
+function Help({ onClose }) {
+  return (
+    <div className="overlay" onClick={onClose}><div className="sheet" onClick={e => e.stopPropagation()}>
+      <h2>Controls</h2>
+      <div className="keys">
+        <div><kbd>→</kbd><kbd>Space</kbd>Next slide (or tap, or swipe left)</div><div><kbd>←</kbd>Previous slide (or tap the left quarter, or swipe right)</div>
+        <div><kbd>Home</kbd><kbd>End</kbd>First / last</div><div><kbd>S</kbd>Open speaker view (or slides, from speaker view)</div>
+        <div><kbd>T</kbd>Toggle light / dark</div><div><kbd>F</kbd>Fullscreen</div>
+        <div><kbd>B</kbd>Blackout</div><div><kbd>K</kbd>Start / pause timer</div>
+        <div><kbd>R</kbd>Reset timer</div><div><kbd>L</kbd>Listen: play / pause narration (when audio files are present)</div><div><kbd>D</kbd>Toggle Dutch / English for the speaker notes and script (narration is English)</div><div><kbd>X</kbd>Show / hide the practice script</div><div><kbd>V</kbd>Flip this window between slides and speaker view</div><div><kbd>?</kbd>This help</div>
+      </div>
+      <h3>Two screens</h3>
+      <ul>
+        <li>Open this file twice: once as slides on the projector, once with <span className="mono">#speaker</span> added to the URL on your laptop. Pressing <kbd>S</kbd> opens the other one for you. If the hash is stripped by your host, open it twice and press <kbd>V</kbd> in one window instead.</li>
+        <li>Both windows share slide position, theme and timer through BroadcastChannel and localStorage, so either window can drive.</li>
+        <li>The timer starts automatically on your first “next”, or press <kbd>K</kbd>. The delta compares your elapsed time to the planned start time of the current slide.</li>
+      </ul>
+      <h3>Why these two themes</h3>
+      <ul>
+        <li><b>Light theme, dark text on cool near-white.</b> Positive polarity gives measurably better legibility and proofreading accuracy than light-on-dark (Piepenbrock, Mayr &amp; Buchner, Ergonomics 2013; replicated for older adults 2014). Use it in bright rooms.</li>
+        <li><b>Dark theme, off-white on deep navy, not black.</b> In a dim room a bright slide is a glare source; a dark ground reduces pupil contraction and eye fatigue. Pure white on pure black causes halation for many viewers with astigmatism, so both are softened.</li>
+        <li><b>Contrast at or above 7:1</b> for body text in both themes (WCAG AAA), which matters at projector distance.</li>
+        <li><b>One accent colour.</b> Red-orange on a cool ground is pre-attentively salient: viewers find it before they read (Treisman &amp; Gelade, feature-integration theory, 1980). Using a single accent is what keeps that effect working.</li>
+        <li><b>One idea per slide, large type, no redundant text.</b> Mayer’s multimedia principles (coherence, signalling, redundancy) show recall drops when slides duplicate the speaker. Your notes hold the words; the slide holds the anchor.</li>
+        <li>No theme is “proven most engaging”. Engagement comes from the stories and the pauses; the theme’s job is to never get in the way.</li>
+      </ul>
+      <div className="row"><button className="btn" onClick={onClose}>Close</button></div>
+    </div></div>);
+}
+
+const DEBUG = /(\?|&)debug\b/.test(location.search);
+function Debug({ state }) {
+  const [tick, setTick] = useState(0);
+  useEffect(() => { const id = setInterval(() => setTick(t => t + 1), 500); return () => clearInterval(id); }, []);
+  const f = document.querySelector('.main .frame'), c = document.querySelector('.canvas');
+  const r = f ? f.getBoundingClientRect() : null;
+  const lines = [
+    'build 2026-09-17c  slides ' + SLIDES.length,
+    'viewport ' + window.innerWidth + 'x' + window.innerHeight + '  dpr ' + (window.devicePixelRatio || 1),
+    'frame ' + (r ? Math.round(r.width) + 'x' + Math.round(r.height) : 'none'),
+    'scale ' + (c ? (c.style.transform.match(/scale\(([^)]+)\)/) || [])[1] : 'none'),
+    'slide ' + (state.index + 1) + '  step ' + (state.step || 0) + '  theme ' + state.theme,
+    'BLACKOUT ' + (state.blackout ? 'ON  <-- this is the problem' : 'off'),
+    'audio ' + Object.keys(AUDIO).length + '  boot ' + (window.DECK_BOOT_OK ? 'ok' : 'FAILED'),
+    'errors ' + (window.DECK_ERRORS && window.DECK_ERRORS.length ? window.DECK_ERRORS.join(' | ') : 'none'),
+  ];
+  return <div className="dbg">{lines.join('\n')}</div>;
+}
+
+/* ================= main (audience) view ================= */
+function MainView({ state, set, dark, openOther }) {
+  const [help, setHelp] = useState(false);
+  const touchRef = useRef(null); const swipedRef = useRef(false);
+  const slide = SLIDES[state.index] || SLIDES[0];
+  /* ---- listen mode: narration audio + captions + auto-advance ---- */
+  const track = AUDIO[slide.id];
+  const audioRef = useRef(null);
+  const onRef = useRef(false);
+  const [ls, setLs] = useState(() => { let c = false; try { c = localStorage.getItem('deck-listen-collapsed') === '1'; } catch (e) {} return { on: false, playing: false, auto: true, transcript: false, t: 0, collapsed: c }; });
+  const setCollapsed = c => { setLs(l => ({ ...l, collapsed: c })); try { localStorage.setItem('deck-listen-collapsed', c ? '1' : '0'); } catch (e) {} };
+  useEffect(() => {
+    const a = audioRef.current; if (!a) return;
+    a.pause(); setLs(l => ({ ...l, playing: false, t: 0 }));
+    if (!track) return;
+    a.src = track.src; a.load();
+    if (onRef.current) a.play().catch(() => {});
+  }, [slide.id]);
+  const startListen = useCallback(() => {
+    const a = audioRef.current; if (!a || !track) return;
+    onRef.current = true; setLs(l => ({ ...l, on: true }));
+    if (slide.steps && (state.step || 0) < slide.steps) set({ step: slide.steps });
+    a.play().catch(() => {});
+  }, [track, slide, state.step, set]);
+  const toggleListen = useCallback(() => {
+    const a = audioRef.current; if (!a || !track) return;
+    if (a.paused) startListen(); else { a.pause(); onRef.current = false; setLs(l => ({ ...l, on: false })); }
+  }, [track, startListen]);
+  const onEnded = () => {
+    if (ls.auto && onRef.current && state.index < SLIDES.length - 1) {
+      const n = state.index + 1; set({ index: n, step: SLIDES[n].steps || 0 });
+    } else { onRef.current = false; setLs(l => ({ ...l, on: false, playing: false })); }
+  };
+  const cue = track ? (track.cues.find(c => ls.t >= c[0] && ls.t < c[1]) || (ls.t >= (track.cues[track.cues.length - 1] || [0, 0])[1] ? track.cues[track.cues.length - 1] : null)) : null;
+  const seek = t0 => { const a = audioRef.current; if (a) { a.currentTime = t0; if (a.paused) startListen(); } };
+  const next = useCallback(() => set(s => { const timer = s.timer.running || s.timer.acc > 0 ? s.timer : { running: true, startedAt: Date.now(), acc: 0 }; const steps = SLIDES[s.index].steps || 0; if ((s.step || 0) < steps) return { step: (s.step || 0) + 1, timer }; return { index: Math.min(SLIDES.length - 1, s.index + 1), step: 0, timer }; }), [set]);
+  const prev = useCallback(() => set(s => { if ((s.step || 0) > 0) return { step: s.step - 1 }; const i = Math.max(0, s.index - 1); return { index: i, step: SLIDES[i].steps || 0 }; }), [set]);
+  const keys = useMemo(() => ({
+    ArrowRight: next, ' ': next, PageDown: next, ArrowDown: next, n: next,
+    ArrowLeft: prev, PageUp: prev, ArrowUp: prev, p: prev,
+    Home: () => set({ index: 0, step: 0 }), End: () => set({ index: SLIDES.length - 1, step: SLIDES[SLIDES.length - 1].steps || 0 }),
+    t: () => set(s => ({ theme: effectiveDark(s.theme) ? 'light' : 'dark' })),
+    f: () => { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); },
+    b: () => set(s => ({ blackout: !s.blackout })),
+    s: openOther, l: toggleListen,
+    k: () => set(s => toggleTimer(s.timer)), r: () => set({ timer: { running: false, startedAt: null, acc: 0 } }),
+    '?': () => setHelp(h => !h), Escape: () => { setHelp(false); setLs(l => ({ ...l, transcript: false })); },
+  }), [next, prev, set, openOther, toggleListen]);
+  useKeys(keys);
+  return (
+    <div className={'main' + (track && !ls.collapsed ? ' with-bar' : '')}
+      onClick={e => { if (help || e.detail !== 1) return; if (e.clientX < window.innerWidth * 0.25) prev(); else next(); }}
+      onTouchStart={e => { touchRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() }; }}
+      onTouchEnd={e => { const t0 = touchRef.current; if (!t0) return; const dx = e.changedTouches[0].clientX - t0.x, dy = e.changedTouches[0].clientY - t0.y; touchRef.current = null;
+        if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && Date.now() - t0.t < 800) { swipedRef.current = true; setTimeout(() => { swipedRef.current = false; }, 400); dx < 0 ? next() : prev(); } }}
+      onClickCapture={e => { if (swipedRef.current) { e.stopPropagation(); e.preventDefault(); } }}>
+      <Frame><Slide slide={slide} i={state.index} total={SLIDES.length} dark={dark} step={state.step || 0} /></Frame>
+      <div className="phone-note">
+        <span className="ttl">Six Floors, One Architect</span>
+        <span>{pad(state.index + 1)} / {SLIDES.length} · {slide.section}</span>
+        <span>Turn your phone sideways for a bigger slide</span>
+      </div>
+      <div className="progress"><i style={{ width: `${(state.index / (SLIDES.length - 1)) * 100}%` }} /></div>
+      <div className={'touchnav' + (track && !ls.collapsed ? ' up' : '')} onClick={e => e.stopPropagation()}>
+        <button className="btn" aria-label="Previous slide" onClick={prev}>‹</button>
+        <button className="btn" aria-label="Next slide" onClick={next}>›</button>
+      </div>
+      <div className={'hint' + (track && !ls.collapsed ? ' up' : '')}>{pad(state.index + 1)}/{SLIDES.length} · S speaker window · V speaker here{track ? ' · L listen' : ''} · ? help</div>
+      {track && ls.collapsed && <button className="btn listen-pill" onClick={e => { e.stopPropagation(); setCollapsed(false); }} title="Show narration controls">{ls.playing ? '❚❚' : '▶'} Listen <kbd>L</kbd></button>}
+      {track && <div className="listen" hidden={ls.collapsed} onClick={e => e.stopPropagation()}>
+        <div className="bar" style={{ width: `${track.dur ? Math.min(100, ls.t / track.dur * 100) : 0}%` }} />
+        <button className="btn pri" onClick={toggleListen}>{ls.playing ? 'Pause' : (ls.on ? 'Play' : 'Listen to this talk')} <kbd>L</kbd></button>
+        <span className="lt">{fmt(ls.t)} / {fmt(track.dur)}</span>
+        <div className={'cap' + (cue ? '' : ' idle')}>{cue ? cue[2] : 'Narration with captions. Plays through the whole deck.'}</div>
+        <label className="chk"><input type="checkbox" id="auto-advance" checked={ls.auto} onChange={e => setLs(l => ({ ...l, auto: e.target.checked }))} /> Auto-advance</label>
+        <button className="btn sm" onClick={() => setLs(l => ({ ...l, transcript: !l.transcript }))}>{ls.transcript ? 'Hide transcript' : 'Transcript'}</button>
+        <button className="btn sm fold" onClick={() => setCollapsed(true)} title="Collapse">▾</button>
+        <audio ref={audioRef} preload="auto" onTimeUpdate={e => setLs(l => ({ ...l, t: e.target.currentTime }))} onPlay={() => setLs(l => ({ ...l, playing: true, on: true }))} onPause={() => setLs(l => ({ ...l, playing: false }))} onEnded={onEnded} />
+      </div>}
+      {ls.transcript && track && <aside className="transcript" onClick={e => e.stopPropagation()}><h4>Transcript · slide {pad(state.index + 1)}</h4>{track.cues.map((c, i) => <p key={i} className={cue === c ? 'cur' : ''} onClick={() => seek(c[0])}>{c[2]}</p>)}</aside>}
+      {DEBUG && <Debug state={state} />}
+      {state.blackout && <div className="blackout" onClick={e => { e.stopPropagation(); set({ blackout: false }); }}><span>Tap to return to the slide</span></div>}
+      {help && <Help onClose={() => setHelp(false)} />}
+    </div>);
+}
+
+function toggleTimer(t) {
+  if (t.running) return { timer: { running: false, startedAt: null, acc: t.acc + (Date.now() - t.startedAt) } };
+  return { timer: { running: true, startedAt: Date.now(), acc: t.acc } };
+}
+
+/* ================= speaker view ================= */
+function SpeakerView({ state, set, dark, openOther }) {
+  const [help, setHelp] = useState(false);
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => { const id = setInterval(() => setNow(Date.now()), 250); return () => clearInterval(id); }, []);
+  const slide = SLIDES[state.index] || SLIDES[0];
+  const nxt = SLIDES[state.index + 1];
+  const elapsedMs = state.timer.acc + (state.timer.running ? now - state.timer.startedAt : 0);
+  const elapsed = elapsedMs / 1000;
+  const started = state.timer.running || state.timer.acc > 0;
+  const delta = elapsed - slide.plan; // positive = behind plan
+  const remaining = TOTAL - elapsed;
+  const isNL = state.lang === 'nl' && !!NL[slide.id];
+  const nlm = isNL ? NL[slide.id] : null;
+  const notesSrc = nlm ? nlm.notes : slide.notes;
+  const cueSrc = nlm ? (nlm.cue !== undefined ? nlm.cue : slide.cue) : slide.cue;
+  const scriptSrc = nlm ? nlm.script : SCRIPTS[slide.id];
+  const { rendered, keys } = useMemo(() => parseNotes(notesSrc), [notesSrc]);
+
+  const next = useCallback(() => set(s => { const timer = s.timer.running || s.timer.acc > 0 ? s.timer : { running: true, startedAt: Date.now(), acc: 0 }; const steps = SLIDES[s.index].steps || 0; if ((s.step || 0) < steps) return { step: (s.step || 0) + 1, timer }; return { index: Math.min(SLIDES.length - 1, s.index + 1), step: 0, timer }; }), [set]);
+  const prev = useCallback(() => set(s => { if ((s.step || 0) > 0) return { step: s.step - 1 }; const i = Math.max(0, s.index - 1); return { index: i, step: SLIDES[i].steps || 0 }; }), [set]);
+  const hk = useMemo(() => ({
+    ArrowRight: next, ' ': next, PageDown: next, ArrowDown: next, n: next,
+    ArrowLeft: prev, PageUp: prev, ArrowUp: prev, p: prev,
+    Home: () => set({ index: 0, step: 0 }), End: () => set({ index: SLIDES.length - 1, step: SLIDES[SLIDES.length - 1].steps || 0 }),
+    t: () => set(s => ({ theme: effectiveDark(s.theme) ? 'light' : 'dark' })),
+    f: () => { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); },
+    b: () => set(s => ({ blackout: !s.blackout })), s: openOther,
+    k: () => set(s => toggleTimer(s.timer)), r: () => set({ timer: { running: false, startedAt: null, acc: 0 } }),
+    '?': () => setHelp(h => !h), Escape: () => setHelp(false),
+    '+': () => set(s => ({ ns: Math.min(32, s.ns + 2) })), '=': () => set(s => ({ ns: Math.min(32, s.ns + 2) })), '-': () => set(s => ({ ns: Math.max(14, s.ns - 2) })),
+    x: () => set(s => ({ script: !s.script })), d: () => set(s => ({ lang: s.lang === 'nl' ? 'en' : 'nl' })),
+  }), [next, prev, set, openOther]);
+  useKeys(hk);
+
+  const clock = new Date(now);
+
+  return (
+    <div className="spk" style={{ '--ns': state.ns + 'px' }}>
+      <div className="spk-bar">
+        <div className="timer"><span className="k">Elapsed</span><span className="big" style={{ color: remaining < 0 ? 'var(--accent)' : 'var(--ink)' }}>{fmt(elapsed)}</span></div>
+        <div className="timer"><span className="k">Remaining of {fmt(TOTAL)}</span><span className="big" style={{ fontSize: 30, color: 'var(--muted)' }}>{remaining < 0 ? '−' : ''}{fmt(Math.abs(remaining))}</span></div>
+        <div className={'delta ' + (!started ? 'idle' : delta > 45 ? 'late' : 'ok')} title="Elapsed minus planned start of this slide">{started ? (delta > 0 ? `${fmtDelta(delta)} behind` : `${fmtDelta(delta)} ahead`) : 'timer idle'}</div>
+        <span className="clock">{pad(clock.getHours())}:{pad(clock.getMinutes())}</span>
+        <span className="sp" />
+        <button className="btn sm" onClick={() => set(s => toggleTimer(s.timer))}>{state.timer.running ? 'Pause' : (started ? 'Resume' : 'Start')} <kbd>K</kbd></button>
+        <button className="btn sm" onClick={() => set({ timer: { running: false, startedAt: null, acc: 0 } })}>Reset <kbd>R</kbd></button>
+        <button className="btn sm" onClick={() => set(s => ({ theme: effectiveDark(s.theme) ? 'light' : 'dark' }))}>{dark ? 'Light' : 'Dark'} <kbd>T</kbd></button>
+        <button className="btn sm" onClick={() => set(s => ({ blackout: !s.blackout }))}>{state.blackout ? 'Unblack' : 'Blackout'} <kbd>B</kbd></button>
+        <button className="btn sm" onClick={() => set(s => ({ ns: Math.max(14, s.ns - 2) }))}>A−</button>
+        <button className="btn sm" onClick={() => set(s => ({ ns: Math.min(32, s.ns + 2) }))}>A+</button>
+        <button className="btn sm" onClick={() => set(s => ({ lang: s.lang === 'nl' ? 'en' : 'nl' }))} title="Notes and script language">{state.lang === 'nl' ? 'NL' : 'EN'} <kbd>D</kbd></button>
+        <button className="btn sm" onClick={() => set(s => ({ script: !s.script }))}>{state.script ? 'Hide script' : 'Show script'} <kbd>X</kbd></button>
+        <button className="btn sm" onClick={openOther}>Open slides <kbd>S</kbd></button>
+        <button className="btn sm" onClick={() => setHelp(true)}>?</button>
+        <button className="btn sm" onClick={prev}>‹</button>
+        <button className="btn pri" onClick={next}>Next <kbd>→</kbd></button>
+      </div>
+      <div className="spk-body">
+        <div className="spk-left">
+          <div className="prev"><Frame><Slide slide={slide} i={state.index} total={SLIDES.length} dark={dark} step={state.step || 0} /></Frame><div className="cap"><span>Now · {slide.section}{slide.steps ? ` · step ${state.step || 0} of ${slide.steps}${(state.step || 0) < slide.steps ? ' · next reveals' : ''}` : ''}</span><span>{pad(state.index + 1)} / {SLIDES.length}</span></div></div>
+          {nxt ? <div className="prev next"><Frame><Slide slide={nxt} i={state.index + 1} total={SLIDES.length} dark={dark} /></Frame><div className="cap"><span>Next · {nxt.section}</span><span>plan {fmt(nxt.plan)}</span></div></div> : <div className="prev next" style={{ padding: 16, color: 'var(--muted)', fontSize: 13 }}>Last slide. Start the workshop timer.</div>}
+        </div>
+        <div className="spk-right">
+          <div className="notes-head"><span className="ttl">{plain(slide.title) || slide.section}</span><span className="plan">planned start {fmt(slide.plan)}{nxt ? ` · next at ${fmt(nxt.plan)}` : ''}</span></div>
+          <div className="notes">
+            {keys.length > 0 && <div className="chips">{keys.map((k, i) => <span key={i} className="chip">{k}</span>)}</div>}
+            <div className="ntext">{rendered}</div>
+            {cueSrc && <div className="cuebox"><span className="k">{isNL ? 'Publiek' : 'Audience'}</span>{cueSrc}</div>}
+            {slide.src && <div className="srcbox">Source: {slide.src}</div>}
+            {state.script !== false && scriptSrc && <div className="script"><span className="k">{isNL ? 'Oefenscript · lees hardop tot het van jou is' : 'Practice script · read it aloud until it is yours'}</span><div className="stext">{scriptSrc.trim().split(/\n\s*\n/).map((p, i) => <p key={i} dangerouslySetInnerHTML={{ __html: p.replace(/\[(.+?)\]/g, '<i>[$1]</i>') }} />)}</div></div>}
+          </div>
+        </div>
+      </div>
+      {help && <Help onClose={() => setHelp(false)} />}
+    </div>);
+}
+
+/* ================= app ================= */
+function App() {
+  const [state, set] = useSharedState();
+  useEffect(() => { Object.values(IMAGES).forEach(src => { const i = new Image(); i.src = src; }); }, []);
+  const [override, setOverride] = useState(null);
+  const [, force] = useState(0);
+  useEffect(() => { const on = () => force(x => x + 1); window.addEventListener('hashchange', on); return () => window.removeEventListener('hashchange', on); }, []);
+  useEffect(() => { const on = e => { if (e.key === 'v' || e.key === 'V') { if (e.target && (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT')) return; setOverride(o => !(o === null ? /speaker/.test(location.hash) : o)); } }; window.addEventListener('keydown', on); return () => window.removeEventListener('keydown', on); }, []);
+  const isSpeaker = override === null ? /speaker/.test(location.hash) : override;
+  useEffect(() => {
+    const root = document.documentElement;
+    if (state.theme === 'system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', state.theme);
+  }, [state.theme]);
+  const [dark, setDark] = useState(effectiveDark(state.theme));
+  useEffect(() => {
+    setDark(effectiveDark(state.theme));
+    const mq = window.matchMedia('(prefers-color-scheme: dark)'); const on = () => setDark(effectiveDark(state.theme));
+    mq.addEventListener('change', on); return () => mq.removeEventListener('change', on);
+  }, [state.theme]);
+  const openOther = useCallback(() => {
+    const url = location.href.replace(/#.*$/, '') + (isSpeaker ? '' : '#speaker');
+    window.open(url, isSpeaker ? 'sixfloors-slides' : 'sixfloors-speaker');
+  }, [isSpeaker]);
+  return isSpeaker ? <SpeakerView state={state} set={set} dark={dark} openOther={openOther} /> : <MainView state={state} set={set} dark={dark} openOther={openOther} />;
+}
+
+/* ================= failure containment =================
+   Without a boundary React unmounts the whole tree when a render or effect throws, leaving an
+   empty #root. On the dark theme that is a black screen with nothing to read and nothing to tap.
+   The boundary keeps a readable card on screen and names the error instead. */
+class ErrorBoundary extends React.Component {
+  constructor(props) { super(props); this.state = { err: null }; }
+  static getDerivedStateFromError(err) { return { err }; }
+  componentDidCatch(err) {
+    try { window.DECK_ERRORS.push('render: ' + ((err && err.message) || err)); } catch (e) {}
+    try { const b = document.getElementById('boot'); if (b && b.parentNode) b.parentNode.removeChild(b); } catch (e) {}
+  }
+  render() {
+    if (!this.state.err) return this.props.children;
+    const e = this.state.err;
+    const detail = [(e && e.stack) || String(e), 'slide ' + (SLIDES.length ? '1-' + SLIDES.length : '?'),
+      'viewport ' + window.innerWidth + 'x' + window.innerHeight + ' dpr ' + (window.devicePixelRatio || 1)].join('\n');
+    return (
+      <div className="boot boot-err">
+        <p className="boot-t">Six Floors, One Architect</p>
+        <p className="boot-s">The deck hit an error while drawing this slide.</p>
+        <pre className="boot-d">{detail}</pre>
+        <button className="boot-b" type="button" onClick={() => location.reload()}>Reload</button>
+      </div>);
+  }
+}
+
+/* Tells the boot card a slide is genuinely on screen, so it can retire itself. */
+function Painted({ children }) {
+  useEffect(() => { try { window.DECK_ON_PAINT && window.DECK_ON_PAINT(); } catch (e) {} }, []);
+  return children;
+}
+
+window.DECK_BOOT_OK = true;
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <ErrorBoundary><Painted><App /></Painted></ErrorBoundary>
+);
+</script>
+</html>

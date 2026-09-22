@@ -280,6 +280,19 @@
   .img .ph .k { font-family: "IBM Plex Mono", monospace; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
   .img .ph .t { font-size: 24px; color: var(--muted); line-height: 1.3; }
 
+  /* portraits: small round photos of the people the deck quotes, beside their attribution */
+  .faces { display: inline-flex; gap: 12px; flex: 0 0 auto; }
+  .face { display: inline-grid; place-items: center; border-radius: 50%; overflow: hidden; background: var(--surface-2); border: 3px solid var(--surface); box-shadow: var(--shadow); }
+  .face img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .face .ini { font-family: "Bricolage Grotesque", sans-serif; font-weight: 700; color: var(--muted); letter-spacing: -.02em; }
+  .byline { display: flex; align-items: center; gap: 22px; }
+  .l-title .byline { margin-top: 16px; } .l-title .byline .who { margin-top: 0; }
+  .l-statement { gap: 30px; }   /* the face adds height; the longest quote must stay inside the slide */
+  .toolcard .by { font-size: 24px; color: var(--muted); font-weight: 500; }
+  .l-reading { grid-template-rows: auto 1fr auto; gap: 24px; }
+  .l-reading .reads { gap: 10px 40px; } .l-reading .read { padding: 12px 0; }
+  .credits { font-family: "IBM Plex Mono", monospace; font-size: 14px; line-height: 1.45; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
+
   /* building svg */
   .bld .car { transition: transform .9s cubic-bezier(.65,.05,.36,1); }
   .bld .floor-lbl { font-family: "IBM Plex Mono", monospace; font-size: 22px; fill: var(--muted); letter-spacing: .06em; }
@@ -458,9 +471,15 @@
   };
 
   window.addEventListener('error', function (e) {
-    var src = (e.target && e.target.src) ? String(e.target.src).split('/').pop() : '';
+    var t = e.target;
+    /* <link> elements carry the URL in href, not src. Without this the failed font stylesheet
+       counted as a deck error and the failure card sat on top of a perfectly good deck. */
+    var url = t && (t.src || t.href) ? String(t.src || t.href) : '';
+    var src = url ? url.split('?')[0].split('/').pop() : '';
+    var tag = t && t.tagName ? String(t.tagName).toUpperCase() : '';
     note(src ? ('could not load ' + src) : (e.message || 'error'));
     if (window.DECK_PAINTED) return;              /* a slide is up; a stray asset error is not fatal */
+    if (tag === 'LINK') return;                   /* fonts and stylesheets are optional, the deck is not */
     if (src && /\.(m4a|webp|png|jpg|css)$/i.test(src)) return;  /* media is optional, the deck is not */
     fail(src ? ('Could not load ' + src + '. Check your connection, then reload.')
              : ('The deck hit an error: ' + (e.message || 'unknown')),
@@ -513,6 +532,22 @@ const IMAGES = {
 // Panel shape per slide, matched to the generated files. Anything not listed is 16:9 landscape.
 const SHAPE = { title: 'r23', alarm: 'r23' };
 
+/* PORTRAITS — small photos of the people the deck quotes, keyed by person (folder img/people/), each
+   cropped to a square. Only images whose licence allows reuse: public domain, CC0, CC BY or CC BY-SA.
+   Every entry keeps its author, licence and source, and the reading slide prints the credits.
+   A slide opts in with faces: ['hoare']. People without a free photo simply have no entry. */
+const PEOPLE = {
+  randy:  { name: 'Randy Vroegop', file: 'img/people/randy.webp', by: 'speaker photo', lic: '', src: 'https://sessionize.com/randy-vroegop/' },
+  bezos:  { name: 'Jeff Bezos', file: 'img/people/bezos.webp', by: 'SECWAR, U.S. government photo', lic: 'public domain', src: 'https://commons.wikimedia.org/wiki/File:260202-D-PM193-2205_SECWAR_Arsenal_of_Freedom_Tour_-_Florida_(3x4_cropped_on_Bezos_and_rotated).jpg' },
+  booch:  { name: 'Grady Booch', file: 'img/people/booch.webp', by: 'vonguard', lic: 'CC BY-SA 2.0', src: 'https://commons.wikimedia.org/wiki/File:Grady_Booch,_CHM_2011_2_cropped.jpg' },
+  beck:   { name: 'Kent Beck', file: 'img/people/beck.webp', by: 'Improve It', lic: 'CC BY-SA 2.0', src: 'https://commons.wikimedia.org/wiki/File:Kent_Beck_no_Workshop_Mapping_XP.jpg' },
+  fowler: { name: 'Martin Fowler', file: 'img/people/fowler.webp', by: 'Webysther Nunes', lic: 'CC BY-SA 4.0', src: 'https://commons.wikimedia.org/wiki/File:Webysther_20150414193208_-_Martin_Fowler.jpg' },
+  hoare:  { name: 'Tony Hoare', file: 'img/people/hoare.webp', by: 'Rama', lic: 'CC BY-SA 2.0 fr', src: 'https://commons.wikimedia.org/wiki/File:Sir_Tony_Hoare_IMG_5125.jpg' },
+  kay:    { name: 'Alan Kay', file: 'img/people/kay.webp', by: 'Marcin Wichary', lic: 'CC BY 2.0', src: 'https://commons.wikimedia.org/wiki/File:Alan_Kay_and_the_prototype_of_the_Dynabook_(3009206205).jpg' },
+};
+// One line for the reading slide. Licensed photos need their author and licence shown somewhere the audience can see.
+const PHOTO_CREDITS = 'Portraits, cropped: ' + Object.values(PEOPLE).filter(p => p.lic).map(p => p.name + ' by ' + p.by + ' (' + p.lic + ')').join(' · ') + '. All via Wikimedia Commons.';
+
 // Narration files in audio/ with manifest.js. Absent = no listen mode.
 const AUDIO = window.AUDIO_MANIFEST || {};
 
@@ -533,7 +568,7 @@ const FLOORS = [
 const SLIDES = [
 { id: 'title', section: 'Open', plan: 0, layout: 'title',
   title: 'Six Floors, <em>One</em> Architect', sub: 'Riding the architect elevator.',
-  who: 'Randy Vroegop · 24-09-2026',
+  who: 'Randy Vroegop · 24-09-2026', faces: ['randy'],
   credit: 'Builds on the elevator metaphor from Gregor Hohpe, The Software Architect Elevator (O’Reilly, 2020).',
   image: { short: 'Brass elevator button panel, one button lit' },
   notes: `Welcome. Before the workshop I want to spend thirty minutes on one idea: [[architecture is a building]], and every one of you works on a [[different floor]] of it.
@@ -552,7 +587,7 @@ The last line is the punchline. Pause before it.` },
 
 { id: 'niceday', section: 'Open', plan: 60, layout: 'statement',
   quote: '“Anyone who doesn’t do this will be fired. <em>Thank you; have a nice day!</em>”',
-  attr: '<b>Jeff Bezos</b>, as retold by Steve Yegge, 2011',
+  attr: '<b>Jeff Bezos</b>, as retold by Steve Yegge, 2011', faces: ['bezos'],
   notes: `Land the laugh, then turn serious in one sentence: [[That memo was written in the penthouse]]. It [[rebuilt the engine room]]. It is the reason [[AWS]] exists.
 
 Most consequential architecture decision in Amazon's history. [[No architect wrote it]]. Today we ride between the floor where it was written and the floor where it landed.` },
@@ -581,7 +616,7 @@ If it is shared understanding, then a diagram nobody understands is [[not archit
 
 { id: 'booch', section: 'Engine room', plan: 165, layout: 'bubbles',
   title: 'Significant, measured by cost of change',
-  attr: 'Grady Booch',
+  attr: 'Grady Booch', faces: ['booch'],
   bubbles: [
     { size: 'big', d: 300, x: 120, y: 40, t: 'Which database, and who owns the schema' },
     { size: 'big', d: 260, x: 460, y: 160, t: 'Sync or async between teams' },
@@ -619,7 +654,8 @@ This is the first thing that makes architecture [[hard]], and I want to say it p
 { id: 'beck', section: 'Engine room', plan: 290, layout: 'tool',
   k: 'Take this home · Engine room',
   phrase: '“Make the change easy. Then make the easy change.”',
-  how: 'Kent Beck, 2012. Every refactor that makes tomorrow’s change cheaper is architecture in miniature. You are already doing it. Start calling it what it is.',
+  by: 'Kent Beck, 2012', faces: ['beck'],
+  how: 'Every refactor that makes tomorrow’s change cheaper is architecture in miniature. You are already doing it. Start calling it what it is.',
   notes: `Hard for developers: architecture [[hides inside pull requests]]. Nobody tells you the thing you just did was architecture.
 
 Easier: [[Kent Beck's]] line. First make the change easy (warning: this may be hard), then make the easy change. That is [[Parnas]] in one sentence: [[decompose by what will change]].
@@ -638,7 +674,7 @@ The how is one habit: [[speak last]]. If you speak first, the questions never ge
 
 { id: 'fowler', section: 'Floor 2', plan: 390, layout: 'compare',
   title: 'Two kinds of architect', steps: 1,
-  attr: 'Martin Fowler, 2003',
+  attr: 'Martin Fowler, 2003', faces: ['fowler'],
   cols: [
     { k: 'Architectus Reloadus', h: 'Decides, then hands down', items: ['Makes the decision alone', 'Communicates through documents', 'Is the single point of failure for understanding', 'Team learns what, never why'] },
     { k: 'Architectus Oryzus', h: 'Pairs, mentors, disappears', hi: true, items: ['Works inside the team, on real problems', 'Communicates through conversation and code', 'Measures success by how little they are needed', 'Team learns why, and can decide next time'] },
@@ -664,7 +700,7 @@ Bridge: "But surely the senior's answer is usually right?" Next slide: [[Tony Ho
 
 { id: 'hoare', section: 'Floor 2', plan: 485, layout: 'statement',
   quote: '“There are two ways of constructing a software design: one way is to make it <em>so simple that there are obviously no deficiencies</em>, and the other way is to make it so complicated that there are no obvious deficiencies.”',
-  attr: '<b>Tony Hoare</b>, Turing Award lecture, 1980',
+  attr: '<b>Tony Hoare</b>, Turing Award lecture, 1980', faces: ['hoare'],
   notes: `Read it twice. The second reading is where the room hears the difference between [[obviously no deficiencies]] and [[no obvious deficiencies]].
 
 Then the twist on the next slide.` },
@@ -875,7 +911,7 @@ Pause on "nine hours." The least experienced person in the building found the fl
 
 { id: 'kay', section: 'Everyone rides', plan: 1450, layout: 'statement',
   quote: '“A change in perspective is worth <em>80 IQ points</em>.”',
-  attr: '<b>Alan Kay</b>, Xerox PARC',
+  attr: '<b>Alan Kay</b>, Xerox PARC', faces: ['kay'],
   notes: `[[Alan Kay]] at PARC. The smartest person in the room is beaten by the room with the most [[perspectives]] in it.
 
 The junior's ignorance of your codebase is a [[perspective]] you cannot buy. The PO's ignorance of your service mesh is a perspective. The SM's habit of watching who has not spoken is a perspective.` },
@@ -1980,6 +2016,23 @@ function ImagePanel({ slide, cls }) {
   );
 }
 
+/* A small round portrait. Falls back to the person's initials if the file is missing, so a lost image never breaks a slide. */
+function Face({ who, size }) {
+  const p = PEOPLE[who];
+  const [failed, setFailed] = useState(false);
+  if (!p) return null;
+  const ini = p.name.split(' ').map(w => w[0]).join('').slice(0, 2);
+  return (
+    <span className="face" style={{ width: size, height: size }} title={p.name}>
+      {failed ? <span className="ini" style={{ fontSize: Math.round(size * .38) }}>{ini}</span>
+              : <img src={p.file} alt={p.name} onError={() => setFailed(true)} />}
+    </span>);
+}
+function Faces({ keys, size = 88 }) {
+  if (!keys || !keys.length) return null;
+  return <span className="faces">{keys.map(k => <Face key={k} who={k} size={size} />)}</span>;
+}
+
 function Foot({ slide, i, total }) {
   return <div className="foot"><span className="sec">{slide.section}</span><span className="rule" /><span className="n">{pad(i + 1)} / {total}</span></div>;
 }
@@ -1992,7 +2045,7 @@ function Slide({ slide, i, total, dark, step = 0 }) {
       <div style={{ display: 'grid', gap: 28 }}>
         <h1 className="display" dangerouslySetInnerHTML={{ __html: slide.title }} />
         <p className="sub">{slide.sub}</p>
-        <p className="who">{slide.who}</p>
+        <div className="byline"><Faces keys={slide.faces} size={112} /><p className="who">{slide.who}</p></div>
         {slide.credit && <p className="credit">{slide.credit}</p>}
       </div>
       <ImagePanel slide={slide} />
@@ -2009,7 +2062,7 @@ function Slide({ slide, i, total, dark, step = 0 }) {
   if (L === 'statement') return (
     <div className="slide l-statement">
       <blockquote className="display" dangerouslySetInnerHTML={{ __html: slide.quote }} />
-      <p className="attr" dangerouslySetInnerHTML={{ __html: slide.attr }} />
+      <div className="byline"><Faces keys={slide.faces} size={80} /><p className="attr" dangerouslySetInnerHTML={{ __html: slide.attr }} /></div>
       {foot}
     </div>);
   if (L === 'building') return (
@@ -2025,7 +2078,7 @@ function Slide({ slide, i, total, dark, step = 0 }) {
         <span className="num">{slide.num}</span>
         <h2 className="display">{slide.title}</h2>
         <p className="def" dangerouslySetInnerHTML={{ __html: slide.def }} />
-        {slide.attr && <p className="body" style={{ fontSize: 24, color: 'var(--muted)' }}>{slide.attr}</p>}
+        {slide.attr && <div className="byline"><Faces keys={slide.faces} size={72} /><p className="body" style={{ fontSize: 24, color: 'var(--muted)' }}>{slide.attr}</p></div>}
       </div>
       {foot}
     </div>);
@@ -2047,13 +2100,18 @@ function Slide({ slide, i, total, dark, step = 0 }) {
     </div>);
   if (L === 'compare') return (
     <div className="slide l-compare">
-      <div><h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2><p className="cap" style={{ fontSize: 26, color: 'var(--muted)', marginTop: 8 }}>{slide.attr}</p></div>
+      <div><h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2><div className="byline" style={{ marginTop: 10 }}><Faces keys={slide.faces} size={72} /><p className="cap" style={{ fontSize: 26, color: 'var(--muted)' }}>{slide.attr}</p></div></div>
       <div className="cols">{slide.cols.map((c, k) => <div key={k} className={'col' + (c.hi && step >= 1 ? ' hi' : '')}><span className="k">{c.k}</span><h3 className="display">{c.h}</h3><ul>{c.items.map((it, j) => <li key={j} className={j < 2 || step >= 1 ? 'shown' : 'held'}>{it}</li>)}</ul></div>)}</div>
       {foot}
     </div>);
   if (L === 'tool') return (
     <div className="slide l-tool">
-      <div className="toolcard"><span className="k">{slide.k}</span><p className="phrase display">{slide.phrase}</p><p className="how">{slide.how}</p></div>
+      <div className="toolcard">
+        <span className="k">{slide.k}</span>
+        <p className="phrase display">{slide.phrase}</p>
+        {slide.by && <div className="byline"><Faces keys={slide.faces} size={72} /><span className="by">{slide.by}</span></div>}
+        <p className="how">{slide.how}</p>
+      </div>
       {foot}
     </div>);
   if (L === 'rules') return (
@@ -2067,7 +2125,7 @@ function Slide({ slide, i, total, dark, step = 0 }) {
       <div style={{ display: 'grid', gap: 10 }}><h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2><span className="adr-file">{slide.file}</span></div>
       <div style={{ display: 'grid', gap: 24, alignContent: 'start' }}>
         <div className="adr">{slide.boxes.map(b => <div key={b.k} className="box"><span className="k">{b.k}</span><h3 className="display">{b.h}</h3><p>{b.p}</p></div>)}</div>
-        <p className="body" style={{ fontSize: 26, color: 'var(--muted)' }}>{slide.attr}</p>
+        <div className="byline"><Faces keys={slide.faces} size={72} /><p className="body" style={{ fontSize: 26, color: 'var(--muted)' }}>{slide.attr}</p></div>
       </div>
       {foot}
     </div>);
@@ -2083,7 +2141,7 @@ function Slide({ slide, i, total, dark, step = 0 }) {
     </div>);
   if (L === 'bubbles') return (
     <div className="slide l-bubbles">
-      <div><h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2><p className="cap" style={{ fontSize: 26, color: 'var(--muted)', marginTop: 8 }}>{slide.attr}. Circle size = cost of change.</p></div>
+      <div><h2 className="display" style={{ fontSize: 60 }}>{slide.title}</h2><div className="byline" style={{ marginTop: 10 }}><Faces keys={slide.faces} size={72} /><p className="cap" style={{ fontSize: 26, color: 'var(--muted)' }}>{slide.attr}. Circle size = cost of change.</p></div></div>
       <div className="bubbles">{slide.bubbles.map((b, k) => <div key={k} className={'bub ' + b.size} style={{ width: b.d, height: b.d, left: b.x, top: b.y, fontSize: b.size === 'big' ? 27 : b.size === 'mid' ? 23 : 19 }}>{b.t}</div>)}</div>
       {foot}
     </div>);
@@ -2091,6 +2149,21 @@ function Slide({ slide, i, total, dark, step = 0 }) {
     <div className="slide l-reading">
       <div><span className="eyebrow">Further reading</span><h2 className="display" style={{ fontSize: 60, marginTop: 10 }}>{slide.title}</h2></div>
       <div className="reads">{slide.items.map((it, k) => <div key={k} className="read"><span className="who">{it.who}</span><span className="what">{it.what}</span><span className="why">{it.why}</span></div>)}</div>
+      <p className="credits">{PHOTO_CREDITS}</p>
+      {foot}
+    </div>);
+  if (L === 'c4') return (
+    <div className="slide l-c4">
+      <div><span className="eyebrow">C4 model · <b>{slide.level}</b></span><h2 className="display" style={{ fontSize: 56, marginTop: 8 }}>{slide.title}</h2></div>
+      <div className="c4grid">
+        <div className="c4dg">{React.createElement(C4DIAGRAMS[slide.id])}</div>
+        <div className="c4txt">
+          <p className="lead" dangerouslySetInnerHTML={{ __html: slide.lead }} />
+          <ul>{slide.points.map((x, k) => <li key={k}>{x}</li>)}</ul>
+          <div className="do"><span className="k">{slide.doLabel}</span>{slide.doText}</div>
+          <p className="ref">{slide.ref}</p>
+        </div>
+      </div>
       {foot}
     </div>);
   if (L === 'handoff') return (

@@ -12,6 +12,15 @@ A talk on software architecture seen from every floor of the building: developer
 
 Sources are cited on the slides and in the speaker notes.
 
+## Portraits
+
+Quoted people get a small photo next to their attribution, and the speaker's photo is on the title
+slide. Only photos with a licence that allows reuse are used (public domain, CC BY or CC BY-SA), each
+cropped to a square and stored in `img/people/`. The `PEOPLE` table at the top of the deck records the
+author, licence and source of every photo, and the final reading slide prints the credits, which CC BY
+and CC BY-SA require. People quoted without a free photo simply have none; add an entry to `PEOPLE`
+and `faces: ['key']` on the slide when one turns up.
+
 ## Editing
 
 `elevator-deck.html` is the whole deck and the only source of truth: slides, narration, styles and

@@ -17,6 +17,8 @@ const babel = require('./vendor/babel.js');
 
 const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
+// Every deck that ships. Each is a complete, self-contained page built the same way.
+const DECKS = ['elevator-deck.html'];
 const SCRIPT_RE = /<script type="text\/babel"[^>]*>([\s\S]*?)<\/script>/;
 const BABEL_TAG_RE = /[ \t]*<script src="vendor\/babel\.js"><\/script>\r?\n?/;
 
@@ -30,13 +32,13 @@ function copy(rel) {
   fs.cpSync(from, path.join(DIST, rel), { recursive: true });
 }
 
-function build() {
-  const srcPath = path.join(ROOT, 'elevator-deck.html');
-  const html = fs.readFileSync(srcPath, 'utf8');
+// Compiles one deck and returns the page to ship. Throws rather than return anything broken.
+function compile(name) {
+  const html = fs.readFileSync(path.join(ROOT, name), 'utf8');
 
   const match = html.match(SCRIPT_RE);
-  if (!match) throw new Error('elevator-deck.html has no <script type="text/babel"> block');
-  if (!BABEL_TAG_RE.test(html)) throw new Error('elevator-deck.html does not load vendor/babel.js');
+  if (!match) throw new Error(name + ' has no <script type="text/babel"> block');
+  if (!BABEL_TAG_RE.test(html)) throw new Error(name + ' does not load vendor/babel.js');
 
   const compiled = babel.transform(match[1], {
     presets: ['react'],
@@ -58,24 +60,32 @@ function build() {
   // so the build must fail here rather than let it reach Pages.
   const shipped = out.slice(out.lastIndexOf(block), out.lastIndexOf(block) + block.length)
     .replace(/^<script>\n/, '').replace(/\n<\/script>$/, '');
-  if (shipped.length < 1000) throw new Error('could not find the compiled script in the output');
-  new vm.Script(shipped, { filename: 'dist/elevator-deck.html' });   // throws on any syntax error
+  if (shipped.length < 1000) throw new Error(name + ': could not find the compiled script in the output');
+  new vm.Script(shipped, { filename: 'dist/' + name });   // throws on any syntax error
 
-  if (/text\/babel/.test(out)) throw new Error('compiled output still references text/babel');
-  if (/vendor\/babel\.js/.test(out)) throw new Error('compiled output still loads babel');
-  if (!/React\.createElement/.test(out)) throw new Error('compiled output contains no React.createElement');
-  if (!/DECK_ON_PAINT/.test(out)) throw new Error('compiled output lost the boot diagnostics');
+  if (/text\/babel/.test(out)) throw new Error(name + ': compiled output still references text/babel');
+  if (/vendor\/babel\.js/.test(out)) throw new Error(name + ': compiled output still loads babel');
+  if (!/React\.createElement/.test(out)) throw new Error(name + ': compiled output contains no React.createElement');
+  if (!/DECK_ON_PAINT/.test(out)) throw new Error(name + ': compiled output lost the boot diagnostics');
+
+  const before = Buffer.byteLength(html) + fs.statSync(path.join(ROOT, 'vendor', 'babel.js')).size;
+  return { name, out, before, after: Buffer.byteLength(out) };
+}
+
+function build() {
+  // Compile everything before touching dist/, so one bad deck leaves no half-written output.
+  const built = DECKS.map(compile);
 
   fs.rmSync(DIST, { recursive: true, force: true });
   fs.mkdirSync(DIST, { recursive: true });
-  fs.writeFileSync(path.join(DIST, 'elevator-deck.html'), out);
+  built.forEach(b => fs.writeFileSync(path.join(DIST, b.name), b.out));
   COPY.forEach(copy);
 
-  const before = Buffer.byteLength(html) + fs.statSync(path.join(ROOT, 'vendor', 'babel.js')).size;
-  const after = Buffer.byteLength(out);
-  console.log('built dist/elevator-deck.html');
-  console.log('  script to parse before first slide: ' +
-    (before / 1048576).toFixed(2) + ' MB -> ' + (after / 1048576).toFixed(2) + ' MB');
+  built.forEach(b => {
+    console.log('built dist/' + b.name);
+    console.log('  script to parse before first slide: ' +
+      (b.before / 1048576).toFixed(2) + ' MB -> ' + (b.after / 1048576).toFixed(2) + ' MB');
+  });
 }
 
 build();

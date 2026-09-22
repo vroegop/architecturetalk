@@ -458,9 +458,15 @@
   };
 
   window.addEventListener('error', function (e) {
-    var src = (e.target && e.target.src) ? String(e.target.src).split('/').pop() : '';
+    var t = e.target;
+    /* <link> elements carry the URL in href, not src. Without this the failed font stylesheet
+       counted as a deck error and the failure card sat on top of a perfectly good deck. */
+    var url = t && (t.src || t.href) ? String(t.src || t.href) : '';
+    var src = url ? url.split('?')[0].split('/').pop() : '';
+    var tag = t && t.tagName ? String(t.tagName).toUpperCase() : '';
     note(src ? ('could not load ' + src) : (e.message || 'error'));
     if (window.DECK_PAINTED) return;              /* a slide is up; a stray asset error is not fatal */
+    if (tag === 'LINK') return;                   /* fonts and stylesheets are optional, the deck is not */
     if (src && /\.(m4a|webp|png|jpg|css)$/i.test(src)) return;  /* media is optional, the deck is not */
     fail(src ? ('Could not load ' + src + '. Check your connection, then reload.')
              : ('The deck hit an error: ' + (e.message || 'unknown')),

@@ -10,28 +10,26 @@ A talk on software architecture seen from every floor of the building: developer
 - Add `?debug` to the URL for an on-screen readout of viewport, scale and any errors.
 - `architecture-talk-ideas.html` holds the five run-sheet outlines the talk was chosen from.
 
-**Portrait variant:** https://vroegop.github.io/architecturetalk/elevator-deck-portraits.html
-
-`elevator-deck-portraits.html` is the same deck with one addition: a small photo next to each quoted
-person, and a photo of the speaker on the title slide. It exists so the two versions can be compared
-side by side; the original deck is untouched. Only photos with a licence that allows reuse were used
-(public domain, CC BY or CC BY-SA), each cropped to a square and stored in `img/people/`. The
-`PEOPLE` table at the top of the file records the author, licence and source of every photo, and the
-final reading slide prints the credits. People quoted without a free photo simply have none.
-
 Sources are cited on the slides and in the speaker notes.
+
+## Portraits
+
+Quoted people get a small photo next to their attribution, and the speaker's photo is on the title
+slide. Only photos with a licence that allows reuse are used (public domain, CC BY or CC BY-SA), each
+cropped to a square and stored in `img/people/`. The `PEOPLE` table at the top of the deck records the
+author, licence and source of every photo, and the final reading slide prints the credits, which CC BY
+and CC BY-SA require. People quoted without a free photo simply have none; add an entry to `PEOPLE`
+and `faces: ['key']` on the slide when one turns up.
 
 ## Editing
 
 `elevator-deck.html` is the whole deck and the only source of truth: slides, narration, styles and
 the React app in one file. Open it straight from disk and it runs, compiling its own JSX in the
-browser. Edit it and reload; there is nothing to install. `elevator-deck-portraits.html` is a full
-copy with the portrait additions, so a change to the talk itself has to be made in both files until
-one of the two is chosen.
+browser. Edit it and reload; there is nothing to install.
 
 ## Building
 
-`node build.js` writes `dist/`, the copy that GitHub Pages serves, with both decks in it. It compiles the JSX ahead of
+`node build.js` writes `dist/`, the copy that GitHub Pages serves. It compiles the JSX ahead of
 time so a visitor never downloads or runs Babel, which takes the script a phone must parse before
 the first slide from about 3 MB to under 0.2 MB. The build refuses to emit a page whose script
 does not parse, so a broken deck cannot reach the site. `dist/` is generated and not committed;

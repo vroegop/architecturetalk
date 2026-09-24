@@ -2031,7 +2031,9 @@ function Faces({ keys, size = 88 }) {
 }
 
 function Foot({ slide, i, total }) {
-  return <div className="foot"><span className="sec">{slide.section}</span><span className="rule" /><span className="n">{pad(i + 1)} / {total}</span></div>;
+  const fl = FLOORS.find(f => f.label === slide.section);
+  const sec = fl ? `${fl.label} · ${fl.role}` : slide.section;
+  return <div className="foot"><span className="sec">{sec}</span><span className="rule" /><span className="n">{pad(i + 1)} / {total}</span></div>;
 }
 
 function Slide({ slide, i, total, dark, step = 0 }) {

@@ -321,10 +321,10 @@
   .hint { position: fixed; right: 16px; bottom: 14px; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--muted); opacity: .8; z-index: 5; }
   .blackout { position: fixed; inset: 0; background: #000; z-index: 50; display: grid; place-content: center; }
   .blackout span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; color: #444; }
-  .main.with-bar .frame { bottom: 64px; }
-  .hint.up { bottom: 74px; }
+  .main.with-bar .frame { bottom: calc(var(--bar-h, 64px) + 8px); }
+  .hint.up { bottom: calc(var(--bar-h, 64px) + 14px); }
   .touchnav { display: none; position: fixed; left: 12px; bottom: 12px; z-index: 6; gap: 8px; }
-  .touchnav.up { bottom: 74px; }
+  .touchnav.up { bottom: calc(var(--bar-h, 64px) + 14px); }
   .touchnav .btn { font-size: 26px; line-height: 1; padding: 6px 16px; }
   @media (pointer: coarse) { .touchnav { display: flex; } .hint { display: none; } }
   .phone-note { display: none; }
@@ -351,14 +351,12 @@
     .listen .cap { flex: 1 0 100%; order: 10; font-size: 15px; line-height: 1.3; max-height: 3.9em; }
     .listen .chk { font-size: 12px; } .listen .lt { font-size: 12px; }
     .listen .pri { flex: 0 1 auto; min-width: 0; }
-    .main.with-bar .frame { bottom: 150px; } .touchnav.up { bottom: 160px; }
   }
   @media (max-height: 480px) {
     .listen { flex-wrap: nowrap; gap: 10px; padding: 6px 12px; }
     .listen .cap { flex: 1 1 0; order: 0; font-size: 13px; line-height: 1.3; max-height: 2.6em; }
     .listen .pri { font-size: 13px; padding: 6px 12px; }
     .listen .chk { display: none; }
-    .main.with-bar .frame { bottom: 62px; } .touchnav.up { bottom: 72px; }
   }
   .transcript { position: fixed; right: 16px; top: 16px; bottom: 84px; width: min(440px, 42vw); overflow: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; z-index: 6; display: grid; gap: 8px; align-content: start; box-shadow: var(--shadow); }
   .transcript h4 { margin: 0 0 6px; font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
@@ -2253,6 +2251,7 @@ function Debug({ state }) {
 function MainView({ state, set, dark, openOther }) {
   const [help, setHelp] = useState(false);
   const touchRef = useRef(null); const swipedRef = useRef(false);
+  const barRef = useRef(null);
   const slide = SLIDES[state.index] || SLIDES[0];
   /* ---- listen mode: narration audio + captions + auto-advance ---- */
   const track = AUDIO[slide.id];
@@ -2260,6 +2259,28 @@ function MainView({ state, set, dark, openOther }) {
   const onRef = useRef(false);
   const [ls, setLs] = useState(() => { let c = false; try { c = localStorage.getItem('deck-listen-collapsed') === '1'; } catch (e) {} return { on: false, playing: false, auto: true, transcript: false, t: 0, collapsed: c }; });
   const setCollapsed = c => { setLs(l => ({ ...l, collapsed: c })); try { localStorage.setItem('deck-listen-collapsed', c ? '1' : '0'); } catch (e) {} };
+  /* The narration bar's height depends on how many lines its caption wraps to, which changes
+     with the viewport and with the sentence being spoken. Measure it and hand the number to
+     the CSS, so the slide frame always reserves the room the bar actually takes. Declared after
+     track and ls: a dependency array that reads them any earlier throws before the first paint. */
+  useEffect(() => {
+    const el = barRef.current;
+    const root = document.documentElement;
+    if (!el) { root.style.removeProperty('--bar-h'); return; }
+    let last = null, raf = 0;
+    const ro = new ResizeObserver(() => {
+      const h = el.getBoundingClientRect().height;
+      const next = (h > 0 ? Math.ceil(h) : 64) + 'px';
+      if (next === last) return;                 /* nothing changed, do not touch layout */
+      last = next;
+      /* Writing from inside the callback resizes the frame the Frame observer is watching,
+         which Chrome reports as an undelivered-notification loop. Land it on the next frame. */
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => root.style.setProperty('--bar-h', next));
+    });
+    ro.observe(el);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); root.style.removeProperty('--bar-h'); };
+  }, [track, ls.collapsed]);
   useEffect(() => {
     const a = audioRef.current; if (!a) return;
     a.pause(); setLs(l => ({ ...l, playing: false, t: 0 }));
@@ -2318,7 +2339,7 @@ function MainView({ state, set, dark, openOther }) {
       </div>
       <div className={'hint' + (track && !ls.collapsed ? ' up' : '')}>{pad(state.index + 1)}/{SLIDES.length} · S speaker window · V speaker here{track ? ' · L listen' : ''} · ? help</div>
       {track && ls.collapsed && <button className="btn listen-pill" onClick={e => { e.stopPropagation(); setCollapsed(false); }} title="Show narration controls">{ls.playing ? '❚❚' : '▶'} Listen <kbd>L</kbd></button>}
-      {track && <div className="listen" hidden={ls.collapsed} onClick={e => e.stopPropagation()}>
+      {track && <div className="listen" ref={barRef} hidden={ls.collapsed} onClick={e => e.stopPropagation()}>
         <div className="bar" style={{ width: `${track.dur ? Math.min(100, ls.t / track.dur * 100) : 0}%` }} />
         <button className="btn pri" onClick={toggleListen}>{ls.playing ? 'Pause' : (ls.on ? 'Play' : 'Listen to this talk')} <kbd>L</kbd></button>
         <span className="lt">{fmt(ls.t)} / {fmt(track.dur)}</span>

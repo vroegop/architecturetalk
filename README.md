@@ -1,4 +1,4 @@
-# Six Floors, One Architect
+# Company wide architecture
 
 A talk on software architecture seen from every floor of the building: developers, seniors, Product Owners, Scrum Masters and management. Built on Gregor Hohpe's architect elevator metaphor.
 

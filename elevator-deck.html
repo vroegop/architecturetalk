@@ -8,7 +8,7 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F6F8">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0B1420">
-<title>Six Floors, One Architect</title>
+<title>Company wide architecture</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Non-blocking: on a phone with a slow or filtered connection the deck must not wait for fonts. -->
@@ -424,7 +424,7 @@
      render, so a card inside #root was deleted before any failure could be reported: every
      crash after that point showed an empty page, which on the dark theme reads as black. -->
 <div class="boot" id="boot">
-  <p class="boot-t">Six Floors, One Architect</p>
+  <p class="boot-t">Company wide architecture</p>
   <p class="boot-s" id="boot-s">Loading the deck…</p>
 </div>
 <script>
@@ -451,7 +451,7 @@
     b.className = 'boot boot-err';
     b.hidden = false;
     b.innerHTML = '';
-    var t = document.createElement('p'); t.className = 'boot-t'; t.textContent = 'Six Floors, One Architect';
+    var t = document.createElement('p'); t.className = 'boot-t'; t.textContent = 'Company wide architecture';
     var m = document.createElement('p'); m.className = 'boot-s'; m.id = 'boot-s'; m.textContent = headline;
     b.appendChild(t); b.appendChild(m);
     if (detail) { var d = document.createElement('pre'); d.className = 'boot-d'; d.textContent = detail; b.appendChild(d); }
@@ -565,9 +565,8 @@ const FLOORS = [
    ===================================================================== */
 const SLIDES = [
 { id: 'title', section: 'Open', plan: 0, layout: 'title',
-  title: 'Six Floors, <em>One</em> Architect', sub: 'Riding the architect elevator.',
+  title: 'Company wide architecture', sub: 'An architect and six others walked into an elevator...',
   who: 'Randy Vroegop · 24-09-2026', faces: ['randy'],
-  credit: 'Builds on the elevator metaphor from Gregor Hohpe, The Software Architect Elevator (O’Reilly, 2020).',
   image: { short: 'Brass elevator button panel, one button lit' },
   notes: `Welcome. Before the workshop I want to spend thirty minutes on one idea: [[architecture is a building]], and every one of you works on a [[different floor]] of it.
 
@@ -2328,7 +2327,7 @@ function MainView({ state, set, dark, openOther }) {
       onClickCapture={e => { if (swipedRef.current) { e.stopPropagation(); e.preventDefault(); } }}>
       <Frame><Slide slide={slide} i={state.index} total={SLIDES.length} dark={dark} step={state.step || 0} /></Frame>
       <div className="phone-note">
-        <span className="ttl">Six Floors, One Architect</span>
+        <span className="ttl">Company wide architecture</span>
         <span>{pad(state.index + 1)} / {SLIDES.length} · {slide.section}</span>
         <span>Turn your phone sideways for a bigger slide</span>
       </div>
@@ -2483,7 +2482,7 @@ class ErrorBoundary extends React.Component {
       'viewport ' + window.innerWidth + 'x' + window.innerHeight + ' dpr ' + (window.devicePixelRatio || 1)].join('\n');
     return (
       <div className="boot boot-err">
-        <p className="boot-t">Six Floors, One Architect</p>
+        <p className="boot-t">Company wide architecture</p>
         <p className="boot-s">The deck hit an error while drawing this slide.</p>
         <pre className="boot-d">{detail}</pre>
         <button className="boot-b" type="button" onClick={() => location.reload()}>Reload</button>

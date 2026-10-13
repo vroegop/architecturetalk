@@ -771,11 +771,11 @@ So, Scrum Masters: whoever [[splits the teams]] is drawing the architecture diag
 
 { id: 'inverse', section: 'Floor 4', plan: 840, layout: 'diagram',
   title: 'The inverse Conway manoeuvre',
-  cap: 'If the org chart becomes the architecture anyway, design the org chart to produce the architecture you want. Skelton & Pais, Team Topologies, 2019.',
+  cap: 'If the org chart becomes the architecture anyway, run it backwards: pick the system you want, and expect the teams and how they talk to change with it. Roy van Rijn, “Inverse Conway’s law”, royvanrijn.com, 2017.',
   diagram: 'inverse',
   notes: `Top: Conway. Team structure becomes system structure, whether you like it or not.
 
-Bottom: the [[inverse Conway manoeuvre]]. Start from the system you want. Design the [[teams]] to produce it. [[Team Topologies]], Skelton and Pais, 2019: stream-aligned teams, platform teams, [[cognitive load]] as the limiting factor.
+Bottom: the [[inverse Conway manoeuvre]]. Start from the system you want. Design the [[teams]] to produce it. [[Roy van Rijn, 2017]], "Inverse Conway's law": an organisation that radically changes its system design should expect its [[communication structure]] to change too. His own team saw it moving from a monolith to microservices: a broken backend went from everyone's emergency to "whose service is it?"
 
 This is [[the Scrum Master's architecture tool]]. When you last re-formed a team, did anyone show you the architecture diagram? They should have. You were editing it.` },
 
@@ -1106,7 +1106,7 @@ So, Scrum Masters: whoever splits the teams is drawing the architecture diagram,
 
 inverse: `Yes. Top row, Conway's Law: team structure becomes system structure, whether you like it or not.
 
-Bottom row, the inverse Conway manoeuvre. Start from the system you want. Design the teams so that Conway's Law produces it. Matthew Skelton and Manuel Pais made this rigorous in Team Topologies in 2019: stream-aligned teams, platform teams, and cognitive load as the limit on what one team can own.
+Bottom row, the inverse Conway manoeuvre. Start from the system you want. Design the teams so that Conway's Law produces it. Roy van Rijn wrote this up in 2017 as the inverse Conway's law: an organisation that radically changes its system design should expect its communication structure to change too. He watched it happen on his own team. Moving from a monolith to microservices, a broken backend went from everyone's emergency to "whose service is it?"
 
 This is the Scrum Master's architecture tool. Think back to the last time you re-formed a team. Did anyone show you the architecture diagram? They should have. You were editing it.`,
 
@@ -1456,12 +1456,12 @@ Dus, Scrum Masters: wie de teams splitst, tekent het architectuurdiagram, of iem
 inverse: {
   notes: `Boven: Conway. Teamstructuur wordt systeemstructuur, of je het wilt of niet.
 
-Onder: de [[inverse Conway-manoeuvre]]. Begin bij het systeem dat je wilt. Ontwerp de [[teams]] zo dat ze het opleveren. [[Team Topologies]], Skelton en Pais, 2019: stream-aligned teams, platformteams, [[cognitieve belasting]] als begrenzing.
+Onder: de [[inverse Conway-manoeuvre]]. Begin bij het systeem dat je wilt. Ontwerp de [[teams]] zo dat ze het opleveren. [[Roy van Rijn, 2017]], "Inverse Conway's law": een organisatie die haar systeemontwerp radicaal verandert, moet verwachten dat haar [[communicatiestructuur]] mee verandert. Zijn eigen team zag het bij de overstap van monoliet naar microservices: een kapotte backend ging van ieders noodgeval naar "van wie is die service?"
 
 Dit is [[de architectuurtool van de Scrum Master]]. Toen je voor het laatst een team herschikte, liet iemand je toen het architectuurdiagram zien? Dat had gemoeten. Je was het aan het bewerken.`,
   script: `Ja. Bovenste rij, Conway's Law: teamstructuur wordt systeemstructuur, of je het wilt of niet.
 
-Onderste rij, de inverse Conway-manoeuvre. Begin bij het systeem dat je wilt. Ontwerp de teams zo dat Conway's Law het oplevert. Matthew Skelton en Manuel Pais hebben dit rigoureus gemaakt in Team Topologies, 2019: stream-aligned teams, platformteams, en cognitieve belasting als grens van wat één team kan bezitten.
+Onderste rij, de inverse Conway-manoeuvre. Begin bij het systeem dat je wilt. Ontwerp de teams zo dat Conway's Law het oplevert. Roy van Rijn beschreef dit in 2017 als de inverse Conway's law: een organisatie die haar systeemontwerp radicaal verandert, moet verwachten dat de communicatiestructuur mee verandert. Hij zag het bij zijn eigen team gebeuren. Bij de overstap van monoliet naar microservices ging een kapotte backend van ieders noodgeval naar "van wie is die service?"
 
 Dit is de architectuurtool van de Scrum Master. Denk terug aan de laatste keer dat je een team herschikte. Liet iemand je toen het architectuurdiagram zien? Dat had gemoeten. Je was het aan het bewerken.` },
 
@@ -1860,7 +1860,7 @@ function DgInverse() {
         </div>
       </div>
       <div className="drow">
-        <div className="rk"><b style={{ color: 'var(--teal)' }}>Inverse Conway</b><span>On purpose · Team Topologies, 2019</span></div>
+        <div className="rk"><b style={{ color: 'var(--teal)' }}>Inverse Conway</b><span>On purpose · Roy van Rijn, 2017</span></div>
         <div className="flow">
           <div className="dnode teal"><Hex c="var(--teal)" /><span className="lbl">Start here</span>Target system structure</div><DArrow teal label="design backwards" w={110} />
           <div className="dnode teal"><People /><span className="lbl">Then</span>Team design, sized to cognitive load</div><DArrow teal label="Conway does the rest" w={110} />

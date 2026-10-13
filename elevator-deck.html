@@ -533,15 +533,13 @@ const SHAPE = { title: 'r23', alarm: 'r23' };
 /* PORTRAITS — small photos of the people the deck quotes, keyed by person (folder img/people/), each
    cropped to a square. Only images whose licence allows reuse: public domain, CC0, CC BY or CC BY-SA.
    Every entry keeps its author, licence and source, and the reading slide prints the credits.
-   A slide opts in with faces: ['hoare']. People without a free photo simply have no entry. */
+   A slide opts in with faces: ['beck']. People without a free photo simply have no entry. */
 const PEOPLE = {
   randy:  { name: 'Randy Vroegop', file: 'img/people/randy.webp', by: 'speaker photo', lic: '', src: 'https://sessionize.com/randy-vroegop/' },
   bezos:  { name: 'Jeff Bezos', file: 'img/people/bezos.webp', by: 'SECWAR, U.S. government photo', lic: 'public domain', src: 'https://commons.wikimedia.org/wiki/File:260202-D-PM193-2205_SECWAR_Arsenal_of_Freedom_Tour_-_Florida_(3x4_cropped_on_Bezos_and_rotated).jpg' },
   booch:  { name: 'Grady Booch', file: 'img/people/booch.webp', by: 'vonguard', lic: 'CC BY-SA 2.0', src: 'https://commons.wikimedia.org/wiki/File:Grady_Booch,_CHM_2011_2_cropped.jpg' },
   beck:   { name: 'Kent Beck', file: 'img/people/beck.webp', by: 'Improve It', lic: 'CC BY-SA 2.0', src: 'https://commons.wikimedia.org/wiki/File:Kent_Beck_no_Workshop_Mapping_XP.jpg' },
   fowler: { name: 'Martin Fowler', file: 'img/people/fowler.webp', by: 'Webysther Nunes', lic: 'CC BY-SA 4.0', src: 'https://commons.wikimedia.org/wiki/File:Webysther_20150414193208_-_Martin_Fowler.jpg' },
-  hoare:  { name: 'Tony Hoare', file: 'img/people/hoare.webp', by: 'Rama', lic: 'CC BY-SA 2.0 fr', src: 'https://commons.wikimedia.org/wiki/File:Sir_Tony_Hoare_IMG_5125.jpg' },
-  kay:    { name: 'Alan Kay', file: 'img/people/kay.webp', by: 'Marcin Wichary', lic: 'CC BY 2.0', src: 'https://commons.wikimedia.org/wiki/File:Alan_Kay_and_the_prototype_of_the_Dynabook_(3009206205).jpg' },
 };
 // One line for the reading slide. Licensed photos need their author and licence shown somewhere the audience can see.
 const PHOTO_CREDITS = 'Portraits, cropped: ' + Object.values(PEOPLE).filter(p => p.lic).map(p => p.name + ' by ' + p.by + ' (' + p.lic + ')').join(' · ') + '. All via Wikimedia Commons.';
@@ -695,19 +693,12 @@ Bottom row appears: flip the order. Junior asks [[why not Y]]. Senior has to [[s
 
 Bridge: "But surely the senior's answer is usually right?" Next slide: [[Tony Hoare]].` },
 
-{ id: 'hoare', section: 'Floor 2', plan: 485, layout: 'statement',
-  quote: '“There are two ways of constructing a software design: one way is to make it <em>so simple that there are obviously no deficiencies</em>, and the other way is to make it so complicated that there are no obvious deficiencies.”',
-  attr: '<b>Tony Hoare</b>, Turing Award lecture, 1980', faces: ['hoare'],
-  notes: `Read it twice. The second reading is where the room hears the difference between [[obviously no deficiencies]] and [[no obvious deficiencies]].
-
-Then the twist on the next slide.` },
-
 { id: 'null', section: 'Floor 2', plan: 515, layout: 'story',
   when: 'QCon London · 2009', title: 'The billion-dollar mistake',
-  points: ['The same Tony Hoare invented the null reference in 1965 because it was <b>easy to implement</b>.', 'Forty-four years later he called it “my billion-dollar mistake.”', 'The Turing Award winner’s architecture had a billion-dollar hole. <b>Seniors are not oracles.</b>'],
+  points: ['Tony Hoare invented the null reference in 1965 because it was <b>easy to implement</b>.', 'Forty-four years later he called it “my billion-dollar mistake.”', 'The Turing Award winner’s architecture had a billion-dollar hole. <b>Seniors are not oracles.</b>'],
   image: { short: 'A cathedral wall with one missing stone, light pouring through' },
   src: 'Hoare, “Null References: The Billion Dollar Mistake,” QCon London 2009.',
-  notes: `Same man. [[1965]], ALGOL W, he adds the [[null reference]] because it was [[easy to implement]]. Not because it was right. Because it was easy.
+  notes: `[[Tony Hoare]]. [[1965]], ALGOL W, he adds the [[null reference]] because it was [[easy to implement]]. Not because it was right. Because it was easy.
 
 [[2009]], QCon London, he stands on stage and calls it his [[billion-dollar mistake]].
 
@@ -868,23 +859,13 @@ It is the [[elevator's logbook]]. The penthouse can read why; the engine room ca
 
 /* ---------------- WHY IT IS HARD ---------------- */
 
-{ id: 'laws', section: 'Why it is hard', plan: 1275, layout: 'statement',
-  quote: 'First law: <em>everything</em> in software architecture is a trade-off.<br>Second law: <em>why</em> is more important than how.',
-  attr: '<b>Mark Richards & Neal Ford</b>, Fundamentals of Software Architecture, 2020',
-  notes: `All floors visited. Open the section: [[why is the elevator hard to ride?]]
-
-[[Richards and Ford]], two laws.
-
-[[Everything is a trade-off]]. If you think you found something that is not, you have not found the trade-off yet. There is no answer. Seniors know more trade-offs; that is different from knowing the answer.
-
-[[Why beats how]]. And "why" is the one question every floor can ask. The PO can ask it. The SM can ask it. The most junior developer can ask it.` },
-
-
 { id: 'brandolini', section: 'Why it is hard', plan: 1350, layout: 'statement',
   quote: '“It is not the domain expert’s knowledge that goes to production. It is the <em>developer’s assumptions</em> about it.”',
   attr: '<b>Alberto Brandolini</b>, on why event storming puts everyone at one wall',
   cue: 'Look at the POs and the seniors in turn: “So put the expert in the room. Not in the ticket. In the room.”',
-  notes: `[[Brandolini]], the inventor of event storming. What ships is not what the [[domain expert]] knows; it is what the developer [[assumed]] about it.
+  notes: `All floors visited. Open the section: [[why is the elevator hard to ride?]]
+
+[[Brandolini]], the inventor of event storming. What ships is not what the [[domain expert]] knows; it is what the developer [[assumed]] about it.
 
 The fix is not a better document. It is [[everyone at one wall]], at the same time, no laptops. Put the expert in the room. Not in the ticket. [[In the room]].
 
@@ -896,6 +877,7 @@ That is the bridge to the last floor.` },
   points: ['Margaret Hamilton’s daughter Lauren, playing with the Apollo simulator, selects pre-launch program <b>P01</b> mid-flight. It crashes.', 'Hamilton wants a guard. NASA: “astronauts are trained never to make a mistake.”', 'Apollo 8: Jim Lovell selects P01 mid-flight and wipes the navigation data. Nine hours to recover. <b>Then</b> she got to add the guard.'],
   image: { short: 'A small child’s hand reaching toward a 1960s console keypad' },
   src: 'Hamilton interviews; NASA history office; Wired, “Her Code Got Humans on the Moon,” 2015.',
+  footnote: '“A change in perspective is worth 80 IQ points.”<br>Alan Kay, Xerox PARC',
   notes: `The slow moment of the talk. Take your time.
 
 [[Margaret Hamilton]] brought her daughter [[Lauren]], four years old, to the lab. Lauren plays with the simulator and selects [[P01]], a pre-launch program, in the middle of a simulated flight. Crash.
@@ -904,14 +886,9 @@ Hamilton wants to add a guard. [[NASA says no]]: astronauts are trained never to
 
 [[Apollo 8]]. [[Jim Lovell]] selects P01 mid-flight. Navigation data gone. [[Nine hours]] to rebuild and upload it. After that, she got to add her guard.
 
-Pause on "nine hours." The least experienced person in the building found the flaw the experts were [[trained to ignore]].` },
+Pause on "nine hours." The least experienced person in the building found the flaw the experts were [[trained to ignore]].
 
-{ id: 'kay', section: 'Everyone rides', plan: 1450, layout: 'statement',
-  quote: '“A change in perspective is worth <em>80 IQ points</em>.”',
-  attr: '<b>Alan Kay</b>, Xerox PARC', faces: ['kay'],
-  notes: `[[Alan Kay]] at PARC. The smartest person in the room is beaten by the room with the most [[perspectives]] in it.
-
-The junior's ignorance of your codebase is a [[perspective]] you cannot buy. The PO's ignorance of your service mesh is a perspective. The SM's habit of watching who has not spoken is a perspective.` },
+The footnote is [[Alan Kay]]: a change in perspective is worth 80 IQ points. The smartest person in the room is beaten by the room with the most [[perspectives]] in it. The junior's ignorance of your codebase is a perspective you cannot buy. The PO's ignorance of your service mesh is a perspective. The SM's habit of watching who has not spoken is a perspective.` },
 
 { id: 'rules', section: 'Everyone rides', plan: 1475, layout: 'rules',
   title: 'Three rules for the exercise',
@@ -994,7 +971,7 @@ Then the reading slide, and thank them.` },
     { who: 'Martin Fowler', what: '“Who Needs an Architect?” IEEE Software, 2003', why: 'Reloadus, Oryzus, and Ralph Johnson’s definition.' },
     { who: 'Michael Nygard', what: '“Documenting Architecture Decisions,” 2011', why: 'The one-page ADR. The elevator’s logbook.' },
     { who: 'Skelton & Pais', what: 'Team Topologies (IT Revolution, 2019)', why: 'The inverse Conway manoeuvre, for floor 4.' },
-    { who: 'Richards & Ford', what: 'Fundamentals of Software Architecture (O’Reilly, 2020)', why: 'The two laws. Also architecturalkatas.com for the workshop briefs.' },
+    { who: 'Richards & Ford', what: 'Fundamentals of Software Architecture (O’Reilly, 2020)', why: 'Everything is a trade-off, and why beats how. Also architecturalkatas.com for the workshop briefs.' },
   ],
   notes: `Final slide. Leave it up while people [[pack up]]. No need to read it aloud.
 
@@ -1072,11 +1049,7 @@ Oryzus. And here is the part that decides it. Reloadus is the single point of fa
 
 The Oryzus architect's real job is to make decisions visible, not to make them alone.`,
 
-hoare: `Tony Hoare, Turing Award lecture, 1980. [Read it slowly.] There are two ways of constructing a software design. One way is to make it so simple that there are obviously no deficiencies. The other way is to make it so complicated that there are no obvious deficiencies.
-
-Read it again. "Obviously no deficiencies." "No obvious deficiencies." Same words, opposite systems. Keep Hoare in mind for one more slide.`,
-
-null: `Same Tony Hoare. 1965, he is designing the language ALGOL W, and he adds the null reference. Why? In his own words: because it was so easy to implement. Not because it was right. Because it was easy.
+null: `Tony Hoare. 1965, he is designing the language ALGOL W, and he adds the null reference. Why? In his own words: because it was so easy to implement. Not because it was right. Because it was easy.
 
 2009, QCon London. He stands on a stage and calls it his billion-dollar mistake, counting the crashes and vulnerabilities across forty years of software.
 
@@ -1177,12 +1150,9 @@ adr: `Hard for the penthouse: there is no feedback loop. Decisions go down; cons
 Easier: Michael Nygard, 2011. Architecture Decision Records. One short file per significant decision, kept with the code: context, decision, consequences. Without it, a decision is a rumour within a year. With it, the penthouse reads why, the engine room reads what, and a new hire reads both. It is the elevator's logbook.`,
 
 
-laws: `Every floor visited. So why is riding the elevator so hard? Richards and Ford give us two laws. First: everything in software architecture is a trade-off. If you think you found something that is not, you have not found the trade-off yet. Seniors know more trade-offs; that is not the same as knowing the answer.
+brandolini: `Every floor visited. So why is riding the elevator so hard?
 
-Second: why is more important than how. And why is the one question every floor can ask.`,
-
-
-brandolini: `Alberto Brandolini, who invented event storming: it is not the domain expert's knowledge that goes to production. It is the developer's assumptions about it. His fix is not a better document. It is everyone at one wall, at the same time.
+Alberto Brandolini, who invented event storming: it is not the domain expert's knowledge that goes to production. It is the developer's assumptions about it. His fix is not a better document. It is everyone at one wall, at the same time.
 
 Put the expert in the room. Not in the ticket. In the room.`,
 
@@ -1194,9 +1164,9 @@ Hamilton wants to add a guard. NASA says no: astronauts are trained never to mak
 
 Apollo 8, December 1968. Jim Lovell selects P01. The navigation data is gone. Nine hours to rebuild it. [Pause.] Then she got her guard.
 
-A four-year-old found the flaw the experts were trained to ignore.`,
+A four-year-old found the flaw the experts were trained to ignore.
 
-kay: `Alan Kay: a change in perspective is worth eighty IQ points. The junior's ignorance of your codebase is a perspective you cannot buy. So is the PO's. So is the Scrum Master's habit of noticing who has not spoken yet.`,
+Alan Kay: a change in perspective is worth eighty IQ points. The junior's ignorance of your codebase is a perspective you cannot buy. So is the PO's. So is the Scrum Master's habit of noticing who has not spoken yet.`,
 
 rules: `Three rules for the next fifteen minutes. One: rotate the marker. Whoever holds it draws, and every three minutes it moves. Two: junior speaks first, senior last. Three: seniors ask, then tell. Five minutes of questions only, then trade-offs. Never answers.`,
 
@@ -1394,23 +1364,15 @@ Jerry Weinberg beschreef dit in 1971 en noemde het egoless programming. Het team
 
 Nu hoor ik het bezwaar al. Het antwoord van de senior is toch meestal goed? Laat me jullie voorstellen aan de meest gelauwerde ingenieur in de geschiedenis van ons vak.` },
 
-hoare: {
-  notes: `Lees het twee keer. Bij de tweede keer hoort de zaal het verschil tussen [[duidelijk geen fouten]] en [[geen duidelijke fouten]].
-
-Dan de wending op de volgende slide.`,
-  script: `Tony Hoare, Turing Award-lezing, 1980. [Lees langzaam.] Er zijn twee manieren om een softwareontwerp te maken. De ene is het zo eenvoudig maken dat er duidelijk geen fouten in zitten. De andere is het zo ingewikkeld maken dat er geen duidelijke fouten in zitten.
-
-Lees het nog eens. "Duidelijk geen fouten." "Geen duidelijke fouten." Dezelfde woorden, tegengestelde systemen. Hou Hoare nog één slide in gedachten.` },
-
 null: {
-  notes: `Dezelfde man. [[1965]], ALGOL W, hij voegt de [[null-referentie]] toe omdat die [[makkelijk te implementeren]] was. Niet omdat het goed was. Omdat het makkelijk was.
+  notes: `[[Tony Hoare]]. [[1965]], ALGOL W, hij voegt de [[null-referentie]] toe omdat die [[makkelijk te implementeren]] was. Niet omdat het goed was. Omdat het makkelijk was.
 
 [[2009]], QCon Londen, hij staat op het podium en noemt het zijn [[miljardenfout]].
 
 Het punt voor de tweede verdieping: de meest senior persoon in de geschiedenis van ons vak leverde een architectuurgat van een miljard op omdat het makkelijk was. [[Seniors zijn geen orakels]]. Het zijn mensen die meer trade-offs kennen.
 
 En precies daarom werkt de tool op de volgende slide.`,
-  script: `Dezelfde Tony Hoare. 1965, hij ontwerpt de taal ALGOL W, en hij voegt de null-referentie toe. Waarom? In zijn eigen woorden: omdat het zo makkelijk te implementeren was. Niet omdat het goed was. Omdat het makkelijk was.
+  script: `Tony Hoare. 1965, hij ontwerpt de taal ALGOL W, en hij voegt de null-referentie toe. Waarom? In zijn eigen woorden: omdat het zo makkelijk te implementeren was. Niet omdat het goed was. Omdat het makkelijk was.
 
 2009, QCon Londen. Hij staat op een podium en noemt het zijn miljardenfout, als je de crashes en kwetsbaarheden van veertig jaar software optelt.
 
@@ -1583,27 +1545,18 @@ Het is het [[logboek van de lift]]. Het penthouse leest waarom; de machinekamer 
 Makkelijker: Michael Nygard, 2011. Architecture Decision Records. Eén kort bestand per significante beslissing, bewaard bij de code: context, beslissing, gevolgen. Zonder is een beslissing binnen een jaar een gerucht. Met leest het penthouse waarom, leest de machinekamer wat, en leest een nieuwe collega beide. Het is het logboek van de lift.` },
 
 
-laws: {
+brandolini: {
   notes: `Alle verdiepingen bezocht. Open het deel: [[waarom is de lift zo moeilijk?]]
 
-[[Richards en Ford]], twee wetten.
-
-[[Alles is een trade-off]]. Denk je iets gevonden te hebben dat dat niet is, dan heb je de trade-off nog niet gevonden. Er is geen antwoord. Seniors kennen meer trade-offs; dat is iets anders dan het antwoord kennen.
-
-[[Waarom gaat boven hoe]]. En "waarom" is de ene vraag die elke verdieping kan stellen.`,
-  script: `Alle verdiepingen bezocht. Dus waarom is de lift zo moeilijk? Richards en Ford geven ons twee wetten. Ten eerste: alles in softwarearchitectuur is een trade-off. Denk je iets gevonden te hebben dat dat niet is, dan heb je de trade-off nog niet gevonden. Seniors kennen meer trade-offs; dat is niet hetzelfde als het antwoord kennen.
-
-Ten tweede: waarom is belangrijker dan hoe. En waarom is de ene vraag die elke verdieping kan stellen.` },
-
-
-brandolini: {
-  notes: `[[Brandolini]], de uitvinder van event storming. Wat in productie gaat is niet wat de [[domeinexpert]] weet; het is wat de developer erover [[aannam]].
+[[Brandolini]], de uitvinder van event storming. Wat in productie gaat is niet wat de [[domeinexpert]] weet; het is wat de developer erover [[aannam]].
 
 De oplossing is geen beter document. Het is [[iedereen aan één muur]], tegelijk, zonder laptops. Zet de expert in de kamer. Niet in het ticket. [[In de kamer]].
 
 Dat is de brug naar de laatste verdieping.`,
   cue: 'Kijk om de beurt naar de PO\'s en de seniors: "Dus zet de expert in de kamer. Niet in het ticket. In de kamer."',
-  script: `Alberto Brandolini, die event storming uitvond: het is niet de kennis van de domeinexpert die in productie gaat. Het zijn de aannames van de developer daarover. Zijn oplossing is geen beter document. Het is iedereen aan één muur, tegelijk.
+  script: `Alle verdiepingen bezocht. Dus waarom is de lift zo moeilijk?
+
+Alberto Brandolini, die event storming uitvond: het is niet de kennis van de domeinexpert die in productie gaat. Het zijn de aannames van de developer daarover. Zijn oplossing is geen beter document. Het is iedereen aan één muur, tegelijk.
 
 Zet de expert in de kamer. Niet in het ticket. In de kamer.` },
 
@@ -1616,7 +1569,9 @@ Hamilton wil een beveiliging inbouwen. [[NASA zegt nee]]: astronauten zijn getra
 
 [[Apollo 8]]. [[Jim Lovell]] kiest P01 midden in de vlucht. Navigatiedata weg. [[Negen uur]] om ze opnieuw op te bouwen. Daarna mocht ze haar beveiliging inbouwen.
 
-Pauzeer bij "negen uur". De minst ervaren persoon in het gebouw vond de fout die de experts [[getraind waren te negeren]].`,
+Pauzeer bij "negen uur". De minst ervaren persoon in het gebouw vond de fout die de experts [[getraind waren te negeren]].
+
+De voetnoot is [[Alan Kay]]: een verandering van perspectief is tachtig IQ-punten waard. De slimste persoon in de kamer verliest van de kamer met de meeste [[perspectieven]]. De onwetendheid van de junior over jouw codebase is een perspectief dat je niet kunt kopen. De onwetendheid van de PO over je service mesh is een perspectief. De gewoonte van de SM om te zien wie nog niets gezegd heeft, is een perspectief.`,
   script: `[Vertraag. Dit is het stille hart van de talk.]
 
 Margaret Hamilton opnieuw. Eind jaren zestig. Ze neemt soms haar dochter Lauren, vier jaar oud, mee naar het lab. Lauren speelt met de simulator en kiest P01, een programma van vóór de lancering, midden in een gesimuleerde vlucht. Crash.
@@ -1625,13 +1580,9 @@ Hamilton wil een beveiliging inbouwen. NASA zegt nee: astronauten zijn getraind 
 
 Apollo 8, december 1968. Jim Lovell kiest P01. De navigatiedata zijn weg. Negen uur om ze opnieuw op te bouwen. [Pauze.] Toen kreeg ze haar beveiliging.
 
-Een vierjarige vond de fout die de experts getraind waren te negeren.` },
+Een vierjarige vond de fout die de experts getraind waren te negeren.
 
-kay: {
-  notes: `[[Alan Kay]] bij PARC. De slimste persoon in de kamer verliest van de kamer met de meeste [[perspectieven]].
-
-De onwetendheid van de junior over jouw codebase is een [[perspectief]] dat je niet kunt kopen. De onwetendheid van de PO over je service mesh is een perspectief. De gewoonte van de SM om te zien wie nog niets gezegd heeft, is een perspectief.`,
-  script: `Alan Kay: een verandering van perspectief is tachtig IQ-punten waard. De onwetendheid van de junior over jouw codebase is een perspectief dat je niet kunt kopen. Die van de PO ook. En de gewoonte van de Scrum Master om op te merken wie nog niets gezegd heeft, ook.` },
+Alan Kay: een verandering van perspectief is tachtig IQ-punten waard. De onwetendheid van de junior over jouw codebase is een perspectief dat je niet kunt kopen. Die van de PO ook. En de gewoonte van de Scrum Master om op te merken wie nog niets gezegd heeft, ook.` },
 
 rules: {
   notes: `Kondig de kata-regels aan zodat de workshop als een terugverwijzing voelt, niet als een nieuwe instructie.
@@ -2088,6 +2039,7 @@ function Slide({ slide, i, total, dark, step = 0 }) {
         <span className="when">{slide.when}</span>
         <h2 className="display" style={{ fontSize: 64 }}>{slide.title}</h2>
         <ul>{slide.points.map((p, k) => <li key={k} dangerouslySetInnerHTML={{ __html: p }} />)}</ul>
+        {slide.footnote && <p className="credit" dangerouslySetInnerHTML={{ __html: slide.footnote }} />}
       </div>
       {foot}
     </div>);
